@@ -1,0 +1,38 @@
+{
+    "name"       : "elastical",
+    "description": "An ElasticSearch client.",
+
+    "version"    : "0.0.1-git",
+    "homepage"   : "https://github.com/rgrove/elastical/",
+    "author"     : "Ryan Grove <ryan@wonko.com> (http://wonko.com/)",
+    "copyright"  : "Copyright (c) 2011 Ryan Grove. All rights reserved.",
+
+    "keywords"   : ["elasticsearch", "elastic", "search", "client", "lucene"],
+
+    "licenses": [
+        {"type": "MIT", "url": "https://github.com/rgrove/elastical/blob/master/LICENSE.md"}
+    ],
+
+    "repository": [
+        {"type": "git", "url": "git://github.com/rgrove/elastical.git"}
+    ],
+
+    "engines": [
+        "node ~0.4.0",
+        "npm ~1.0.0"
+    ],
+
+    "dependencies": {
+        "request": "~2.1.1"
+    },
+
+    "devDependencies": {
+        "vows": "~0.5.11"
+    },
+
+    "main": "index",
+
+    "scripts": {
+        "test": "node_modules/.bin/vows tests/offline-tests.js"
+    }
+}
