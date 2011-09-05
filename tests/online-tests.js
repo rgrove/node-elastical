@@ -317,7 +317,44 @@ vows.describe('Elastical').addBatch({
                     }
                 }
             }
+        },
+
+        '`search()`': {
+            'simple string query': {
+                topic: function (client) {
+                    client.search({
+                        index: 'elastical-test-get',
+                        query: 'hello'
+                    }, this.callback);
+                },
+
+                'should return a hit': function (err, results, res) {
+                    assert.isNull(err);
+                    assert.isObject(results);
+                    assert.isObject(res);
+                    assert.equal(1, results.total);
+                    assert.isArray(results.hits);
+                    assert.strictEqual(res.hits, results);
+                }
+            },
+
+            'simple object query': {
+                topic: function (client) {
+                    client.search({
+                        index: 'elastical-test-get',
+                        query: {query_string: {query: 'hello'}}
+                    }, this.callback);
+                },
+
+                'should return a hit': function (err, results, res) {
+                    assert.isNull(err);
+                    assert.isObject(results);
+                    assert.isObject(res);
+                    assert.equal(1, results.total);
+                    assert.isArray(results.hits);
+                    assert.strictEqual(res.hits, results);
+                }
+            }
         }
     }
-
 }).export(module);

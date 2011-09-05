@@ -26,13 +26,13 @@ vows.describe('Elastical').addBatch({
             assert.strictEqual(client.options.timeout, 10000);
         },
 
-        '`baseURL` should reflect the current host and port': function (client) {
-            assert.equal(client.baseURL, 'http://127.0.0.1:9200');
+        '`baseUrl` should reflect the current host and port': function (client) {
+            assert.equal(client.baseUrl, 'http://127.0.0.1:9200');
 
             client.host = 'example.com';
             client.options.port = 42;
 
-            assert.equal(client.baseURL, 'http://example.com:42');
+            assert.equal(client.baseUrl, 'http://example.com:42');
         },
 
         // -- Methods ----------------------------------------------------------
@@ -266,6 +266,158 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`search()`': {
+            'without options': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.search(function () {});
+                },
+
+                'method should be GET': function (err, options) {
+                    assert.equal(options.method, 'GET');
+                },
+
+                'request should not have a body': function (err, options) {
+                    assert.isUndefined(options.body);
+                    assert.isUndefined(options.json);
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_search');
+                }
+            },
+
+            'with options': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.search({
+                        query        : {query_string: {query: 'foo'}},
+                        explain      : true,
+                        facets       : {},
+                        fields       : ['one', 'two'],
+                        filter       : {},
+                        from         : 3,
+                        highlight    : {},
+                        index        : 'blog',
+                        indices_boost: {},
+                        min_score    : 0.5,
+                        preference   : '_primary',
+                        routing      : 'hashyhash',
+                        script_fields: {},
+                        scroll       : '1m',
+                        scroll_id    : 'foo',
+                        search_type  : 'query_and_fetch',
+                        size         : 42,
+                        sort         : {},
+                        timeout      : '15s',
+                        track_scores : true,
+                        type         : 'post',
+                        version      : true
+                    }, function () {});
+                },
+
+                'method should be POST': function (err, options) {
+                    assert.equal(options.method, 'POST');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/blog/post/_search');
+                },
+
+                'URL query string should contain the correct parameters': function (err, options) {
+                    var query = parseUrl(options.url, true).query;
+
+                    assert.deepEqual({
+                        preference : '_primary',
+                        routing    : 'hashyhash',
+                        scroll     : '1m',
+                        scroll_id  : 'foo',
+                        search_type: 'query_and_fetch',
+                        timeout    : '15s'
+                    }, query);
+                },
+
+                'request body should contain the correct options': function (err, options) {
+                    assert.deepEqual({
+                        query        : {query_string: {query: 'foo'}},
+                        explain      : true,
+                        facets       : {},
+                        fields       : ['one', 'two'],
+                        filter       : {},
+                        from         : 3,
+                        highlight    : {},
+                        indices_boost: {},
+                        min_score    : 0.5,
+                        script_fields: {},
+                        size         : 42,
+                        sort         : {},
+                        track_scores : true,
+                        version      : true
+                    }, options.json);
+                }
+            },
+
+            'with index but no type': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.search({index: 'blog'}, function () {});
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/blog/_search');
+                }
+            },
+
+            'with type but no index': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.search({type: 'post'}, function () {});
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_all/post/_search');
+                }
+            },
+
+            'with multiple indices and types': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.search({
+                        index: ['blog', 'twitter'],
+                        type : ['post', 'tweet']
+                    }, function () {});
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/blog%2Ctwitter/post%2Ctweet/_search');
+                }
+            },
+
+            'with `options.query` set to a string': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.search({query: 'foo'}, function () {});
+                },
+
+                'should convert the query into a query_string query object': function (err, options) {
+                    assert.deepEqual({
+                        query: {query_string: {query: 'foo'}}
+                    }, options.json);
+                }
+            },
+
+            'with `options.fields` set to a string': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.search({fields: 'title'}, function () {});
+                },
+
+                'request body should contain an array with a single field name': function (err, options) {
+                    assert.deepEqual({fields: ['title']}, options.json);
+                }
+            }
+        },
+
         '`set()` should be an alias for `index()`': function (client) {
             assert.strictEqual(client.index, client.set);
         }
@@ -301,6 +453,23 @@ vows.describe('Elastical').addBatch({
 
         '`name` should be the index name': function (index) {
             assert.equal(index.name, 'foo');
+        },
+
+        '`search()`': {
+            topic: function (index) {
+                index.client._testHook = this.callback;
+                index.search({query: 'test'}, function () {});
+            },
+
+            'URL should have the correct path': function (err, options) {
+                assert.equal(parseUrl(options.url).pathname, '/foo/_search');
+            },
+
+            'options should be passed through': function (err, options) {
+                assert.deepEqual({
+                    query: {query_string: {query: 'test'}}
+                }, options.json);
+            }
         },
 
         '`set()` should be an alias for `index()`': function (index) {

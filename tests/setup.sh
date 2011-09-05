@@ -16,5 +16,7 @@ curl -s -XPUT "$BASE/elastical-test-get/post/1" -d '{
   "tags": ["stupid", "blog", "hi"]
 }'
 
+curl -s -XPOST "$BASE/elastical-test-get/_refresh"
+
 # In case a previous run failed to clean up after itself.
 curl -s -XDELETE "$BASE/elastical-test"
