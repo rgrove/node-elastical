@@ -11,35 +11,76 @@ Keep an eye on this repo for updates.
 Installing
 ----------
 
+Latest released version:
+
+    npm install elastical
+
+Latest dev code:
+
     npm install https://github.com/rgrove/elastical/tarball/master
 
 
 Basic Usage
 -----------
 
-```js
-var elastical = require('elastical'),
-    client    = new elastical.Client();
+Instantiate an Elastical client that will connect to http://127.0.0.1:9200:
 
-// Index a document.
+```js
+var client = new require('elastical').Client();
+```
+
+Or specify a custom host and port:
+
+```js
+var client = new require('elastical').Client('example.com', {port: 1234});
+```
+
+Index a document:
+
+```js
+// Specify the index name, document type, and document to index.
 client.index('blog', 'post', {
     title: "Welcome to my stupid blog",
     body : "This is the only thing I'll ever post.",
     tags : ["welcome", "first post", "last post"]
 }, function (err, res) {
-    if (err) { throw err; }
-
-    // Retrieve the document we just indexed.
-    client.get('blog', res._id, function (err, doc) {
-        console.log(doc);
-        // => {
-        //   title: "Welcome to my stupid blog",
-        //   body : "This is the only thing I'll ever post.",
-        //   tags : ["welcome", "first post", "last post"]
-        // }
-    });
+    // `err` is an Error, or `null` on success.
+    // `res` is the parsed ElasticSearch response data.
 });
 ```
+
+Retrieve a previously-indexed document by id:
+
+```js
+// Specify the index and the document id.
+client.get('blog', '42', function (err, doc, res) {
+    // `err` is an Error, or `null` on success.
+    // `doc` is the parsed document data.
+    // `res` is the full parsed ElasticSearch response data.
+});
+```
+
+Perform a search:
+
+```js
+// Simple string query (automatically turned into a query_string query).
+client.search({query: 'welcome'}, function (err, results, res) {
+    // `err` is an Error, or `null` on success.
+    // `results` is an object containing search hits.
+    // `res` is the full parsed ElasticSearch response data.
+});
+
+// Custom query options (this is equivalent to the previous example, just
+// without the magic).
+client.search({
+    query: {query_string: {query: 'welcome'}}
+}, function (err, results, res) {
+    // ...
+});
+```
+
+See the doc comments in the source for more details on available methods and
+options.
 
 
 Developing
