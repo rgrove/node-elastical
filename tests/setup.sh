@@ -9,6 +9,8 @@ curl -s -XPUT "$BASE/elastical-test-deleteme2"
 curl -s -XPUT "$BASE/elastical-test-deleteme3"
 curl -s -XPUT "$BASE/elastical-test-indexexists"
 curl -s -XPUT "$BASE/elastical-test-indexexists2"
+curl -s -XPUT "$BASE/elastical-test-refresh"
+curl -s -XPUT "$BASE/elastical-test-refresh2"
 
 curl -s -XPUT "$BASE/elastical-test-get/post/1" -d '{
   "title": "Hello world",

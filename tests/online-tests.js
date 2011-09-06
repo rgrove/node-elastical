@@ -361,6 +361,61 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`refresh()`': {
+            'with no index': {
+                topic: function (client) {
+                    client.refresh(this.callback);
+                },
+
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isTrue(res.ok);
+                    assert.isObject(res._shards);
+                }
+            },
+
+            'with one index': {
+                'which exists': {
+                    topic: function (client) {
+                        client.refresh('elastical-test-refresh', this.callback);
+                    },
+
+                    'should succeed': function (err, res) {
+                        assert.isNull(err);
+                        assert.isObject(res);
+                        assert.isTrue(res.ok);
+                        assert.isObject(res._shards);
+                    }
+                },
+
+                'which does not exist': {
+                    topic: function (client) {
+                        client.refresh('elastical-test-bogus', this.callback);
+                    },
+
+                    'should respond with an error': function (err, res) {
+                        assert.instanceOf(err, Error);
+                        assert.isObject(res);
+                    }
+                }
+            },
+
+            'with multiple indices': {
+                topic: function (client) {
+                    client.refresh(['elastical-test-refresh', 'elastical-test-refresh2'],
+                        this.callback);
+                },
+
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isTrue(res.ok);
+                    assert.isObject(res._shards);
+                }
+            }
+        },
+
         '`search()`': {
             'simple string query': {
                 topic: function (client) {

@@ -315,6 +315,53 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`refresh()`': {
+            'with no index': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.refresh();
+                },
+
+                'method should be POST': function (err, options) {
+                    assert.equal(options.method, 'POST');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_all/_refresh');
+                }
+            },
+
+            'with one index': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.refresh('foo');
+                },
+
+                'method should be POST': function (err, options) {
+                    assert.equal(options.method, 'POST');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/foo/_refresh');
+                }
+            },
+
+            'with multiple indices': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.refresh(['foo', 'bar']);
+                },
+
+                'method should be POST': function (err, options) {
+                    assert.equal(options.method, 'POST');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/foo%2Cbar/_refresh');
+                }
+            }
+        },
+
         '`search()`': {
             'without options': {
                 topic: function (client) {
