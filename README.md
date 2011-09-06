@@ -17,7 +17,7 @@ Latest released version:
 
 Latest dev code:
 
-    npm install https://github.com/rgrove/elastical/tarball/master
+    npm install https://github.com/rgrove/node-elastical/tarball/master
 
 
 Basic Usage
