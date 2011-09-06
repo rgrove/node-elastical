@@ -71,6 +71,55 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`delete()`': {
+            'without options': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.delete('posts', 'post', '1');
+                },
+
+                'method should be DELETE': function (err, options) {
+                    assert.equal(options.method, 'DELETE');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/posts/post/1');
+                },
+
+                'URL should not have a query string': function (err, options) {
+                    assert.isUndefined(parseUrl(options.url).search);
+                }
+            },
+
+            'with options': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.delete('posts', 'post', '1', {
+                        consistency  : 'all',
+                        ignoreMissing: true,
+                        parent       : '42',
+                        refresh      : true,
+                        replication  : 'async',
+                        routing      : 'hashyhash',
+                        version      : 18
+                    });
+                },
+
+                'URL query string should contain the options': function (err, options) {
+                    var query = parseUrl(options.url, true).query;
+
+                    assert.deepEqual({
+                        consistency: 'all',
+                        parent     : '42',
+                        refresh    : '1',
+                        replication: 'async',
+                        routing    : 'hashyhash',
+                        version    : '18'
+                    }, query);
+                }
+            }
+        },
+
         '`deleteIndex()`': {
             'with one index': {
                 topic: function (client) {

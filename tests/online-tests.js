@@ -40,6 +40,48 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`delete()`': {
+            'when called with no options': {
+                topic: function (client) {
+                    client.delete('elastical-test-delete', 'post', '1', this.callback);
+                },
+
+                'should delete the given document': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isTrue(res.found);
+                }
+            },
+
+            'when the document does not exist': {
+                'and `options.ignoreMissing` is not true': {
+                    topic: function (client) {
+                        client.delete('elastical-test-delete', 'post', '42', this.callback);
+                    },
+
+                    'should respond with an error': function (err, res) {
+                        assert.instanceOf(err, Error);
+                        assert.isObject(res);
+                        assert.isFalse(res.found);
+                    }
+                },
+
+                'and `options.ignoreMissing` is true': {
+                    topic: function (client) {
+                        client.delete('elastical-test-delete', 'post', '42', {
+                            ignoreMissing: true
+                        }, this.callback);
+                    },
+
+                    'should ignore the error': function (err, res) {
+                        assert.isNull(err);
+                        assert.isObject(res);
+                        assert.isFalse(res.found);
+                    }
+                }
+            }
+        },
+
         '`deleteIndex()`': {
             'when called with a single index name': {
                 topic: function (client) {
