@@ -23,16 +23,22 @@ Latest dev code:
 Basic Usage
 -----------
 
+Require elastical:
+
+```js
+var elastical = require('elastical');
+```
+
 Instantiate an Elastical client that will connect to http://127.0.0.1:9200:
 
 ```js
-var client = new require('elastical').Client();
+var client = new elastical.Client();
 ```
 
 Or specify a custom host and port:
 
 ```js
-var client = new require('elastical').Client('example.com', {port: 1234});
+var client = new elastical.Client('example.com', {port: 1234});
 ```
 
 Index a document:
