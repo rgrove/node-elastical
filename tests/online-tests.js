@@ -361,6 +361,60 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`putMapping()`': {
+            'with no index': {
+                topic: function (client) {
+                    client.putMapping('tweet', { tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, this.callback);
+                },
+
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isTrue(res.ok);
+                }
+            },
+
+            'with one index': {
+                'which exists': {
+                    topic: function (client) {
+                        client.putMapping('elastical-test-putmapping', 'tweet', 
+                            { tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, this.callback);
+                    },
+
+                    'should succeed': function (err, res) {
+                        assert.isNull(err);
+                        assert.isObject(res);
+                        assert.isTrue(res.ok);
+                    }
+                },
+
+                'which does not exist': {
+                    topic: function (client) {
+                        client.putMapping('elastical-test-bogus', 'tweet', 
+                            { tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, this.callback);
+                    },
+
+                    'should respond with an error': function (err, res) {
+                        assert.instanceOf(err, Error);
+                        assert.isObject(res);
+                    }
+                }
+            },
+
+            'with multiple indices': {
+                topic: function (client) {
+                    client.putMapping(['elastical-test-putmapping', 'elastical-test-putmapping2'], 'tweet', 
+                        { tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, this.callback);
+                },
+
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isTrue(res.ok);
+                }
+            }
+        },
+
         '`refresh()`': {
             'with no index': {
                 topic: function (client) {
