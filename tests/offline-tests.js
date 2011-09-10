@@ -315,6 +315,65 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`putMapping()`': {
+            'with no index': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.putMapping('tweet', { tweet: { properties: { message: { type: 'string', store: 'yes' }}}});
+                },
+
+                'method should be PUT': function (err, options) {
+                    assert.equal(options.method, 'PUT');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_all/tweet/_mapping');
+                },
+
+                'mapping definition should be passed in the request body': function (err, options) {
+                    assert.deepEqual({ tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, options.json);
+                }
+            },
+
+            'with one index': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.putMapping('foo', 'tweet', { tweet: { properties: { message: { type: 'string', store: 'yes' }}}});
+                },
+
+                'method should be PUT': function (err, options) {
+                    assert.equal(options.method, 'PUT');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/foo/tweet/_mapping');
+                },
+
+                'mapping definition should be passed in the request body': function (err, options) {
+                    assert.deepEqual({ tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, options.json);
+                }
+            },
+
+            'with multiple indices': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.putMapping(['foo', 'bar'], 'tweet', { tweet: { properties: { message: { type: 'string', store: 'yes' }}}});
+                },
+
+                'method should be PUT': function (err, options) {
+                    assert.equal(options.method, 'PUT');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/foo%2Cbar/tweet/_mapping');
+                },
+
+                'mapping definition should be passed in the request body': function (err, options) {
+                    assert.deepEqual({ tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, options.json);
+                }
+            }
+        },
+
         '`refresh()`': {
             'with no index': {
                 topic: function (client) {
