@@ -82,32 +82,10 @@ vows.describe('Elastical').addBatch({
             }
         },
 
-        '`deleteIndex()`': {
-            'when called with a single index name': {
-                topic: function (client) {
-                    client.deleteIndex('elastical-test-deleteme', this.callback);
-                },
-
-                'should delete the index': function (err, data) {
-                    assert.isNull(err);
-                    assert.isObject(data);
-                    assert.isTrue(data.ok);
-                }
-            },
-
-            'when called with multiple index names': {
-                topic: function (client) {
-                    client.deleteIndex(['elastical-test-deleteme2', 'elastical-test-deleteme3'],
-                        this.callback);
-                },
-
-                'should delete all the named indices': function (err, data) {
-                    assert.isNull(err);
-                    assert.isObject(data);
-                    assert.isTrue(data.ok);
-                }
-            }
-        },
+        // deleteIndex() is tested below, after everything else, since
+        // ElasticSearch seems to have some race condition bugs when index
+        // deletions occur asynchronously with other index operations (in
+        // particular putMapping).
 
         '`get()`': {
             'when called with no options': {
@@ -504,6 +482,42 @@ vows.describe('Elastical').addBatch({
                     assert.equal(1, results.total);
                     assert.isArray(results.hits);
                     assert.strictEqual(res.hits, results);
+                }
+            }
+        }
+    }
+}).addBatch({
+    'Client (part deux)': {
+        topic: new elastical.Client(),
+
+        // deleteIndex() is tested after everything else since
+        // ElasticSearch seems to have some race condition bugs when index
+        // deletions occur asynchronously with other index operations (in
+        // particular putMapping).
+
+        '`deleteIndex()`': {
+            'when called with a single index name': {
+                topic: function (client) {
+                    client.deleteIndex('elastical-test-deleteme', this.callback);
+                },
+
+                'should delete the index': function (err, data) {
+                    assert.isNull(err);
+                    assert.isObject(data);
+                    assert.isTrue(data.ok);
+                }
+            },
+
+            'when called with multiple index names': {
+                topic: function (client) {
+                    client.deleteIndex(['elastical-test-deleteme2', 'elastical-test-deleteme3'],
+                        this.callback);
+                },
+
+                'should delete all the named indices': function (err, data) {
+                    assert.isNull(err);
+                    assert.isObject(data);
+                    assert.isTrue(data.ok);
                 }
             }
         }
