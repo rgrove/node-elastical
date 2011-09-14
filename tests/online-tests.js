@@ -377,7 +377,7 @@ vows.describe('Elastical').addBatch({
             'with one index': {
                 'which exists': {
                     topic: function (client) {
-                        client.putMapping('elastical-test-putmapping', 'tweet', 
+                        client.putMapping('elastical-test-putmapping', 'tweet',
                             { tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, this.callback);
                     },
 
@@ -390,7 +390,7 @@ vows.describe('Elastical').addBatch({
 
                 'which does not exist': {
                     topic: function (client) {
-                        client.putMapping('elastical-test-bogus', 'tweet', 
+                        client.putMapping('elastical-test-bogus', 'tweet',
                             { tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, this.callback);
                     },
 
@@ -403,7 +403,7 @@ vows.describe('Elastical').addBatch({
 
             'with multiple indices': {
                 topic: function (client) {
-                    client.putMapping(['elastical-test-putmapping', 'elastical-test-putmapping2'], 'tweet', 
+                    client.putMapping(['elastical-test-putmapping', 'elastical-test-putmapping2'], 'tweet',
                         { tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, this.callback);
                 },
 
