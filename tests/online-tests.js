@@ -11,6 +11,35 @@ vows.describe('Elastical').addBatch({
     'Client': {
         topic: new elastical.Client(),
 
+        '`bulk()`': {
+            'when the index exists': {
+                topic: function (client) {
+                    client.bulk([
+                        {create: {index: 'elastical-test-bulk', type: 'post', id: 'foo', data: {
+                            a: 'a',
+                            b: 'b'
+                        }}},
+
+                        {index: {index: 'elastical-test-bulk', type: 'post', id: 'bar', data: {
+                            c: 'c',
+                            d: 'd'
+                        }}},
+
+                        {delete: {index: 'elastical-test-bulk', type: 'post', id: 'deleteme'}}
+                    ], this.callback);
+                },
+
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isArray(res.items);
+                    assert.isTrue(res.items[0].create.ok);
+                    assert.isTrue(res.items[1].index.ok);
+                    assert.isTrue(res.items[2].delete.ok);
+                }
+            }
+        },
+
         '`createIndex()`': {
             topic: function (client) {
                 client.createIndex('elastical-test', this.callback);

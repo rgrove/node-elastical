@@ -36,6 +36,111 @@ vows.describe('Elastical').addBatch({
         },
 
         // -- Methods ----------------------------------------------------------
+        '`bulk()`': {
+            'without options': {
+                'basic operations': {
+                    topic: function (client) {
+                        client._testHook = this.callback;
+                        client.bulk([
+                            {create: {index: 'blog', type: 'post', id: 'foo', data: {
+                                a: 'a',
+                                b: 'b'
+                            }}},
+
+                            {index: {index: 'blog', type: 'post', id: 'bar', data: {
+                                c: 'c',
+                                d: 'd'
+                            }}},
+
+                            {delete: {index: 'blog', type: 'post', id: 'deleteme'}}
+                        ]);
+                    },
+
+                    'method should be PUT': function (err, options) {
+                        assert.equal(options.method, 'PUT');
+                    },
+
+                    'URL should have the correct path': function (err, options) {
+                        assert.equal(parseUrl(options.url).pathname, '/_bulk');
+                    },
+
+                    'URL should not have a query string': function (err, options) {
+                        assert.isUndefined(parseUrl(options.url).search);
+                    },
+
+                    'body should be formatted correctly': function (err, options) {
+                        assert.equal(options.body,
+                            '{"create":{"_index":"blog","_type":"post","_id":"foo"}}\n' +
+                            '{"a":"a","b":"b"}\n' +
+                            '{"index":{"_index":"blog","_type":"post","_id":"bar"}}\n' +
+                            '{"c":"c","d":"d"}\n' +
+                            '{"delete":{"_index":"blog","_type":"post","_id":"deleteme"}}\n'
+                        );
+                    }
+                },
+
+                'operations containing underscore-prefixed properties': {
+                    topic: function (client) {
+                        client._testHook = this.callback;
+                        client.bulk([
+                            {create: {_index: 'blog', _type: 'post', _id: 'foo', data: {
+                                a: 'a',
+                                b: 'b'
+                            }}},
+
+                            {index: {_index: 'blog', _type: 'post', _id: 'bar', data: {
+                                c: 'c',
+                                d: 'd'
+                            }}},
+
+                            {delete: {_index: 'blog', _type: 'post', _id: 'deleteme'}}
+                        ]);
+                    },
+
+                    'body should be formatted correctly': function (err, options) {
+                        assert.equal(options.body,
+                            '{"create":{"_index":"blog","_type":"post","_id":"foo"}}\n' +
+                            '{"a":"a","b":"b"}\n' +
+                            '{"index":{"_index":"blog","_type":"post","_id":"bar"}}\n' +
+                            '{"c":"c","d":"d"}\n' +
+                            '{"delete":{"_index":"blog","_type":"post","_id":"deleteme"}}\n'
+                        );
+                    }
+                }
+            },
+
+            'with options': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.bulk([
+                        {create: {index: 'blog', type: 'post', id: 'foo', data: {
+                            a: 'a',
+                            b: 'b'
+                        }}},
+
+                        {index: {index: 'blog', type: 'post', id: 'bar', data: {
+                            c: 'c',
+                            d: 'd'
+                        }}},
+
+                        {delete: {index: 'blog', type: 'post', id: 'deleteme'}}
+                    ], {
+                        consistency: 'one',
+                        refresh    : true
+                    });
+                },
+
+                'URL query string should contain the options': function (err, options) {
+                    var query = parseUrl(options.url, true).query;
+
+                    assert.deepEqual({
+                        consistency: 'one',
+                        refresh    : '1'
+                    }, query);
+                }
+            }
+        },
+
         '`createIndex()`': {
             'without options': {
                 topic: function (client) {

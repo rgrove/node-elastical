@@ -4,6 +4,7 @@
 
 BASE="http://localhost:9200"
 
+curl -s -XPUT "$BASE/elastical-test-bulk"
 curl -s -XPUT "$BASE/elastical-test-deleteme"
 curl -s -XPUT "$BASE/elastical-test-deleteme2"
 curl -s -XPUT "$BASE/elastical-test-deleteme3"
@@ -13,6 +14,10 @@ curl -s -XPUT "$BASE/elastical-test-refresh"
 curl -s -XPUT "$BASE/elastical-test-refresh2"
 curl -s -XPUT "$BASE/elastical-test-putmapping"
 curl -s -XPUT "$BASE/elastical-test-putmapping2"
+
+curl -s -XPUT "$BASE/elastical-test-bulk/post/deleteme" -d '{
+  "title": "Delete me"
+}'
 
 curl -s -XPUT "$BASE/elastical-test-get/post/1" -d '{
   "title": "Hello world",
