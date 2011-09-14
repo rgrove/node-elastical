@@ -22,8 +22,8 @@ vows.describe('Elastical').addBatch({
             assert.strictEqual(client.options.port, 9200);
         },
 
-        '`timeout` should default to 10000': function (client) {
-            assert.strictEqual(client.options.timeout, 10000);
+        '`timeout` should default to 60000': function (client) {
+            assert.strictEqual(client.options.timeout, 60000);
         },
 
         '`baseUrl` should reflect the current host and port': function (client) {
