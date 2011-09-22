@@ -680,6 +680,60 @@ vows.describe('Elastical').addBatch({
 
         '`set()` should be an alias for `index()`': function (client) {
             assert.strictEqual(client.index, client.set);
+        },
+        '`percolator()`': {
+            'with query': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.percolator('blog', 'bar', {
+                        "query" : {
+                          "text" : {
+                            "tags" : {
+                              "query" : 'blah blah blah ',
+                              "operator" : "or"
+                            }
+                          }
+                        }
+                    }, function () {});
+                },
+
+                'method should be POST': function (err, options) {
+                    assert.equal(options.method, 'POST');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_percolator/blog/bar');
+                },
+                'request body should contain the correct options': function (err, options) {
+                    assert.deepEqual(options.json, {
+                        "query" : {
+                            "text" : {
+                              "tags" : {
+                                "query" : 'blah blah blah ',
+                                "operator" : "or"
+                              }
+                            }
+                        }
+                    });
+                }
+            }
+            
+        },
+        '`getPercolator()`': {
+            'should return a percolator document': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.getPercolator('blog', 'bar', function () {});
+                },
+
+                'method should be GET': function (err, options) {
+                    assert.equal(options.method, 'GET');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_percolator/blog/bar');
+                }
+            }
         }
     },
 
