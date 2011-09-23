@@ -681,15 +681,15 @@ vows.describe('Elastical').addBatch({
         '`set()` should be an alias for `index()`': function (client) {
             assert.strictEqual(client.index, client.set);
         },
-        '`percolator()`': {
+        '`setPercolator()`': {
             'with query': {
                 topic: function (client) {
                     client._testHook = this.callback;
-                    client.percolator('blog', 'bar', {
+                    client.setPercolator('blog', 'bar', {
                         "query" : {
                           "text" : {
                             "tags" : {
-                              "query" : 'blah blah blah ',
+                              "query" : 'socialmedia blah blah ',
                               "operator" : "or"
                             }
                           }
@@ -709,7 +709,7 @@ vows.describe('Elastical').addBatch({
                         "query" : {
                             "text" : {
                               "tags" : {
-                                "query" : 'blah blah blah ',
+                                "query" : 'socialmedia blah blah ',
                                 "operator" : "or"
                               }
                             }
@@ -728,6 +728,42 @@ vows.describe('Elastical').addBatch({
 
                 'method should be GET': function (err, options) {
                     assert.equal(options.method, 'GET');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_percolator/blog/bar');
+                }
+            }
+        },
+        '`percolate()`': {
+            'should return a match and the name of the percolator': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.percolate('blog', 'bar', {
+                        title  : 'Hello',
+                        content: 'Moo.',
+                        tags: ['socialmedia', 'startup', 'saas']
+                    }, function () {});
+                },
+
+                'method should be GET': function (err, options) {
+                    assert.equal(options.method, 'GET');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/blog/bar/_percolate');
+                }
+            }
+        },
+        '`deletePercolator()`': {
+            'should return a success': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.deletePercolator('blog', 'bar', function () {});
+                },
+
+                'method should be DELETE': function (err, options) {
+                    assert.equal(options.method, 'DELETE');
                 },
 
                 'URL should have the correct path': function (err, options) {
