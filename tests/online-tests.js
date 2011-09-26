@@ -513,6 +513,119 @@ vows.describe('Elastical').addBatch({
                     assert.strictEqual(res.hits, results);
                 }
             }
+        },
+        '`setPercolator()`':{
+            'register a percolator': {
+                topic: function(client){
+                    client.setPercolator('elastical-test-index',
+                                      'elastical-test-percolator',
+                                      {
+                                        "query" : {
+                                          "text" : {
+                                            "tags" : {
+                                              "query" : 'welcome',
+                                              "operator" : "or"
+                                            }
+                                          }
+                                        }
+                                    }, this.callback);
+                },
+                'should return success': function(err, res){
+                    assert.isNull(err);
+                    assert.isObject(res);  
+                }
+            }
+        }
+        ,
+        '`getPercolator()`': {
+            'should return the registered percolator document': {
+                topic: function (client) {
+                    client.getPercolator('elastical-test-index',
+                                        'elastical-test-percolator',
+                                        this.callback);
+                },
+                'should return a hit': function(err, results, res){
+                    
+                    //console.log(JSON.stringify(res));
+                    
+                    assert.isNull(err);
+                    assert.isObject(results);
+                    assert.deepEqual( {
+                                        "query" : {
+                                          "text" : {
+                                            "tags" : {
+                                              "query" : 'welcome',
+                                              "operator" : "or"
+                                            }
+                                          }
+                                        }
+                                    }, results);
+                    assert.isObject(res);
+                    assert.equal('_percolator', res._index);
+                    assert.equal('elastical-test-index', res._type);
+                    assert.equal('elastical-test-percolator', res._id);
+                    assert.equal(true, res.exists);                 
+                }
+            }
+        },
+        '`percolate()`': {
+            'should return a match and the name of the percolator': {
+                topic: function(client){
+                    client.percolate('elastical-test-index', 'post', {
+                        doc: {
+                            title  : "Welcome to my stupid blog",
+                            content: "This is the first and last time I'll post anything.",
+                            tags   : ['welcome', 'first post', 'last post'],
+                            created: Date.now()
+                        }
+                    }, this.callback);
+                },
+                'should return a hit': function(err, res){
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.deepEqual({
+                        ok: true,
+                        matches: [ 'elastical-test-percolator' ]
+                    }, res);
+                }
+            },
+            'should return a match and the name of the percolator even if doc is absent': {
+                topic: function(client){
+                    client.percolate('elastical-test-index', 'post', {                        
+                        title  : "Welcome to my stupid blog",
+                        content: "This is the first and last time I'll post anything.",
+                        tags   : ['welcome', 'first post', 'last post'],
+                        created: Date.now()
+                    }, this.callback);
+                },
+                'should return a hit': function(err, res){
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.deepEqual({
+                        ok: true,
+                        matches: [ 'elastical-test-percolator' ]
+                    }, res);
+                }
+            }
+            
+        },
+        '`deletePercolator()`': {
+            'should delete the registered percolator': {
+                topic: function (client) {
+                    client.deletePercolator('elastical-test-index',
+                                        'elastical-test-percolator',
+                                        this.callback);
+                },
+                'should return true': function(err, res){
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(res.ok , true);
+                    assert.equal(res.found, true);
+                    assert.equal(res._index, '_percolator');
+                    assert.equal(res._type, 'elastical-test-index');
+                    assert.equal(res._id, 'elastical-test-percolator');
+                }
+            }
         }
     }
 }).addBatch({
