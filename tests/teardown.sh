@@ -8,4 +8,5 @@ curl -s -XDELETE "$BASE/elastical-test,elastical-test-bulk,elastical-test-delete
 curl -s -XDELETE "$BASE/elastical-test-deleteme,elastical-test-deleteme2,elastical-test-deleteme3"
 curl -s -XDELETE "$BASE/elastical-test-indexexists,elastical-test-indexexists2"
 curl -s -XDELETE "$BASE/elastical-test-index"
+curl -s -XDELETE "$BASE/elastical-test-percolator-index"
 

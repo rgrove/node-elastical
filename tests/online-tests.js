@@ -7,7 +7,8 @@ var elastical = require('../index'),
     assert = require('assert'),
     vows   = require('vows');
 
-vows.describe('Elastical').addBatch({
+vows.describe('Elastical')
+.addBatch({
     'Client': {
         topic: new elastical.Client(),
 
@@ -513,65 +514,83 @@ vows.describe('Elastical').addBatch({
                     assert.strictEqual(res.hits, results);
                 }
             }
-        },
-        '`setPercolator()`':{
-            'register a percolator': {
-                topic: function(client){
-                    client.setPercolator('elastical-test-index',
-                                      'elastical-test-percolator',
-                                      {
-                                        "query" : {
-                                          "text" : {
-                                            "tags" : {
-                                              "query" : 'welcome',
-                                              "operator" : "or"
-                                            }
-                                          }
-                                        }
-                                    }, this.callback);
-                },
-                'should return success': function(err, res){
-                    assert.isNull(err);
-                    assert.isObject(res);  
-                }
+        }
+    }
+})
+.addBatch({
+    'Percolator Index Setup': {
+        topic: new elastical.Client(),
+        'createIndex()': {
+            topic: function(client){
+                client.createIndex('elastical-test-percolator-index', this.callback);
+            },
+            'should return true': function(err, res){
+                assert.isNull(err);
             }
         }
-        ,
-        '`getPercolator()`': {
-            'should return the registered percolator document': {
-                topic: function (client) {
-                    client.getPercolator('elastical-test-index',
-                                        'elastical-test-percolator',
-                                        this.callback);
-                },
-                'should return a hit': function(err, results, res){
-                    
-                    //console.log(JSON.stringify(res));
-                    
-                    assert.isNull(err);
-                    assert.isObject(results);
-                    assert.deepEqual( {
-                                        "query" : {
-                                          "text" : {
-                                            "tags" : {
-                                              "query" : 'welcome',
-                                              "operator" : "or"
-                                            }
-                                          }
+    }
+})
+.addBatch({
+    'Percolator Setup': {
+        topic: new elastical.Client(),
+        '`setPercolator()`':{
+            topic: function(client){
+                client.setPercolator('elastical-test-percolator-index',
+                                  'elastical-test-percolator',
+                                  {
+                                    "query" : {
+                                      "text" : {
+                                        "tags" : {
+                                          "query" : 'welcome',
+                                          "operator" : "or"
                                         }
-                                    }, results);
-                    assert.isObject(res);
-                    assert.equal('_percolator', res._index);
-                    assert.equal('elastical-test-index', res._type);
-                    assert.equal('elastical-test-percolator', res._id);
-                    assert.equal(true, res.exists);                 
-                }
+                                      }
+                                    }
+                                }, this.callback);
+            },
+            'should return success': function(err, res){
+                assert.isNull(err);
+                assert.isObject(res);  
+            }
+        }        
+    }
+})
+.addBatch({
+    'Percolator tests': {
+        topic: new elastical.Client(),        
+        '`getPercolator()`': {
+            topic: function (client) {
+                client.getPercolator('elastical-test-percolator-index',
+                                    'elastical-test-percolator',
+                                    this.callback);
+            },
+            'should return a hit': function(err, results, res){
+                
+                //console.log(JSON.stringify(res));
+                
+                assert.isNull(err);
+                assert.isObject(results);
+                assert.deepEqual( {
+                                    "query" : {
+                                      "text" : {
+                                        "tags" : {
+                                          "query" : 'welcome',
+                                          "operator" : "or"
+                                        }
+                                      }
+                                    }
+                                }, results);
+                assert.isObject(res);
+                assert.equal('_percolator', res._index);
+                assert.equal('elastical-test-percolator-index', res._type);
+                assert.equal('elastical-test-percolator', res._id);
+                assert.equal(true, res.exists);                 
             }
         },
         '`percolate()`': {
             'should return a match and the name of the percolator': {
                 topic: function(client){
-                    client.percolate('elastical-test-index', 'post', {
+                    client.percolate('elastical-test-percolator-index', 'post', {
                         doc: {
                             title  : "Welcome to my stupid blog",
                             content: "This is the first and last time I'll post anything.",
@@ -591,7 +610,7 @@ vows.describe('Elastical').addBatch({
             },
             'should return a match and the name of the percolator even if doc is absent': {
                 topic: function(client){
-                    client.percolate('elastical-test-index', 'post', {                        
+                    client.percolate('elastical-test-percolator-index', 'post', {                        
                         title  : "Welcome to my stupid blog",
                         content: "This is the first and last time I'll post anything.",
                         tags   : ['welcome', 'first post', 'last post'],
@@ -607,28 +626,39 @@ vows.describe('Elastical').addBatch({
                     }, res);
                 }
             }
-            
-        },
+        }
+    }
+})
+.addBatch({
+    'Percolator Deletion':{
+        topic: new elastical.Client(),
         '`deletePercolator()`': {
-            'should delete the registered percolator': {
-                topic: function (client) {
-                    client.deletePercolator('elastical-test-index',
-                                        'elastical-test-percolator',
-                                        this.callback);
-                },
-                'should return true': function(err, res){
-                    assert.isNull(err);
-                    assert.isObject(res);
-                    assert.equal(res.ok , true);
-                    assert.equal(res.found, true);
-                    assert.equal(res._index, '_percolator');
-                    assert.equal(res._type, 'elastical-test-index');
-                    assert.equal(res._id, 'elastical-test-percolator');
-                }
+            topic: function (client) {
+                client.deletePercolator('elastical-test-percolator-index',
+                                    'elastical-test-percolator',
+                                    this.callback);
+            },
+            'should return true': function(err, res){
+                assert.isNull(err);
+                assert.isObject(res);
+                assert.equal(res.ok , true);
+                assert.equal(res.found, true);
+                assert.equal(res._index, '_percolator');
+                assert.equal(res._type, 'elastical-test-percolator-index');
+                assert.equal(res._id, 'elastical-test-percolator');
+            }
+        },    
+        'deleteIndex()':{
+            topic: function(client){
+                client.deleteIndex('elastical-test-percolator-index', this.callback);
+            },
+            'should return true': function(err, res){
+                assert.isNull(err);
             }
         }
     }
-}).addBatch({
+})
+.addBatch({
     'Client (part deux)': {
         topic: new elastical.Client(),
 
@@ -664,4 +694,6 @@ vows.describe('Elastical').addBatch({
             }
         }
     }
-}).export(module);
+})
+.export(module);
+

@@ -14,6 +14,7 @@ curl -s -XPUT "$BASE/elastical-test-refresh"
 curl -s -XPUT "$BASE/elastical-test-refresh2"
 curl -s -XPUT "$BASE/elastical-test-putmapping"
 curl -s -XPUT "$BASE/elastical-test-putmapping2"
+#curl -s -XPUT "$BASE/elastical-test-percolator-index"
 
 curl -s -XPUT "$BASE/elastical-test-bulk/post/deleteme" -d '{
   "title": "Delete me"
