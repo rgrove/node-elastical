@@ -9,4 +9,8 @@ curl -s -XDELETE "$BASE/elastical-test-deleteme,elastical-test-deleteme2,elastic
 curl -s -XDELETE "$BASE/elastical-test-indexexists,elastical-test-indexexists2"
 curl -s -XDELETE "$BASE/elastical-test-index"
 curl -s -XDELETE "$BASE/elastical-test-percolator-index"
+curl -s -XDELETE "$BASE/_percolator/elastical-test-percolator-index/elastical-test-percolator-set"
+curl -s -XDELETE "$BASE/_percolator/elastical-test-percolator-index/elastical-test-percolator-get"
+curl -s -XDELETE "$BASE/_percolator//elastical-test-percolator-index/elastical-test-percolator-delete"
+
 

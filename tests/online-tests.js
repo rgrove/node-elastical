@@ -518,31 +518,18 @@ vows.describe('Elastical')
     }
 })
 .addBatch({
-    'Percolator Index Setup': {
-        topic: new elastical.Client(),
-        'createIndex()': {
-            topic: function(client){
-                client.createIndex('elastical-test-percolator-index', this.callback);
-            },
-            'should return true': function(err, res){
-                assert.isNull(err);
-            }
-        }
-    }
-})
-.addBatch({
-    'Percolator Setup': {
+    'Percolator Tests': {
         topic: new elastical.Client(),
         '`setPercolator()`':{
             topic: function(client){
                 client.setPercolator('elastical-test-percolator-index',
-                                  'elastical-test-percolator',
+                                  'elastical-test-percolator-set',
                                   {
                                     "query" : {
                                       "text" : {
                                         "tags" : {
-                                          "query" : 'welcome',
-                                          "operator" : "or"
+                                          "query" : 'blah blah',
+                                          "operator" : "and"
                                         }
                                       }
                                     }
@@ -550,24 +537,21 @@ vows.describe('Elastical')
             },
             'should return success': function(err, res){
                 assert.isNull(err);
-                assert.isObject(res);  
+                assert.isObject(res);
+                //{"ok":true,"_index":"_percolator","_type":"elastical-test-percolator-index","_id":"elastical-test-percolator-set","_version":13}
+                assert.equal(res.ok, true);
+                assert.equal(res._index, "_percolator");
+                assert.equal(res._type, "elastical-test-percolator-index");
+                assert.equal(res._id, "elastical-test-percolator-set");
             }
-        }        
-    }
-})
-.addBatch({
-    'Percolator tests': {
-        topic: new elastical.Client(),        
+        },            
         '`getPercolator()`': {
             topic: function (client) {
                 client.getPercolator('elastical-test-percolator-index',
-                                    'elastical-test-percolator',
+                                    'elastical-test-percolator-get',
                                     this.callback);
             },
             'should return a hit': function(err, results, res){
-                
-                //console.log(JSON.stringify(res));
-                
                 assert.isNull(err);
                 assert.isObject(results);
                 assert.deepEqual( {
@@ -583,7 +567,7 @@ vows.describe('Elastical')
                 assert.isObject(res);
                 assert.equal('_percolator', res._index);
                 assert.equal('elastical-test-percolator-index', res._type);
-                assert.equal('elastical-test-percolator', res._id);
+                assert.equal('elastical-test-percolator-get', res._id);
                 assert.equal(true, res.exists);                 
             }
         },
@@ -604,7 +588,7 @@ vows.describe('Elastical')
                     assert.isObject(res);
                     assert.deepEqual({
                         ok: true,
-                        matches: [ 'elastical-test-percolator' ]
+                        matches: [ 'elastical-test-percolator-get' ]
                     }, res);
                 }
             },
@@ -622,20 +606,15 @@ vows.describe('Elastical')
                     assert.isObject(res);
                     assert.deepEqual({
                         ok: true,
-                        matches: [ 'elastical-test-percolator' ]
+                        matches: [ 'elastical-test-percolator-get' ]
                     }, res);
                 }
             }
-        }
-    }
-})
-.addBatch({
-    'Percolator Deletion':{
-        topic: new elastical.Client(),
+        },
         '`deletePercolator()`': {
             topic: function (client) {
                 client.deletePercolator('elastical-test-percolator-index',
-                                    'elastical-test-percolator',
+                                    'elastical-test-percolator-delete',
                                     this.callback);
             },
             'should return true': function(err, res){
@@ -645,15 +624,7 @@ vows.describe('Elastical')
                 assert.equal(res.found, true);
                 assert.equal(res._index, '_percolator');
                 assert.equal(res._type, 'elastical-test-percolator-index');
-                assert.equal(res._id, 'elastical-test-percolator');
-            }
-        },    
-        'deleteIndex()':{
-            topic: function(client){
-                client.deleteIndex('elastical-test-percolator-index', this.callback);
-            },
-            'should return true': function(err, res){
-                assert.isNull(err);
+                assert.equal(res._id, 'elastical-test-percolator-delete');
             }
         }
     }
