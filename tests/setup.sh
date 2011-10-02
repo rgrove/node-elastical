@@ -29,6 +29,31 @@ curl -s -XPUT "$BASE/elastical-test-delete/post/1" -d '{
   "title": "Delete me"
 }'
 
+
+# percolator tests begin
+curl -s -XPUT "$BASE/elastical-test-percolator-index"
+curl -s -XPUT "$BASE/_percolator/elastical-test-percolator-index/elastical-test-percolator-get" -d '{                    
+  "query" : {
+    "text" : {
+      "tags" : {
+        "query" : "welcome",
+        "operator" : "or"
+      }
+    }
+  }                                  
+}'
+curl -s -XPUT "$BASE/_percolator/elastical-test-percolator-index/elastical-test-percolator-delete" -d '{                    
+  "query" : {
+    "text" : {
+      "tags" : {
+        "query" : "delete me",
+        "operator" : "and"
+      }
+    }
+  }
+}'
+# percolator tests end
+
 curl -s -XPOST "$BASE/elastical-test-delete/_refresh"
 curl -s -XPOST "$BASE/elastical-test-get/_refresh"
 
