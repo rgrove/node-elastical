@@ -1,8 +1,8 @@
 Elastical History
 =================
 
-0.0.3 (git)
------------
+0.0.3 (2011-10-23)
+------------------
 
 * Added support for percolators. [Ram Viswanadha]
 
