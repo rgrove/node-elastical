@@ -26,6 +26,11 @@ vows.describe('Elastical')
                             d: 'd'
                         }}},
 
+                        {index: {index: 'elastical-test-bulk', type: 'post', id: 'baz', percolate: '*', data: {
+                            e: 'bulkpercolate',
+                            f: 'f'
+                        }}},
+
                         {delete: {index: 'elastical-test-bulk', type: 'post', id: 'deleteme'}}
                     ], this.callback);
                 },
@@ -36,7 +41,9 @@ vows.describe('Elastical')
                     assert.isArray(res.items);
                     assert.isTrue(res.items[0].create.ok);
                     assert.isTrue(res.items[1].index.ok);
-                    assert.isTrue(res.items[2].delete.ok);
+                    assert.isTrue(res.items[2].index.ok);
+                    assert.equal(res.items[2].index.matches[0], 'perc');
+                    assert.isTrue(res.items[3].delete.ok);
                 }
             }
         },

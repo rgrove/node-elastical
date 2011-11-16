@@ -47,7 +47,7 @@ vows.describe('Elastical').addBatch({
                                 b: 'b'
                             }}},
 
-                            {index: {index: 'blog', type: 'post', id: 'bar', data: {
+                            {index: {index: 'blog', type: 'post', id: 'bar', percolate: '*', data: {
                                 c: 'c',
                                 d: 'd'
                             }}},
@@ -72,7 +72,7 @@ vows.describe('Elastical').addBatch({
                         assert.equal(options.body,
                             '{"create":{"_index":"blog","_type":"post","_id":"foo"}}\n' +
                             '{"a":"a","b":"b"}\n' +
-                            '{"index":{"_index":"blog","_type":"post","_id":"bar"}}\n' +
+                            '{"index":{"_index":"blog","_type":"post","_id":"bar","percolate":"*"}}\n' +
                             '{"c":"c","d":"d"}\n' +
                             '{"delete":{"_index":"blog","_type":"post","_id":"deleteme"}}\n'
                         );
@@ -798,6 +798,22 @@ vows.describe('Elastical').addBatch({
         }
     },
 
+    'Client with authentication': {
+        topic: new elastical.Client({auth: 'username:password'}),
+        
+        '`host` should equal "username:password@127.0.0.1"': function (client) {
+            assert.equal(client.host, 'username:password@127.0.0.1');
+        }
+    },
+    
+    'Client with authentication and https: protocol': {
+        topic: new elastical.Client({auth: 'username:password', protocol: 'https:'}),
+        
+        '`baseUrl` should reflect the protocol and auth settings': function (client) {
+            assert.equal(client.baseUrl, 'https://username:password@127.0.0.1:9200');
+        }
+    },
+    
     'Index': {
         topic: new elastical.Client().getIndex('foo'),
 

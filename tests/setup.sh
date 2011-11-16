@@ -19,6 +19,14 @@ curl -s -XPUT "$BASE/elastical-test-bulk/post/deleteme" -d '{
   "title": "Delete me"
 }'
 
+curl -s -XPUT "$BASE/_percolator/elastical-test-bulk/perc" -d '{
+    "query" : {
+        "term" : {
+            "e": "bulkpercolate"
+        }
+    }
+}'
+
 curl -s -XPUT "$BASE/elastical-test-get/post/1" -d '{
   "title": "Hello world",
   "body": "Welcome to my stupid blog.",
