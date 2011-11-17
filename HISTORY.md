@@ -1,6 +1,15 @@
 Elastical History
 =================
 
+0.0.4 (git)
+-----------
+
+* Fixed a bug that prevented 'percolate' from being used in a bulk operation.
+  [Keith Benedict]
+
+* Added support for HTTP auth and HTTPS connections. [Keith Benedict]
+
+
 0.0.3 (2011-10-23)
 ------------------
 
