@@ -717,7 +717,7 @@ vows.describe('Elastical').addBatch({
                     });
                 }
             }
-            
+
         },
         '`getPercolator()`': {
             'should return a percolator document': {
@@ -800,20 +800,20 @@ vows.describe('Elastical').addBatch({
 
     'Client with authentication': {
         topic: new elastical.Client({auth: 'username:password'}),
-        
-        '`host` should equal "username:password@127.0.0.1"': function (client) {
-            assert.equal(client.host, 'username:password@127.0.0.1');
+
+        '`baseUrl` should reflect the auth settings': function (client) {
+            assert.equal(client.baseUrl, 'http://username:password@127.0.0.1:9200');
         }
     },
-    
-    'Client with authentication and https: protocol': {
-        topic: new elastical.Client({auth: 'username:password', protocol: 'https:'}),
-        
+
+    'Client with authentication and https protocol': {
+        topic: new elastical.Client({auth: 'username:password', protocol: 'https'}),
+
         '`baseUrl` should reflect the protocol and auth settings': function (client) {
             assert.equal(client.baseUrl, 'https://username:password@127.0.0.1:9200');
         }
     },
-    
+
     'Index': {
         topic: new elastical.Client().getIndex('foo'),
 
