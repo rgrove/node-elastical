@@ -1,8 +1,8 @@
 Elastical History
 =================
 
-0.0.4 (git)
------------
+0.0.4 (2011-11-17)
+------------------
 
 * Fixed a bug that prevented 'percolate' from being used in a bulk operation.
   [Keith Benedict]
