@@ -1,6 +1,13 @@
 Elastical History
 =================
 
+0.0.5 (2011-11-23)
+------------------
+
+* Increased the minimum version for the `request` module to 2.2.0 to fix an
+  issue with sending DELETE requests over HTTPS.
+
+
 0.0.4 (2011-11-17)
 ------------------
 

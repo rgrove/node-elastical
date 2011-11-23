@@ -2,7 +2,7 @@
     "name"       : "elastical",
     "description": "An ElasticSearch client.",
 
-    "version"    : "0.0.4",
+    "version"    : "0.0.5",
     "homepage"   : "https://github.com/rgrove/node-elastical/",
     "author"     : "Ryan Grove <ryan@wonko.com> (http://wonko.com/)",
     "copyright"  : "Copyright (c) 2011 Ryan Grove. All rights reserved.",
@@ -23,7 +23,7 @@
     ],
 
     "dependencies": {
-        "request": "~2.1.1"
+        "request": "~2.2.0"
     },
 
     "devDependencies": {
