@@ -429,6 +429,46 @@ vows.describe('Elastical')
                 }
             }
         },
+        
+        '`getMapping()`': {
+              'of a specific type within a specific index': {
+                  topic: function (client) {
+                    client.getMapping('elastical-test-mapping', 'type', this.callback);
+                  },
+                  'should succeed': function (err, res) {
+                      assert.isNull(err);
+                      assert.isObject(res);
+                      assert.isObject(res.type);
+                      assert.isObject(res.type.properties.tags);
+                      assert.isObject(res.type.properties.body);
+                      assert.isObject(res.type.properties.title);
+                      assert.equal(res.type.properties.body.type, 'string');
+                      assert.equal(res.type.properties.tags.type, 'string');
+                  }
+              },
+              'of an unexisting index': {
+                  topic: function (client) {
+                    client.getMapping('elastical-test-mapping-unexisting', 'type', this.callback);
+                  },
+                  'should succeed': function (err, res) {
+                    assert.instanceOf(err, Error);
+                    assert.equal(err.message, 'IndexMissingException[[elastical-test-mapping-unexisting] missing]');
+                    assert.equal(res.status, 404);
+                    assert.equal(res.error, 'IndexMissingException[[elastical-test-mapping-unexisting] missing]');
+                  }
+              },
+              'of an unexisting type': {
+                  topic: function (client) {
+                    client.getMapping('elastical-test-mapping', 'type-unexisting', this.callback);
+                  },
+                  'should succeed': function (err, res) {
+                    assert.instanceOf(err, Error);
+                    assert.equal(err.message, 'TypeMissingException[[elastical-test-mapping] type[type-unexisting] missing]');
+                    assert.equal(res.status, 404);
+                    assert.equal(res.error, 'TypeMissingException[[elastical-test-mapping] type[type-unexisting] missing]');
+                  }
+              }
+        },
 
         '`refresh()`': {
             'with no index': {
