@@ -432,7 +432,8 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/_all/tweet/_mapping');
+                    assert.equal(parseUrl(options.url).pathname, '/_all/tweet/_ls
+                      ng');
                 },
 
                 'mapping definition should be passed in the request body': function (err, options) {
