@@ -44,6 +44,17 @@ curl -s -XPUT "$BASE/elastical-test-mapping/type/1" -d '{
   "tags": ["stupid", "blog", "hi"]
 }'
 
+curl -s -XPUT "$BASE/elastical-test-mapping2/type/1" -d '{
+  "title": "Hello world",
+  "body": "Welcome to my stupid blog.",
+  "tags": ["stupid", "blog", "hi"]
+}'
+
+curl -s -XPUT "$BASE/elastical-test-mapping/type2/1" -d '{
+  "other": 1,
+  "field": "dummy"
+}'
+
 # mapping tests
 curl -s -XPUT "$BASE/elastical-test-mapping/type/_mapping" -d '
 {

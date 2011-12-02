@@ -446,11 +446,40 @@ vows.describe('Elastical')
                       assert.equal(res.type.properties.tags.type, 'string');
                   }
               },
+              'of all types within a specific index': {
+                  topic: function (client) {
+                    client.getMapping('elastical-test-mapping', this.callback);
+                  },
+                  'should succeed': function (err, res) {
+                      assert.isNull(err);
+                      assert.isObject(res);
+                      assert.isObject(res['elastical-test-mapping'].type);
+                      assert.isObject(res['elastical-test-mapping'].type.properties.tags);
+                      assert.isObject(res['elastical-test-mapping'].type.properties.body);
+                      assert.isObject(res['elastical-test-mapping'].type.properties.title);
+                      assert.equal(res['elastical-test-mapping'].type.properties.body.type, 'string');
+                      assert.equal(res['elastical-test-mapping'].type.properties.tags.type, 'string');
+                      assert.isObject(res['elastical-test-mapping'].type2); // tweet has been set by putMapping tests
+                      assert.isObject(res['elastical-test-mapping'].type2.properties.other);
+                      assert.equal(res['elastical-test-mapping'].type2.properties.other.type, 'long');
+                  }
+              },
+              'within multiple indices': {
+                  topic: function (client) {
+                    client.getMapping(['elastical-test-mapping', 'elastical-test-mapping2'], this.callback);
+                  },
+                  'should succeed': function (err, res) {
+                      assert.isNull(err);
+                      assert.isObject(res);
+                      assert.isObject(res['elastical-test-mapping'].type);
+                      assert.isObject(res['elastical-test-mapping2'].type);
+                  }
+              },
               'of an unexisting index': {
                   topic: function (client) {
                     client.getMapping('elastical-test-mapping-unexisting', 'type', this.callback);
                   },
-                  'should succeed': function (err, res) {
+                  'should return an IndexMissingException': function (err, res) {
                     assert.instanceOf(err, Error);
                     assert.equal(err.message, 'IndexMissingException[[elastical-test-mapping-unexisting] missing]');
                     assert.equal(res.status, 404);
@@ -461,7 +490,7 @@ vows.describe('Elastical')
                   topic: function (client) {
                     client.getMapping('elastical-test-mapping', 'type-unexisting', this.callback);
                   },
-                  'should succeed': function (err, res) {
+                  'should return an TypeMissingException': function (err, res) {
                     assert.instanceOf(err, Error);
                     assert.equal(err.message, 'TypeMissingException[[elastical-test-mapping] type[type-unexisting] missing]');
                     assert.equal(res.status, 404);
