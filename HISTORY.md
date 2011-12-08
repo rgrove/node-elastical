@@ -1,6 +1,14 @@
 Elastical History
 =================
 
+0.0.6 (2011-12-07)
+------------------
+
+* Implemented `Index.getMapping()`. [VirgileD]
+
+* Compatible with npm 1.1.x. [Patrik Votoček]
+
+
 0.0.5 (2011-11-23)
 ------------------
 
