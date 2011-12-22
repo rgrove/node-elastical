@@ -499,6 +499,49 @@ vows.describe('Elastical')
                 }
             }
         },
+        
+        '`count()`': {
+            'with a query': {
+                topic: function (client) {
+                  client.count('elastical-test-mapping2', 'type', 'tags:ho', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(res.count, 1);
+                }
+            },
+            'with no query': {
+                topic: function (client) {
+                    client.count('elastical-test-mapping', 'type', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(res.count, 1);
+                }
+            },
+            'with two indices and no query': {
+                topic: function (client) {
+                  client.count(['elastical-test-mapping', 'elastical-test-mapping2'], 'type', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(res.count, 3);
+                }
+            },
+            'with no type and no query': {
+                topic: function (client) {
+                    client.count('elastical-test-mapping', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(res.count, 2);
+                }
+            }
+        },
 
         '`refresh()`': {
             'with no index': {
