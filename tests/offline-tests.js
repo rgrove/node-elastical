@@ -479,6 +479,83 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`putRiver()`':{
+            'no filters': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.putRiver('_river','my_river_name', { type : 'couchdb', couchdb : { host : 'localhost' }, index : {} } );
+                },
+
+                'method should be PUT': function (err, options) {
+                    assert.equal(options.method, 'PUT');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_river/my_river_name/_meta');
+                },
+
+                'mapping definition should be passed in the request body': function (err, options) {
+                    assert.deepEqual( { type : 'couchdb', couchdb : { host : 'localhost' }, index : {} }, options.json);
+                }
+            }
+        },
+
+        '`getRiver()`':{
+            'basic': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.getRiver('_river','my_river_name' );
+                },
+
+                'method should be GET': function (err, options) {
+                    assert.equal(options.method, 'GET');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_river/my_river_name/_meta');
+                }
+            }
+        },
+
+        '`deleteRiver()`':{
+            'basic': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.deleteRiver('_river','my_river_name' );
+                },
+
+                'method should be DELETE': function (err, options) {
+                    assert.equal(options.method, 'DELETE');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/_river/my_river_name');
+                }
+            }
+        },
+/*curl -XPUT 'localhost:9200/_river/my_db/_meta' -d '{
+    "type" : "couchdb",
+    "couchdb" : {
+        "host" : "localhost",
+        "port" : 5984,
+        "db" : "my_db",
+        "filter" : null
+    },
+    "index" : {
+        "index" : "my_db",
+        "type" : "my_db",
+        "bulk_size" : "100",
+        "bulk_timeout" : "10ms"
+    }
+}'*/
+        '`getRiver()`':{
+            
+        },
+
+        '`deleteRiver()`':{
+            
+        },
+
         '`refresh()`': {
             'with no index': {
                 topic: function (client) {
