@@ -533,28 +533,6 @@ vows.describe('Elastical').addBatch({
                 }
             }
         },
-/*curl -XPUT 'localhost:9200/_river/my_db/_meta' -d '{
-    "type" : "couchdb",
-    "couchdb" : {
-        "host" : "localhost",
-        "port" : 5984,
-        "db" : "my_db",
-        "filter" : null
-    },
-    "index" : {
-        "index" : "my_db",
-        "type" : "my_db",
-        "bulk_size" : "100",
-        "bulk_timeout" : "10ms"
-    }
-}'*/
-        '`getRiver()`':{
-            
-        },
-
-        '`deleteRiver()`':{
-            
-        },
 
         '`refresh()`': {
             'with no index': {
