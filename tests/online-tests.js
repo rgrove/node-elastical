@@ -521,6 +521,40 @@ vows.describe('Elastical')
                     assert.strictEqual(res.hits, results);
                 }
             }
+        },
+
+        '`putRiver()`': {
+            topic: function (client) {
+                client.putRiver( 'elastical-test-river', 'elastical-test-river-put', { type:'dummy' }, this.callback );	
+            },
+
+            'should return ok': function (err, results, res) {
+                assert.equal(results.ok,true);
+                assert.equal(results._index,'_river');
+                assert.equal(results._type,'elastical-test-river-put');
+            }
+        },
+
+        '`getRiver()`': {
+            topic: function (client) {
+                client.getRiver( 'elastical-test-river', 'elastical-test-river-get', this.callback );	
+            },
+
+            'should return ok': function (err, results, res) {
+                assert.equal(results._type,"elastical-test-river-get");
+                assert.equal(results.exists,true);
+                assert.equal(results._source.type,"dummy");
+            }
+        },
+
+        '`deleteRiver()`': {
+            topic: function (client) {
+                client.deleteRiver( 'elastical-test-river', 'elastical-test-river-delete', this.callback );	
+            },
+
+            'should return ok': function (err, results, res) {
+                assert.equal(results.ok,true);
+            }
         }
     }
 })

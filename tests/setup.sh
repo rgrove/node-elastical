@@ -62,6 +62,15 @@ curl -s -XPUT "$BASE/_percolator/elastical-test-percolator-index/elastical-test-
 }'
 # percolator tests end
 
+# river tests begin
+curl -s -XPUT "$BASE/_river/elastical-test-river-get/_meta" -d '{                    
+  "type" : "dummy"                         
+}'
+curl -s -XPUT "$BASE/_river/elastical-test-river-delete/_meta" -d '{                    
+  "type" : "dummy"                         
+}'
+# river tests end
+
 curl -s -XPOST "$BASE/elastical-test-delete/_refresh"
 curl -s -XPOST "$BASE/elastical-test-get/_refresh"
 
