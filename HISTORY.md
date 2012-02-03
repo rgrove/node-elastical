@@ -1,6 +1,13 @@
 Elastical History
 =================
 
+0.0.8 (git)
+-----------
+
+* Fixed `ActionRequestValidationException` errors for searches without a body.
+  [Filirom1]
+
+
 0.0.7 (2012-01-11)
 ------------------
 

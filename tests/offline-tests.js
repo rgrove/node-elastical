@@ -594,7 +594,7 @@ vows.describe('Elastical').addBatch({
 
                 'request should not have a body': function (err, options) {
                     assert.isUndefined(options.body);
-                    assert.isUndefined(options.json);
+                    assert.deepEqual(options.json, {});
                 },
 
                 'URL should have the correct path': function (err, options) {
