@@ -111,9 +111,14 @@ the offline tests (which don't require a server), run:
 Pull Requests
 -------------
 
+Before embarking on any major changes, please drop me a note first just to make
+sure I'm not already working on something similar. This could save us both some
+trouble.
+
 Please make your changes in a topic branch and submit a pull request describing
 what the changes do and why I should merge them. Save time by including good
-tests for your changes (if you don't, I'll just ask you to add them).
+offline and online tests for your changes (if you don't, I'll just ask you to
+add them). Thanks!
 
 
 Support
@@ -125,7 +130,7 @@ Nope.
 License
 -------
 
-Copyright (c) 2011 Ryan Grove (ryan@wonko.com)
+Copyright (c) 2012 Ryan Grove (ryan@wonko.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the 'Software'), to deal in

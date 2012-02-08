@@ -1,6 +1,19 @@
 Elastical History
 =================
 
+0.0.8 (git)
+-----------
+
+* Fixed `ActionRequestValidationException` errors for searches without a body.
+  [Filirom1]
+
+
+0.0.7 (2012-01-11)
+------------------
+
+* Implemented `putRiver()`, `getRiver()`, and `deleteRiver()`. [Richard Marr]
+
+
 0.0.6 (2011-12-07)
 ------------------
 
