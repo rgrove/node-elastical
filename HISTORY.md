@@ -4,6 +4,8 @@ Elastical History
 0.0.8 (git)
 -----------
 
+* Implemented `Index.count()`. [VirgileD]
+
 * Fixed `ActionRequestValidationException` errors for searches without a body.
   [Filirom1]
 
