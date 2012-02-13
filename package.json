@@ -23,7 +23,8 @@
     ],
 
     "dependencies": {
-        "request": "~2.9.3"
+        "request": "~2.9.3",
+        "thrift": "https://github.com/wadey/node-thrift/tarball/master"
     },
 
     "devDependencies": {
