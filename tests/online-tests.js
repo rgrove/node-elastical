@@ -602,7 +602,7 @@ vows.describe('Elastical')
                 },
 
                 'should have a scroll_id': function (err, results, res) {
-                		 assert.isNotNull(res._scroll_id);
+                    assert.isNotNull(res._scroll_id);
                     assert.isNull(err);
                     assert.isObject(results);
                     assert.isObject(res);
