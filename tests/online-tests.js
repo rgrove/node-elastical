@@ -633,6 +633,26 @@ vows.describe('Elastical')
                     assert.isArray(results.hits);
                     assert.strictEqual(res.hits, results);
                 }
+            },
+
+            'simple scrolling query':{
+							topic: function (client) {
+                    client.search({
+                        index: 'elastical-test-get',
+                        query: {match_all: {}},
+                        scroll: '1m'
+                    }, this.callback);
+                },
+
+                'should have a scroll_id': function (err, results, res) {
+                    assert.isNotNull(res._scroll_id);
+                    assert.isNull(err);
+                    assert.isObject(results);
+                    assert.isObject(res);
+                    assert.equal(1, results.total);
+                    assert.isArray(results.hits);
+                    assert.strictEqual(res.hits, results);
+                }
             }
         },
 

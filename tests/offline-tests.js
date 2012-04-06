@@ -602,8 +602,76 @@ vows.describe('Elastical').addBatch({
                 }
             },
 
-            'with options': {
+            'with options but no scroll_id': {
                 topic: function (client) {
+                    client._testHook = this.callback;
+                    client.search({
+                        query        : {query_string: {query: 'foo'}},
+                        explain      : true,
+                        facets       : {},
+                        fields       : ['one', 'two'],
+                        filter       : {},
+                        from         : 3,
+                        highlight    : {},
+                        index        : 'blog',
+                        indices_boost: {},
+                        min_score    : 0.5,
+                        preference   : '_primary',
+                        routing      : 'hashyhash',
+                        script_fields: {},
+                        scroll       : '1m',
+                        search_type  : 'query_and_fetch',
+                        size         : 42,
+                        sort         : {},
+                        timeout      : '15s',
+                        track_scores : true,
+                        type         : 'post',
+                        version      : true
+                    }, function () {});
+                },
+
+                'method should be POST': function (err, options) {
+                    assert.equal(options.method, 'POST');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.url).pathname, '/blog/post/_search');
+                },
+
+                'URL query string should contain the correct parameters': function (err, options) {
+                    var query = parseUrl(options.url, true).query;
+
+                    assert.deepEqual({
+                        preference : '_primary',
+                        routing    : 'hashyhash',
+                        scroll     : '1m',
+                        search_type: 'query_and_fetch',
+                        timeout    : '15s'
+                    }, query);
+                },
+
+                'request body should contain the correct options': function (err, options) {
+                    assert.deepEqual({
+                        query        : {query_string: {query: 'foo'}},
+                        explain      : true,
+                        facets       : {},
+                        fields       : ['one', 'two'],
+                        filter       : {},
+                        from         : 3,
+                        highlight    : {},
+                        indices_boost: {},
+                        min_score    : 0.5,
+                        script_fields: {},
+                        size         : 42,
+                        sort         : {},
+                        track_scores : true,
+                        version      : true
+                    }, options.json);
+                },
+            },
+
+            'with options and scroll_id': {
+							topic: function (client) {
                     client._testHook = this.callback;
                     client.search({
                         query        : {query_string: {query: 'foo'}},
@@ -631,12 +699,8 @@ vows.describe('Elastical').addBatch({
                     }, function () {});
                 },
 
-                'method should be POST': function (err, options) {
-                    assert.equal(options.method, 'POST');
-                },
-
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/blog/post/_search');
+                    assert.equal(parseUrl(options.url).pathname, '/blog/post/_search/scroll');
                 },
 
                 'URL query string should contain the correct parameters': function (err, options) {
@@ -650,25 +714,6 @@ vows.describe('Elastical').addBatch({
                         search_type: 'query_and_fetch',
                         timeout    : '15s'
                     }, query);
-                },
-
-                'request body should contain the correct options': function (err, options) {
-                    assert.deepEqual({
-                        query        : {query_string: {query: 'foo'}},
-                        explain      : true,
-                        facets       : {},
-                        fields       : ['one', 'two'],
-                        filter       : {},
-                        from         : 3,
-                        highlight    : {},
-                        indices_boost: {},
-                        min_score    : 0.5,
-                        script_fields: {},
-                        size         : 42,
-                        sort         : {},
-                        track_scores : true,
-                        version      : true
-                    }, options.json);
                 }
             },
 
