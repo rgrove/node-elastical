@@ -9,6 +9,8 @@ Elastical History
 * Fixed `ActionRequestValidationException` errors for searches without a body.
   [Filirom1]
 
+* Fixed scrolling in ElasticSearch >= 0.18. [SyndromeSoftware]
+
 
 0.0.7 (2012-01-11)
 ------------------
