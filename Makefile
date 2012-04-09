@@ -13,5 +13,6 @@ offline-tests:
 online-tests:
 	@tests/confirm.sh
 	@tests/setup.sh > /dev/null
+	@sleep 1
 	-$(VOWS_BIN) tests/online-tests.js
 	@tests/teardown.sh > /dev/null
