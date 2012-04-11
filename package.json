@@ -23,7 +23,7 @@
     ],
 
     "dependencies": {
-        "request": "~2.9.3"
+        "request": ">=2.9.3 <=2.9.200"
     },
 
     "devDependencies": {

@@ -1,8 +1,10 @@
 Elastical History
 =================
 
-0.0.8 (git)
------------
+0.0.8 (2012-04-10)
+------------------
+
+* Added a workaround for API backcompat breakage in Request >= 2.9.200.
 
 * Implemented `Index.count()`. [VirgileD]
 
