@@ -61,11 +61,11 @@ vows.describe('Elastical').addBatch({
                     },
 
                     'URL should have the correct path': function (err, options) {
-                        assert.equal(parseUrl(options.url).pathname, '/_bulk');
+                        assert.equal(parseUrl(options.uri).pathname, '/_bulk');
                     },
 
                     'URL should not have a query string': function (err, options) {
-                        assert.isUndefined(parseUrl(options.url).search);
+                        assert.isUndefined(parseUrl(options.uri).search);
                     },
 
                     'body should be formatted correctly': function (err, options) {
@@ -131,7 +131,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL query string should contain the options': function (err, options) {
-                    var query = parseUrl(options.url, true).query;
+                    var query = parseUrl(options.uri, true).query;
 
                     assert.deepEqual({
                         consistency: 'one',
@@ -153,7 +153,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/new-index');
+                    assert.equal(parseUrl(options.uri).pathname, '/new-index');
                 },
 
                 'request should not have a body': function (err, options) {
@@ -188,11 +188,11 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/posts/post/1');
+                    assert.equal(parseUrl(options.uri).pathname, '/posts/post/1');
                 },
 
                 'URL should not have a query string': function (err, options) {
-                    assert.isUndefined(parseUrl(options.url).search);
+                    assert.isUndefined(parseUrl(options.uri).search);
                 }
             },
 
@@ -211,7 +211,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL query string should contain the options': function (err, options) {
-                    var query = parseUrl(options.url, true).query;
+                    var query = parseUrl(options.uri, true).query;
 
                     assert.deepEqual({
                         consistency: 'all',
@@ -237,7 +237,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/foo');
+                    assert.equal(parseUrl(options.uri).pathname, '/foo');
                 }
             },
 
@@ -252,7 +252,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/foo%2Cbar');
+                    assert.equal(parseUrl(options.uri).pathname, '/foo%2Cbar');
                 }
             }
         },
@@ -269,7 +269,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/blog/_all/1');
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/_all/1');
                 }
             },
 
@@ -287,11 +287,11 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/blog/post/1');
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/post/1');
                 },
 
                 'URL query string should contain the options': function (err, options) {
-                    var query = parseUrl(options.url, true).query;
+                    var query = parseUrl(options.uri, true).query;
 
                     assert.deepEqual({
                         fields    : 'one,two',
@@ -330,7 +330,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/blog/post');
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/post');
                 },
 
                 'request body should be set': function (err, options) {
@@ -366,11 +366,11 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/blog/post/1');
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/post/1');
                 },
 
                 'URL query string should contain the options': function (err, options) {
-                    var query = parseUrl(options.url, true).query;
+                    var query = parseUrl(options.uri, true).query;
 
                     assert.deepEqual({
                         consistency : 'all',
@@ -400,7 +400,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/foo');
+                    assert.equal(parseUrl(options.uri).pathname, '/foo');
                 }
             },
 
@@ -415,7 +415,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/foo%2Cbar');
+                    assert.equal(parseUrl(options.uri).pathname, '/foo%2Cbar');
                 }
             }
         },
@@ -432,7 +432,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/_all/tweet/_mapping');
+                    assert.equal(parseUrl(options.uri).pathname, '/_all/tweet/_mapping');
                 },
 
                 'mapping definition should be passed in the request body': function (err, options) {
@@ -451,7 +451,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/foo/tweet/_mapping');
+                    assert.equal(parseUrl(options.uri).pathname, '/foo/tweet/_mapping');
                 },
 
                 'mapping definition should be passed in the request body': function (err, options) {
@@ -470,11 +470,66 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/foo%2Cbar/tweet/_mapping');
+                    assert.equal(parseUrl(options.uri).pathname, '/foo%2Cbar/tweet/_mapping');
                 },
 
                 'mapping definition should be passed in the request body': function (err, options) {
                     assert.deepEqual({ tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, options.json);
+                }
+            }
+        },
+
+        '`putRiver()`':{
+            'no filters': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.putRiver('_river','my_river_name', { type : 'couchdb', couchdb : { host : 'localhost' }, index : {} } );
+                },
+
+                'method should be PUT': function (err, options) {
+                    assert.equal(options.method, 'PUT');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/_river/my_river_name/_meta');
+                },
+
+                'mapping definition should be passed in the request body': function (err, options) {
+                    assert.deepEqual( { type : 'couchdb', couchdb : { host : 'localhost' }, index : {} }, options.json);
+                }
+            }
+        },
+
+        '`getRiver()`':{
+            'basic': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.getRiver('_river','my_river_name' );
+                },
+
+                'method should be GET': function (err, options) {
+                    assert.equal(options.method, 'GET');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/_river/my_river_name/_meta');
+                }
+            }
+        },
+
+        '`deleteRiver()`':{
+            'basic': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.deleteRiver('_river','my_river_name' );
+                },
+
+                'method should be DELETE': function (err, options) {
+                    assert.equal(options.method, 'DELETE');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/_river/my_river_name');
                 }
             }
         },
@@ -491,7 +546,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/_all/_refresh');
+                    assert.equal(parseUrl(options.uri).pathname, '/_all/_refresh');
                 }
             },
 
@@ -506,7 +561,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/foo/_refresh');
+                    assert.equal(parseUrl(options.uri).pathname, '/foo/_refresh');
                 }
             },
 
@@ -521,7 +576,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/foo%2Cbar/_refresh');
+                    assert.equal(parseUrl(options.uri).pathname, '/foo%2Cbar/_refresh');
                 }
             }
         },
@@ -539,16 +594,84 @@ vows.describe('Elastical').addBatch({
 
                 'request should not have a body': function (err, options) {
                     assert.isUndefined(options.body);
-                    assert.isUndefined(options.json);
+                    assert.deepEqual(options.json, {});
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/_search');
+                    assert.equal(parseUrl(options.uri).pathname, '/_search');
                 }
             },
 
-            'with options': {
+            'with options but no scroll_id': {
                 topic: function (client) {
+                    client._testHook = this.callback;
+                    client.search({
+                        query        : {query_string: {query: 'foo'}},
+                        explain      : true,
+                        facets       : {},
+                        fields       : ['one', 'two'],
+                        filter       : {},
+                        from         : 3,
+                        highlight    : {},
+                        index        : 'blog',
+                        indices_boost: {},
+                        min_score    : 0.5,
+                        preference   : '_primary',
+                        routing      : 'hashyhash',
+                        script_fields: {},
+                        scroll       : '1m',
+                        search_type  : 'query_and_fetch',
+                        size         : 42,
+                        sort         : {},
+                        timeout      : '15s',
+                        track_scores : true,
+                        type         : 'post',
+                        version      : true
+                    }, function () {});
+                },
+
+                'method should be POST': function (err, options) {
+                    assert.equal(options.method, 'POST');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/post/_search');
+                },
+
+                'URL query string should contain the correct parameters': function (err, options) {
+                    var query = parseUrl(options.uri, true).query;
+
+                    assert.deepEqual({
+                        preference : '_primary',
+                        routing    : 'hashyhash',
+                        scroll     : '1m',
+                        search_type: 'query_and_fetch',
+                        timeout    : '15s'
+                    }, query);
+                },
+
+                'request body should contain the correct options': function (err, options) {
+                    assert.deepEqual({
+                        query        : {query_string: {query: 'foo'}},
+                        explain      : true,
+                        facets       : {},
+                        fields       : ['one', 'two'],
+                        filter       : {},
+                        from         : 3,
+                        highlight    : {},
+                        indices_boost: {},
+                        min_score    : 0.5,
+                        script_fields: {},
+                        size         : 42,
+                        sort         : {},
+                        track_scores : true,
+                        version      : true
+                    }, options.json);
+                },
+            },
+
+            'with options and scroll_id': {
+							topic: function (client) {
                     client._testHook = this.callback;
                     client.search({
                         query        : {query_string: {query: 'foo'}},
@@ -576,16 +699,12 @@ vows.describe('Elastical').addBatch({
                     }, function () {});
                 },
 
-                'method should be POST': function (err, options) {
-                    assert.equal(options.method, 'POST');
-                },
-
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/blog/post/_search');
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/post/_search/scroll');
                 },
 
                 'URL query string should contain the correct parameters': function (err, options) {
-                    var query = parseUrl(options.url, true).query;
+                    var query = parseUrl(options.uri, true).query;
 
                     assert.deepEqual({
                         preference : '_primary',
@@ -595,25 +714,6 @@ vows.describe('Elastical').addBatch({
                         search_type: 'query_and_fetch',
                         timeout    : '15s'
                     }, query);
-                },
-
-                'request body should contain the correct options': function (err, options) {
-                    assert.deepEqual({
-                        query        : {query_string: {query: 'foo'}},
-                        explain      : true,
-                        facets       : {},
-                        fields       : ['one', 'two'],
-                        filter       : {},
-                        from         : 3,
-                        highlight    : {},
-                        indices_boost: {},
-                        min_score    : 0.5,
-                        script_fields: {},
-                        size         : 42,
-                        sort         : {},
-                        track_scores : true,
-                        version      : true
-                    }, options.json);
                 }
             },
 
@@ -624,7 +724,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/blog/_search');
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/_search');
                 }
             },
 
@@ -635,7 +735,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/_all/post/_search');
+                    assert.equal(parseUrl(options.uri).pathname, '/_all/post/_search');
                 }
             },
 
@@ -649,7 +749,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/blog%2Ctwitter/post%2Ctweet/_search');
+                    assert.equal(parseUrl(options.uri).pathname, '/blog%2Ctwitter/post%2Ctweet/_search');
                 }
             },
 
@@ -702,7 +802,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/_percolator/blog/bar');
+                    assert.equal(parseUrl(options.uri).pathname, '/_percolator/blog/bar');
                 },
                 'request body should contain the correct options': function (err, options) {
                     assert.deepEqual(options.json, {
@@ -731,7 +831,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/_percolator/blog/bar');
+                    assert.equal(parseUrl(options.uri).pathname, '/_percolator/blog/bar');
                 }
             }
         },
@@ -751,7 +851,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/blog/bar/_percolate');
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/bar/_percolate');
                 }
             }
         },
@@ -767,7 +867,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should have the correct path': function (err, options) {
-                    assert.equal(parseUrl(options.url).pathname, '/_percolator/blog/bar');
+                    assert.equal(parseUrl(options.uri).pathname, '/_percolator/blog/bar');
                 }
             }
         }
@@ -828,7 +928,7 @@ vows.describe('Elastical').addBatch({
             },
 
             'URL should have the correct path': function (err, options) {
-                assert.equal(parseUrl(options.url).pathname, '/foo/_search');
+                assert.equal(parseUrl(options.uri).pathname, '/foo/_search');
             },
 
             'options should be passed through': function (err, options) {

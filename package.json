@@ -2,10 +2,10 @@
     "name"       : "elastical",
     "description": "An ElasticSearch client.",
 
-    "version"    : "0.0.4",
+    "version"    : "0.0.8",
     "homepage"   : "https://github.com/rgrove/node-elastical/",
     "author"     : "Ryan Grove <ryan@wonko.com> (http://wonko.com/)",
-    "copyright"  : "Copyright (c) 2011 Ryan Grove. All rights reserved.",
+    "copyright"  : "Copyright (c) 2012 Ryan Grove. All rights reserved.",
 
     "keywords"   : ["elasticsearch", "elastic", "search", "client", "lucene"],
 
@@ -19,15 +19,15 @@
 
     "engines": [
         "node >=0.4.0 <0.7.0",
-        "npm ~1.0.0"
+        "npm >=1.0.0"
     ],
 
     "dependencies": {
-        "request": "~2.1.1"
+        "request": ">=2.9.3 <=2.9.200"
     },
 
     "devDependencies": {
-        "vows": "~0.5.11"
+        "vows": "~0.6.1"
     },
 
     "main": "index",

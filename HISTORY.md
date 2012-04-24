@@ -1,6 +1,40 @@
 Elastical History
 =================
 
+0.0.8 (2012-04-10)
+------------------
+
+* Added a workaround for API backcompat breakage in Request >= 2.9.200.
+
+* Implemented `Index.count()`. [VirgileD]
+
+* Fixed `ActionRequestValidationException` errors for searches without a body.
+  [Filirom1]
+
+* Fixed scrolling in ElasticSearch >= 0.18. [SyndromeSoftware]
+
+
+0.0.7 (2012-01-11)
+------------------
+
+* Implemented `putRiver()`, `getRiver()`, and `deleteRiver()`. [Richard Marr]
+
+
+0.0.6 (2011-12-07)
+------------------
+
+* Implemented `Index.getMapping()`. [VirgileD]
+
+* Compatible with npm 1.1.x. [Patrik Votoček]
+
+
+0.0.5 (2011-11-23)
+------------------
+
+* Increased the minimum version for the `request` module to 2.2.0 to fix an
+  issue with sending DELETE requests over HTTPS.
+
+
 0.0.4 (2011-11-17)
 ------------------
 
