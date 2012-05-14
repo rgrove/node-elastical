@@ -126,7 +126,8 @@ vows.describe('Elastical').addBatch({
                         {delete: {index: 'blog', type: 'post', id: 'deleteme'}}
                     ], {
                         consistency: 'one',
-                        refresh    : true
+                        refresh    : true,
+                        index      : 'blog'
                     });
                 },
 
@@ -137,6 +138,10 @@ vows.describe('Elastical').addBatch({
                         consistency: 'one',
                         refresh    : '1'
                     }, query);
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/_bulk');
                 }
             }
         },
