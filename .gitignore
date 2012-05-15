@@ -1,2 +1,3 @@
 node_modules/
 tests/.online-confirmed
+.DS_Store
