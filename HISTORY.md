@@ -1,6 +1,12 @@
 Elastical History
 =================
 
+0.0.9 (git)
+-----------
+
+* Allow the use of a custom index name in `Index.bulk()`. [Keith Benedict]
+
+
 0.0.8 (2012-04-10)
 ------------------
 
