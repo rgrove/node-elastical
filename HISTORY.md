@@ -1,10 +1,12 @@
 Elastical History
 =================
 
-0.0.9 (git)
------------
+0.0.9 (2012-07-30)
+------------------
 
 * Allow the use of a custom index name in `Index.bulk()`. [Keith Benedict]
+
+* Node 0.8.x support.
 
 
 0.0.8 (2012-04-10)
