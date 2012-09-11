@@ -4,13 +4,9 @@
 
 BASE="http://localhost:9200"
 
-curl -s -XDELETE "$BASE/elastical-test,elastical-test-bulk,elastical-test-delete,elastical-test-get,elastical-test-index,elastical-test-refresh,elastical-test-refresh2,elastical-test-putmapping,elastical-test-putmapping2"
-curl -s -XDELETE "$BASE/elastical-test-deleteme,elastical-test-deleteme2,elastical-test-deleteme3"
-curl -s -XDELETE "$BASE/elastical-test-indexexists,elastical-test-indexexists2"
-curl -s -XDELETE "$BASE/elastical-test-index"
-curl -s -XDELETE "$BASE/elastical-test-percolator-index"
+curl -s -XDELETE "$BASE/_all"
 curl -s -XDELETE "$BASE/_percolator/elastical-test-percolator-index/elastical-test-percolator-set"
 curl -s -XDELETE "$BASE/_percolator/elastical-test-percolator-index/elastical-test-percolator-get"
-curl -s -XDELETE "$BASE/_percolator//elastical-test-percolator-index/elastical-test-percolator-delete"
-
-
+curl -s -XDELETE "$BASE/_percolator/elastical-test-percolator-index/elastical-test-percolator-delete"
+curl -s -XDELETE "$BASE/_river/elastical-test-river-set"
+curl -s -XDELETE "$BASE/_river/elastical-test-river-get"

@@ -26,6 +26,11 @@ vows.describe('Elastical')
                             d: 'd'
                         }}},
 
+                        {index: {index: 'elastical-test-bulk', type: 'post', id: 'baz', percolate: '*', data: {
+                            e: 'bulkpercolate',
+                            f: 'f'
+                        }}},
+
                         {delete: {index: 'elastical-test-bulk', type: 'post', id: 'deleteme'}}
                     ], this.callback);
                 },
@@ -36,7 +41,9 @@ vows.describe('Elastical')
                     assert.isArray(res.items);
                     assert.isTrue(res.items[0].create.ok);
                     assert.isTrue(res.items[1].index.ok);
-                    assert.isTrue(res.items[2].delete.ok);
+                    assert.isTrue(res.items[2].index.ok);
+                    assert.equal(res.items[2].index.matches[0], 'perc');
+                    assert.isTrue(res.items[3].delete.ok);
                 }
             }
         },
@@ -423,6 +430,119 @@ vows.describe('Elastical')
             }
         },
 
+        '`getMapping()`': {
+            'of a specific type within a specific index': {
+                topic: function (client) {
+                    client.getMapping('elastical-test-mapping', 'type', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isObject(res.type);
+                    assert.isObject(res.type.properties.tags);
+                    assert.isObject(res.type.properties.body);
+                    assert.isObject(res.type.properties.title);
+                    assert.equal(res.type.properties.body.type, 'string');
+                    assert.equal(res.type.properties.tags.type, 'string');
+                }
+            },
+
+            'of all types within a specific index': {
+                topic: function (client) {
+                    client.getMapping('elastical-test-mapping', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isObject(res['elastical-test-mapping'].type);
+                    assert.isObject(res['elastical-test-mapping'].type.properties.tags);
+                    assert.isObject(res['elastical-test-mapping'].type.properties.body);
+                    assert.isObject(res['elastical-test-mapping'].type.properties.title);
+                    assert.equal(res['elastical-test-mapping'].type.properties.body.type, 'string');
+                    assert.equal(res['elastical-test-mapping'].type.properties.tags.type, 'string');
+                    assert.isObject(res['elastical-test-mapping'].type2); // tweet has been set by putMapping tests
+                    assert.isObject(res['elastical-test-mapping'].type2.properties.other);
+                    assert.equal(res['elastical-test-mapping'].type2.properties.other.type, 'long');
+                }
+            },
+            'within multiple indices': {
+                topic: function (client) {
+                    client.getMapping(['elastical-test-mapping', 'elastical-test-mapping2'], this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isObject(res['elastical-test-mapping'].type);
+                    assert.isObject(res['elastical-test-mapping2'].type);
+                }
+            },
+            'of an unexisting index': {
+                topic: function (client) {
+                    client.getMapping('elastical-test-mapping-unexisting', 'type', this.callback);
+                },
+                'should return an IndexMissingException': function (err, res) {
+                    assert.instanceOf(err, Error);
+                    assert.equal(err.message, 'IndexMissingException[[elastical-test-mapping-unexisting] missing]');
+                    assert.equal(res.status, 404);
+                    assert.equal(res.error, 'IndexMissingException[[elastical-test-mapping-unexisting] missing]');
+                }
+            },
+            'of an unexisting type': {
+                topic: function (client) {
+                    client.getMapping('elastical-test-mapping', 'type-unexisting', this.callback);
+                },
+                'should return an TypeMissingException': function (err, res) {
+                    assert.instanceOf(err, Error);
+                    assert.equal(err.message, 'TypeMissingException[[elastical-test-mapping] type[type-unexisting] missing]');
+                    assert.equal(res.status, 404);
+                    assert.equal(res.error, 'TypeMissingException[[elastical-test-mapping] type[type-unexisting] missing]');
+                }
+            }
+        },
+        
+        '`count()`': {
+            'with a query': {
+                topic: function (client) {
+                  client.count('elastical-test-mapping2', 'type', 'tags:ho', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(res.count, 1);
+                }
+            },
+            'with no query': {
+                topic: function (client) {
+                    client.count('elastical-test-mapping', 'type', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(res.count, 1);
+                }
+            },
+            'with two indices and no query': {
+                topic: function (client) {
+                  client.count(['elastical-test-mapping', 'elastical-test-mapping2'], 'type', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(res.count, 3);
+                }
+            },
+            'with no type and no query': {
+                topic: function (client) {
+                    client.count('elastical-test-mapping', this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(res.count, 2);
+                }
+            }
+        },
+
         '`refresh()`': {
             'with no index': {
                 topic: function (client) {
@@ -513,6 +633,60 @@ vows.describe('Elastical')
                     assert.isArray(results.hits);
                     assert.strictEqual(res.hits, results);
                 }
+            },
+
+            'simple scrolling query':{
+							topic: function (client) {
+                    client.search({
+                        index: 'elastical-test-get',
+                        query: {match_all: {}},
+                        scroll: '1m'
+                    }, this.callback);
+                },
+
+                'should have a scroll_id': function (err, results, res) {
+                    assert.isNotNull(res._scroll_id);
+                    assert.isNull(err);
+                    assert.isObject(results);
+                    assert.isObject(res);
+                    assert.equal(1, results.total);
+                    assert.isArray(results.hits);
+                    assert.strictEqual(res.hits, results);
+                }
+            }
+        },
+
+        '`putRiver()`': {
+            topic: function (client) {
+                client.putRiver( 'elastical-test-river', 'elastical-test-river-put', { type:'dummy' }, this.callback );	
+            },
+
+            'should return ok': function (err, results, res) {
+                assert.equal(results.ok,true);
+                assert.equal(results._index,'_river');
+                assert.equal(results._type,'elastical-test-river-put');
+            }
+        },
+
+        '`getRiver()`': {
+            topic: function (client) {
+                client.getRiver( 'elastical-test-river', 'elastical-test-river-get', this.callback );	
+            },
+
+            'should return ok': function (err, results, res) {
+                assert.equal(results._type,"elastical-test-river-get");
+                assert.equal(results.exists,true);
+                assert.equal(results._source.type,"dummy");
+            }
+        },
+
+        '`deleteRiver()`': {
+            topic: function (client) {
+                client.deleteRiver( 'elastical-test-river', 'elastical-test-river-delete', this.callback );	
+            },
+
+            'should return ok': function (err, results, res) {
+                assert.equal(results.ok,true);
             }
         }
     }
@@ -544,7 +718,7 @@ vows.describe('Elastical')
                 assert.equal(res._type, "elastical-test-percolator-index");
                 assert.equal(res._id, "elastical-test-percolator-set");
             }
-        },            
+        },
         '`getPercolator()`': {
             topic: function (client) {
                 client.getPercolator('elastical-test-percolator-index',
@@ -568,7 +742,7 @@ vows.describe('Elastical')
                 assert.equal('_percolator', res._index);
                 assert.equal('elastical-test-percolator-index', res._type);
                 assert.equal('elastical-test-percolator-get', res._id);
-                assert.equal(true, res.exists);                 
+                assert.equal(true, res.exists);
             }
         },
         '`getPercolator() non existent':{
@@ -605,7 +779,7 @@ vows.describe('Elastical')
             },
             'should return a match and the name of the percolator even if doc is absent': {
                 topic: function(client){
-                    client.percolate('elastical-test-percolator-index', 'post', {                        
+                    client.percolate('elastical-test-percolator-index', 'post', {
                         title  : "Welcome to my stupid blog",
                         content: "This is the first and last time I'll post anything.",
                         tags   : ['welcome', 'first post', 'last post'],
