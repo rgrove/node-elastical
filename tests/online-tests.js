@@ -15,7 +15,7 @@ vows.describe('Elastical')
         '`bulk()`': {
             'when the index exists': {
                 topic: function (client) {
-                    client.bulk([
+                    this.req = client.bulk([
                         {create: {index: 'elastical-test-bulk', type: 'post', id: 'foo', data: {
                             a: 'a',
                             b: 'b'
@@ -44,13 +44,14 @@ vows.describe('Elastical')
                     assert.isTrue(res.items[2].index.ok);
                     assert.equal(res.items[2].index.matches[0], 'perc');
                     assert.isTrue(res.items[3].delete.ok);
+                    assert.isDefined(this.req);
                 }
             }
         },
 
         '`createIndex()`': {
             topic: function (client) {
-                client.createIndex('elastical-test', this.callback);
+                this.req = client.createIndex('elastical-test', this.callback);
             },
 
             teardown: function (index) {
@@ -63,6 +64,7 @@ vows.describe('Elastical')
                 assert.equal(index.name, 'elastical-test');
                 assert.isObject(data);
                 assert.isTrue(data.ok);
+                assert.isDefined(this.req);
             },
 
             'when the index already exists': {
@@ -80,13 +82,14 @@ vows.describe('Elastical')
         '`delete()`': {
             'when called with no options': {
                 topic: function (client) {
-                    client.delete('elastical-test-delete', 'post', '1', this.callback);
+                    this.req = client.delete('elastical-test-delete', 'post', '1', this.callback);
                 },
 
                 'should delete the given document': function (err, res) {
                     assert.isNull(err);
                     assert.isObject(res);
                     assert.isTrue(res.found);
+                    assert.isDefined(this.req);
                 }
             },
 
@@ -127,7 +130,7 @@ vows.describe('Elastical')
         '`get()`': {
             'when called with no options': {
                 topic: function (client) {
-                    client.get('elastical-test-get', '1', this.callback);
+                    this.req = client.get('elastical-test-get', '1', this.callback);
                 },
 
                 'should get a document': function (err, doc, res) {
@@ -141,6 +144,8 @@ vows.describe('Elastical')
                     assert.include(doc, 'tags');
 
                     assert.isArray(doc.tags);
+
+                    assert.isDefined(this.req);
                 }
             },
 
@@ -275,7 +280,7 @@ vows.describe('Elastical')
         '`index()`': {
             'when called with no options': {
                 topic: function (client) {
-                    client.index('elastical-test-index', 'post', {
+                    this.req = client.index('elastical-test-index', 'post', {
                         title  : "Welcome to my stupid blog",
                         content: "This is the first and last time I'll post anything.",
                         tags   : ['welcome', 'first post', 'last post'],
@@ -290,6 +295,7 @@ vows.describe('Elastical')
                     assert.equal(res._index, 'elastical-test-index');
                     assert.equal(res._type, 'post');
                     assert.equal(res._version, 1);
+                    assert.isDefined(this.req);
                 }
             },
 
@@ -328,12 +334,13 @@ vows.describe('Elastical')
             'when called with a single index name': {
                 'which exists': {
                     topic: function (client) {
-                        client.indexExists('elastical-test-indexexists', this.callback);
+                        this.req = client.indexExists('elastical-test-indexexists', this.callback);
                     },
 
                     'should respond with `true`': function (err, exists) {
                         assert.isNull(err);
                         assert.isTrue(exists);
+                        assert.isDefined(this.req);
                     }
                 },
 
@@ -379,13 +386,14 @@ vows.describe('Elastical')
         '`putMapping()`': {
             'with no index': {
                 topic: function (client) {
-                    client.putMapping('tweet', { tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, this.callback);
+                    this.req = client.putMapping('tweet', { tweet: { properties: { message: { type: 'string', store: 'yes' }}}}, this.callback);
                 },
 
                 'should succeed': function (err, res) {
                     assert.isNull(err);
                     assert.isObject(res);
                     assert.isTrue(res.ok);
+                    assert.isDefined(this.req);
                 }
             },
 
@@ -433,7 +441,7 @@ vows.describe('Elastical')
         '`getMapping()`': {
             'of a specific type within a specific index': {
                 topic: function (client) {
-                    client.getMapping('elastical-test-mapping', 'type', this.callback);
+                    this.req = client.getMapping('elastical-test-mapping', 'type', this.callback);
                 },
                 'should succeed': function (err, res) {
                     assert.isNull(err);
@@ -444,6 +452,7 @@ vows.describe('Elastical')
                     assert.isObject(res.type.properties.title);
                     assert.equal(res.type.properties.body.type, 'string');
                     assert.equal(res.type.properties.tags.type, 'string');
+                    assert.isDefined(this.req);
                 }
             },
 
@@ -503,12 +512,13 @@ vows.describe('Elastical')
         '`count()`': {
             'with a query': {
                 topic: function (client) {
-                  client.count('elastical-test-mapping2', 'type', 'tags:ho', this.callback);
+                  this.req = client.count('elastical-test-mapping2', 'type', 'tags:ho', this.callback);
                 },
                 'should succeed': function (err, res) {
                     assert.isNull(err);
                     assert.isObject(res);
                     assert.equal(res.count, 1);
+                    assert.isDefined(this.req);
                 }
             },
             'with no query': {
@@ -546,7 +556,7 @@ vows.describe('Elastical')
         '`refresh()`': {
             'with no index': {
                 topic: function (client) {
-                    client.refresh(this.callback);
+                    this.req = client.refresh(this.callback);
                 },
 
                 'should succeed': function (err, res) {
@@ -554,6 +564,7 @@ vows.describe('Elastical')
                     assert.isObject(res);
                     assert.isTrue(res.ok);
                     assert.isObject(res._shards);
+                    assert.isDefined(this.req);
                 }
             },
 
@@ -601,7 +612,7 @@ vows.describe('Elastical')
         '`search()`': {
             'simple string query': {
                 topic: function (client) {
-                    client.search({
+                    this.req = client.search({
                         index: 'elastical-test-get',
                         query: 'hello'
                     }, this.callback);
@@ -614,6 +625,7 @@ vows.describe('Elastical')
                     assert.equal(1, results.total);
                     assert.isArray(results.hits);
                     assert.strictEqual(res.hits, results);
+                    assert.isDefined(this.req);
                 }
             },
 
@@ -658,35 +670,38 @@ vows.describe('Elastical')
 
         '`putRiver()`': {
             topic: function (client) {
-                client.putRiver( 'elastical-test-river', 'elastical-test-river-put', { type:'dummy' }, this.callback );	
+                this.req = client.putRiver( 'elastical-test-river', 'elastical-test-river-put', { type:'dummy' }, this.callback.bind(this) );	
             },
 
             'should return ok': function (err, results, res) {
                 assert.equal(results.ok,true);
                 assert.equal(results._index,'_river');
                 assert.equal(results._type,'elastical-test-river-put');
+                assert.isDefined(this.req);
             }
         },
 
         '`getRiver()`': {
             topic: function (client) {
-                client.getRiver( 'elastical-test-river', 'elastical-test-river-get', this.callback );	
+                this.req = client.getRiver( 'elastical-test-river', 'elastical-test-river-get', this.callback.bind(this) );	
             },
 
             'should return ok': function (err, results, res) {
                 assert.equal(results._type,"elastical-test-river-get");
                 assert.equal(results.exists,true);
                 assert.equal(results._source.type,"dummy");
+                assert.isDefined(this.req);
             }
         },
 
         '`deleteRiver()`': {
             topic: function (client) {
-                client.deleteRiver( 'elastical-test-river', 'elastical-test-river-delete', this.callback );	
+                this.req = client.deleteRiver( 'elastical-test-river', 'elastical-test-river-delete', this.callback.bind(this) );	
             },
 
             'should return ok': function (err, results, res) {
                 assert.equal(results.ok,true);
+                assert.isDefined(this.req);
             }
         }
     }
@@ -696,7 +711,7 @@ vows.describe('Elastical')
         topic: new elastical.Client(),
         '`setPercolator()`':{
             topic: function(client){
-                client.setPercolator('elastical-test-percolator-index',
+                this.req = client.setPercolator('elastical-test-percolator-index',
                                   'elastical-test-percolator-set',
                                   {
                                     "query" : {
@@ -717,11 +732,12 @@ vows.describe('Elastical')
                 assert.equal(res._index, "_percolator");
                 assert.equal(res._type, "elastical-test-percolator-index");
                 assert.equal(res._id, "elastical-test-percolator-set");
+                assert.isDefined(this.req);
             }
         },
         '`getPercolator()`': {
             topic: function (client) {
-                client.getPercolator('elastical-test-percolator-index',
+                this.req = client.getPercolator('elastical-test-percolator-index',
                                     'elastical-test-percolator-get',
                                     this.callback);
             },
@@ -743,12 +759,13 @@ vows.describe('Elastical')
                 assert.equal('elastical-test-percolator-index', res._type);
                 assert.equal('elastical-test-percolator-get', res._id);
                 assert.equal(true, res.exists);
+                assert.isDefined(this.req);
             }
         },
         '`percolate()`': {
             'should return a match and the name of the percolator': {
                 topic: function(client){
-                    client.percolate('elastical-test-percolator-index', 'post', {
+                    this.req = client.percolate('elastical-test-percolator-index', 'post', {
                         doc: {
                             title  : "Welcome to my stupid blog",
                             content: "This is the first and last time I'll post anything.",
@@ -764,6 +781,7 @@ vows.describe('Elastical')
                         ok: true,
                         matches: [ 'elastical-test-percolator-get' ]
                     }, res);
+                    assert.isDefined(this.req);
                 }
             },
             'should return a match and the name of the percolator even if doc is absent': {
@@ -787,7 +805,7 @@ vows.describe('Elastical')
         },
         '`deletePercolator()`': {
             topic: function (client) {
-                client.deletePercolator('elastical-test-percolator-index',
+                this.req = client.deletePercolator('elastical-test-percolator-index',
                                     'elastical-test-percolator-delete',
                                     this.callback);
             },
@@ -799,6 +817,7 @@ vows.describe('Elastical')
                 assert.equal(res._index, '_percolator');
                 assert.equal(res._type, 'elastical-test-percolator-index');
                 assert.equal(res._id, 'elastical-test-percolator-delete');
+                assert.isDefined(this.req);
             }
         }
     }
