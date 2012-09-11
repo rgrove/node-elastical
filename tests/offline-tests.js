@@ -919,6 +919,18 @@ vows.describe('Elastical').addBatch({
         }
     },
 
+    'Client with custom request options': {
+        topic: function(){
+          var client = new elastical.Client({pool: { maxSockets: 10 }})
+          client._testHook = this.callback;
+          client.get('blog', '1');
+        },
+
+        'the option should be passed to request': function (err, options) {
+            assert.equal(options.pool.maxSockets, 10);
+        }
+    },
+
     'Index': {
         topic: new elastical.Client().getIndex('foo'),
 
