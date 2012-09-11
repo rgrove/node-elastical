@@ -571,6 +571,17 @@ vows.describe('Elastical')
                 assert.equal(true, res.exists);                 
             }
         },
+        '`getPercolator() non existent':{
+            topic: function(client){    
+                client.getPercolator( 'elastical-test-percolator-index',
+                                      'elastical-test-percolator-get-non-existent',
+                                      this.callback);
+            },
+            'should *not* return a hit': function(err, results, res){
+                assert.isNotNull(err);
+                console.log(JSON.stringify(err));
+            }
+        },
         '`percolate()`': {
             'should return a match and the name of the percolator': {
                 topic: function(client){
