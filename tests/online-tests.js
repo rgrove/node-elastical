@@ -815,6 +815,88 @@ vows.describe('Elastical')
     }
 })
 .addBatch({
+    'Client (Test client.delete with query option)': {
+        topic: new elastical.Client(),
+
+        'index called with `options.id`': {
+            topic: function (client) {
+                client.index('elastical-test-delete', 'tweet', {
+                    "user" : "kimchy",
+                    "post_date" : "2009-11-15T14:12:12",
+                    "message" : "trying out Elastic Search"
+                  }, 
+                  {id: 123456789}, this.callback);
+            },
+
+            'should add or update the document with that id': function (err, res) {
+                assert.isNull(err);
+                assert.isObject(res);
+                assert.isTrue(res.ok);
+                assert.equal(res._index, 'elastical-test-delete');
+                assert.equal(res._type, 'tweet');
+                assert.equal(res._id, 123456789);
+            }
+        },
+        
+        '`get()`': {
+            'when trying to find the indexed document': {
+                topic: function (client) {
+                    client.get('elastical-test-delete', '123456789', this.callback);
+                },
+
+                'should get the document': function (err, doc, res) {
+                    assert.isNull(err);
+                    assert.isObject(doc);
+                    assert.isObject(res);
+                    assert.isFalse(res.exists);
+                }
+            }
+        },
+        
+        '`delete()`': {
+            'when called with query options': {
+                topic: function (client) {
+                    client.delete('elastical-test-delete', 'tweet', '', {
+                        query: {"term" : { "user" : "kimchy" }}
+                    }, this.callback);
+                },
+
+                'should delete the given document': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                }
+            }
+        },
+        
+        '`refresh()`': {
+            'with no index': {
+                topic: function (client) {
+                    client.refresh(this.callback);
+                },
+
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isTrue(res.ok);
+                    assert.isObject(res._shards);
+                }
+            }
+        },
+        
+        '`get()`': {
+            'when trying to find the deleted document': {
+                topic: function (client) {
+                    client.get('elastical-test-delete', '123456789', this.callback);
+                },
+
+                'should NOT get the document': function (err, doc, res) {
+                  assert.equal(err, 'Error: HTTP 404');
+                }
+            }
+        }
+    }
+})
+.addBatch({
     'Client (part deux)': {
         topic: new elastical.Client(),
 
