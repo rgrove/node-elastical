@@ -227,6 +227,20 @@ vows.describe('Elastical').addBatch({
                         version    : '18'
                     }, query);
                 }
+            },
+      
+            'with query option': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.delete('posts', 'post', '', {
+                        query: {"term" : { "user" : "kimchy" }}
+                    });
+                },
+
+                'URL query string should contain the options': function (err, options) {
+                    var query = parseUrl(options.uri, true).query;
+                    assert.deepEqual('http://example.com:42/posts/post/_query', options.uri);
+                }
             }
         },
 
