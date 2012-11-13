@@ -228,7 +228,7 @@ vows.describe('Elastical').addBatch({
                     }, query);
                 }
             },
-      
+
             'with query option': {
                 topic: function (client) {
                     client._testHook = this.callback;
@@ -340,7 +340,9 @@ vows.describe('Elastical').addBatch({
                     client._testHook = this.callback;
                     client.index('blog', 'post', {
                         title  : 'Hello',
-                        content: 'Moo.'
+                        content: 'Moo.',
+                        option: null,
+                        option2: undefined
                     });
                 },
 
@@ -353,9 +355,11 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'request body should be set': function (err, options) {
+                    delete options.json.option2;
                     assert.deepEqual({
                         title  : 'Hello',
-                        content: 'Moo.'
+                        content: 'Moo.',
+                        option: null
                     }, options.json);
                 }
             },
