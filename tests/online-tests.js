@@ -376,6 +376,47 @@ vows.describe('Elastical')
             }
         },
 
+        '`getSettings`': {
+            'when called with a single index name': {
+                'which exists': {
+                    topic: function (client) {
+                        client.getSettings('elastical-test-getsettings', this.callback);
+                    },
+                    'should succeed': function (err, res) {
+                        assert.isNull(err);
+                        assert.isObject(res);
+                        assert.isObject(res['elastical-test-getsettings']);
+                        assert.isObject(res['elastical-test-getsettings'].settings);
+                        assert.isString(res['elastical-test-getsettings'].settings['index.number_of_shards']);
+                        assert.isString(res['elastical-test-getsettings'].settings['index.number_of_replicas']);
+                        assert.isString(res['elastical-test-getsettings'].settings['index.version.created']);
+                    }
+                },
+                'which does not exist': {
+                    topic: function (client) {
+                        client.getSettings('elastical-test-getsettings-unexisting', this.callback);
+                    },
+                    'should succeed': function (err, res) {
+                        assert.instanceOf(err, Error);
+                        assert.equal(err.message, 'IndexMissingException[[elastical-test-getsettings-unexisting] missing]');
+                        assert.equal(res.status, 404);
+                        assert.equal(res.error, 'IndexMissingException[[elastical-test-getsettings-unexisting] missing]');
+                    }
+                }
+            },
+            'when called with multiple index names': {
+                topic: function (client) {
+                    client.getSettings(['elastical-test-getsettings', 'elastical-test-getsettings2'], this.callback);
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isObject(res['elastical-test-getsettings']);
+                    assert.isObject(res['elastical-test-getsettings2']);
+                }
+            }
+        },
+
         '`putMapping()`': {
             'with no index': {
                 topic: function (client) {
