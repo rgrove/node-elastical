@@ -696,6 +696,60 @@ vows.describe('Elastical')
                 }
             }
         },
+        
+        '`stats()`': {
+            'simple stats on an index': {
+                topic: function (client) {
+                    client.stats({
+                        index: 'elastical-test-get'
+                    }, this.callback);
+                },
+
+                'should return stats': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(true, res.ok);
+                    assert.isObject(res._all);
+                }
+            },
+            
+            'simple stats on an index and a type': {
+                topic: function (client) {
+                    client.stats({
+                        index: 'elastical-test-get',
+                        types: 'post'
+                    }, this.callback);
+                },
+
+                'should return stats with informations on the given type': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(true, res.ok);
+                    assert.isObject(res._all.primaries.indexing.types.post);
+                }
+            },
+            
+            'warmer, merge, flush and refresh stats on an index': {
+                topic: function (client) {
+                    client.stats({
+                        index: 'elastical-test-get',
+                        warmer: true,
+                        merge: true,
+                        flush: true,
+                        refresh: true
+                    }, this.callback);
+                },
+
+                'should return many statistics': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.equal(true, res.ok);
+                    assert.isObject(res._all.primaries.merges);
+                    assert.isObject(res._all.primaries.refresh);
+                    assert.isObject(res._all.primaries.flush);
+                }
+            }
+        },
 
         '`putRiver()`': {
             topic: function (client) {
