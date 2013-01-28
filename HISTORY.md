@@ -1,5 +1,14 @@
 Elastical History
 =================
+0.0.11  (2013-01-28)
+------------------
+* Add query option in function delete. [Victor Voisin]
+* Do not transform null into {} [Romain]
+* Implemented getSettings [Jazz]
+* Add stats function. [Victor Voisin]
+
+0.0.10 ()
+-----------------
 
 0.0.9 (2012-07-30)
 ------------------
