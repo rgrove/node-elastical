@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Uses curl to set up test data on a local ElasticSearch instance.
+bash teardown.sh
 
 BASE="http://localhost:9200"
 
@@ -109,5 +110,3 @@ curl -s -XPUT "$BASE/_river/elastical-test-river-delete/_meta" -d '{
 curl -s -XPOST "$BASE/elastical-test-delete/_refresh"
 curl -s -XPOST "$BASE/elastical-test-get/_refresh"
 
-# In case a previous run failed to clean up after itself.
-curl -s -XDELETE "$BASE/elastical-test"
