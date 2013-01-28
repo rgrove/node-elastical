@@ -794,7 +794,7 @@ vows.describe('Elastical')
             },
             'should *not* return a hit': function(err, results, res){
                 assert.isNotNull(err);
-                console.log(JSON.stringify(err));
+                //console.log(JSON.stringify(err));
             }
         },
         '`percolate()`': {
