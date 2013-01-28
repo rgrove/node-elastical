@@ -2,10 +2,10 @@
     "name"       : "elastical",
     "description": "An ElasticSearch client.",
 
-    "version"    : "0.0.10",
+    "version"    : "0.0.11",
     "homepage"   : "https://github.com/ramv/node-elastical/",
     "author"     : "Ryan Grove <ryan@wonko.com> (http://wonko.com/)",
-    "copyright"  : "Copyright (c) 2012 Ryan Grove. All rights reserved.",
+    "copyright"  : "Copyright (c) 2013 Ryan Grove. All rights reserved.",
 
     "keywords"   : ["elasticsearch", "elastic", "search", "client", "lucene"],
 
