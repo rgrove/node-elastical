@@ -417,6 +417,27 @@ vows.describe('Elastical')
             }
         },
 
+        '`aliases`': {
+            'adding alias': {
+                topic: function (client) {
+                    var cb = this.callback;
+                    client.applyAliasesActions([{add: {index:'elastical-test-aliases', alias:"elastical-test-newAlias"}}], function(err){
+                        if(err)
+                            cb(err);
+                        else
+                            client.getAliases('elastical-test-aliases', cb);
+                    });
+                },
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isObject(res['elastical-test-aliases']);
+                    assert.isObject(res['elastical-test-aliases'].aliases);
+                    assert.isObject(res['elastical-test-aliases'].aliases['elastical-test-newAlias']);
+                }
+            }
+        },
+
         '`putMapping()`': {
             'with no index': {
                 topic: function (client) {
@@ -540,7 +561,7 @@ vows.describe('Elastical')
                 }
             }
         },
-        
+
         '`count()`': {
             'with a query': {
                 topic: function (client) {
@@ -696,7 +717,7 @@ vows.describe('Elastical')
                 }
             }
         },
-        
+
         '`stats()`': {
             'simple stats on an index': {
                 topic: function (client) {
@@ -712,7 +733,7 @@ vows.describe('Elastical')
                     assert.isObject(res._all);
                 }
             },
-            
+
             'simple stats on an index and a type': {
                 topic: function (client) {
                     client.stats({
@@ -728,7 +749,7 @@ vows.describe('Elastical')
                     assert.isObject(res._all.primaries.indexing.types.post);
                 }
             },
-            
+
             'warmer, merge, flush and refresh stats on an index': {
                 topic: function (client) {
                     client.stats({
@@ -753,7 +774,7 @@ vows.describe('Elastical')
 
         '`putRiver()`': {
             topic: function (client) {
-                client.putRiver( 'elastical-test-river', 'elastical-test-river-put', { type:'dummy' }, this.callback );	
+                client.putRiver( 'elastical-test-river', 'elastical-test-river-put', { type:'dummy' }, this.callback );
             },
 
             'should return ok': function (err, results, res) {
@@ -765,7 +786,7 @@ vows.describe('Elastical')
 
         '`getRiver()`': {
             topic: function (client) {
-                client.getRiver( 'elastical-test-river', 'elastical-test-river-get', this.callback );	
+                client.getRiver( 'elastical-test-river', 'elastical-test-river-get', this.callback );
             },
 
             'should return ok': function (err, results, res) {
@@ -777,7 +798,7 @@ vows.describe('Elastical')
 
         '`deleteRiver()`': {
             topic: function (client) {
-                client.deleteRiver( 'elastical-test-river', 'elastical-test-river-delete', this.callback );	
+                client.deleteRiver( 'elastical-test-river', 'elastical-test-river-delete', this.callback );
             },
 
             'should return ok': function (err, results, res) {
@@ -841,7 +862,7 @@ vows.describe('Elastical')
             }
         },
         '`getPercolator() non existent':{
-            topic: function(client){    
+            topic: function(client){
                 client.getPercolator( 'elastical-test-percolator-index',
                                       'elastical-test-percolator-get-non-existent',
                                       this.callback);
@@ -919,7 +940,7 @@ vows.describe('Elastical')
                     "user" : "kimchy",
                     "post_date" : "2009-11-15T14:12:12",
                     "message" : "trying out Elastic Search"
-                  }, 
+                  },
                   {id: 123456789}, this.callback);
             },
 
@@ -932,7 +953,7 @@ vows.describe('Elastical')
                 assert.equal(res._id, 123456789);
             }
         },
-        
+
         '`get()`': {
             'when trying to find the indexed document': {
                 topic: function (client) {
@@ -947,7 +968,7 @@ vows.describe('Elastical')
                 }
             }
         },
-        
+
         '`delete()`': {
             'when called with query options': {
                 topic: function (client) {
@@ -962,7 +983,7 @@ vows.describe('Elastical')
                 }
             }
         },
-        
+
         '`refresh()`': {
             'with no index': {
                 topic: function (client) {
@@ -977,7 +998,7 @@ vows.describe('Elastical')
                 }
             }
         },
-        
+
         '`get()`': {
             'when trying to find the deleted document': {
                 topic: function (client) {

@@ -30,6 +30,9 @@ echo -e ""
 curl -s -XPUT "$BASE/elastical-test-getsettings2"
 echo -e ""
 
+curl -s -XPUT "$BASE/elastical-test-aliases"
+echo -e ""
+
 curl -s -XPUT "$BASE/elastical-test-refresh"
 echo -e ""
 
