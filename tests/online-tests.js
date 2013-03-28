@@ -738,7 +738,7 @@ vows.describe('Elastical')
             },
 
             'simple scrolling query':{
-                                                        topic: function (client) {
+                topic: function (client) {
                     client.search({
                         index: 'elastical-test-get',
                         query: {match_all: {}},

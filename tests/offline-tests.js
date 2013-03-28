@@ -764,7 +764,7 @@ vows.describe('Elastical').addBatch({
             },
 
             'with options and scroll_id': {
-                                                        topic: function (client) {
+                topic: function (client) {
                     client._testHook = this.callback;
                     client.search({
                         query        : {query_string: {query: 'foo'}},
@@ -888,43 +888,43 @@ vows.describe('Elastical').addBatch({
             },
 
             'with index': {
-                                                        topic: function (client) {
-                  client._testHook = this.callback;
-                  client.stats({index: 'blog'}, function () {});
-              },
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.stats({index: 'blog'}, function () {});
+                },
 
-              'URL should have the correct path': function (err, options) {
-                  assert.equal(parseUrl(options.uri).pathname, '/blog/_stats');
-              }
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/_stats');
+                }
             },
 
             'with index and types': {
-                                                        topic: function (client) {
-                  client._testHook = this.callback;
-                  client.stats({index: 'blog', types: 'post'}, function () {});
-              },
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.stats({index: 'blog', types: 'post'}, function () {});
+                },
 
-              'URL should have the correct path': function (err, options) {
-                  assert.equal(parseUrl(options.uri).pathname, '/blog/_stats');
-                  assert.equal(parseUrl(options.uri).query, 'types=post');
-              }
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/_stats');
+                    assert.equal(parseUrl(options.uri).query, 'types=post');
+                }
             },
 
             'with index and types array': {
-                                                        topic: function (client) {
-                  client._testHook = this.callback;
-                  client.stats({index: 'blog', types: ['post1', 'post2']}, function () {});
-              },
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.stats({index: 'blog', types: ['post1', 'post2']}, function () {});
+                },
 
-              'URL should have the correct path': function (err, options) {
-                  var encode = encodeURIComponent;
-                  assert.equal(parseUrl(options.uri).pathname, '/blog/_stats');
-                  assert.equal(parseUrl(options.uri).query, 'types=' + encode('post1,post2'));
-              }
+                'URL should have the correct path': function (err, options) {
+                    var encode = encodeURIComponent;
+                    assert.equal(parseUrl(options.uri).pathname, '/blog/_stats');
+                    assert.equal(parseUrl(options.uri).query, 'types=' + encode('post1,post2'));
+                }
             },
 
             'with options': {
-                                                        topic: function (client) {
+                topic: function (client) {
                     client._testHook = this.callback;
                     client.stats({
                         index  : 'blog',
@@ -1134,19 +1134,19 @@ vows.describe('Elastical').addBatch({
 
         '`stats()`': {
             'with index and types': {
-                                                        topic: function (index) {
-                  index.client._testHook = this.callback;
-                  index.stats({types: 'bar'}, function () {});
-              },
+                topic: function (index) {
+                    index.client._testHook = this.callback;
+                    index.stats({types: 'bar'}, function () {});
+                },
 
-              'URL should have the correct path': function (err, options) {
-                  assert.equal(parseUrl(options.uri).pathname, '/foo/_stats');
-                  assert.equal(parseUrl(options.uri).query, 'types=bar');
-              }
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/foo/_stats');
+                    assert.equal(parseUrl(options.uri).query, 'types=bar');
+                }
             },
 
             'with options': {
-                                                        topic: function (index) {
+                topic: function (index) {
                     index.client._testHook = this.callback;
                     index.stats({
                         types  : 'bar',
