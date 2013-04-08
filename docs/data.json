@@ -1,0 +1,3569 @@
+{
+    "project": {},
+    "files": {
+        "index.js": {
+            "name": "index.js",
+            "modules": {
+                "elastical": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/client.js": {
+            "name": "lib/client.js",
+            "modules": {
+                "client": 1
+            },
+            "classes": {
+                "Client": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/index.js": {
+            "name": "lib/index.js",
+            "modules": {
+                "index": 1
+            },
+            "classes": {
+                "Index": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib/util.js": {
+            "name": "lib/util.js",
+            "modules": {
+                "util": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "elastical": {
+            "name": "elastical",
+            "submodules": {
+                "client": 1,
+                "index": 1,
+                "util": 1
+            },
+            "classes": {
+                "Client": 1,
+                "Index": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "lib/index.js",
+            "line": 1
+        },
+        "client": {
+            "name": "client",
+            "submodules": {},
+            "classes": {
+                "Client": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "elastical",
+            "namespace": "",
+            "file": "lib/client.js",
+            "line": 15,
+            "description": "ElasticSearch client implementation."
+        },
+        "index": {
+            "name": "index",
+            "submodules": {},
+            "classes": {
+                "Index": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "elastical",
+            "namespace": "",
+            "file": "lib/index.js",
+            "line": 1,
+            "description": "Provides methods for creating, deleting, and interacting with ElasticSearch\nindices.",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "name",
+                    "description": "Index name.",
+                    "type": "String"
+                }
+            ],
+            "is_constructor": 1
+        },
+        "util": {
+            "name": "util",
+            "submodules": {},
+            "classes": {},
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "elastical",
+            "namespace": "",
+            "file": "lib/util.js",
+            "line": 1,
+            "description": "Various utility methods."
+        }
+    },
+    "classes": {
+        "Client": {
+            "name": "Client",
+            "shortname": "Client",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "elastical",
+            "submodule": "client",
+            "namespace": "",
+            "file": "lib/client.js",
+            "line": 15,
+            "description": "Creates a new Elastical client associated with the specified _host_. The client\nuses ElasticSearch's REST API to interact with the host, so connections are\nestablished as needed and are not persistent.",
+            "example": [
+                "\n\n    // Create a client that connects to http://127.0.0.1:9200\n    var elastical = require('elastical'),\n        client    = new elastical.client();"
+            ],
+            "params": [
+                {
+                    "name": "host",
+                    "description": "Hostname to connect to.",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "\"127.0.0.1\""
+                },
+                {
+                    "name": "options",
+                    "description": "Client options.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "auth",
+                            "description": "Username and password (delimited by a \":\") to\n        pass to ElasticSearch using basic HTTP auth. If not specified, no\n        authentication will be used. Be sure to set `options.protocol` to\n        'https' unless you're comfortable sending passwords in plaintext.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "curlDebug",
+                            "description": "If `true`, runnable curl commands\n        will be written to stderr for every request the client makes. This is\n        useful for debugging requests by hand.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "port",
+                            "description": "Port to connect to.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "9200"
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Protocol to use. May be \"http\" or\n        \"https\".",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "'http'"
+                        },
+                        {
+                            "name": "timeout",
+                            "description": "Number of milliseconds to wait\n        before aborting a request. Be sure to increase this if you do large bulk\n        operations.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "60000"
+                        }
+                    ]
+                }
+            ],
+            "is_constructor": 1
+        },
+        "Index": {
+            "name": "Index",
+            "shortname": "Index",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "elastical",
+            "submodule": "index",
+            "namespace": "",
+            "file": "lib/index.js",
+            "line": 1,
+            "description": "Provides methods for creating, deleting, and interacting with ElasticSearch\nindices."
+        }
+    },
+    "classitems": [
+        {
+            "file": "lib/client.js",
+            "line": 69,
+            "description": "Search options that must be passed as query parameters instead of in the\nrequest body.",
+            "itemtype": "property",
+            "name": "_SEARCH_PARAMS",
+            "type": "{String[]}",
+            "access": "protected",
+            "tagname": "",
+            "final": 1,
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 84,
+            "description": "Base URL for this client, of the form \"http://host:port\".",
+            "itemtype": "property",
+            "name": "baseUrl",
+            "type": "{String}",
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 102,
+            "description": "Port number for this client.",
+            "itemtype": "property",
+            "name": "port",
+            "type": "{Number}",
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 114,
+            "description": "Performs multiple document create/index/delete operations in a single request.\n\nSee `Index.bulk()` for detailed usage instructions.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/bulk.html)",
+            "example": [
+                "\n\n    client.bulk([\n        {create: {index: 'blog', type: 'post', id: '1', data: {\n            title: 'Hello',\n            body : 'Welcome to my stupid blog.'\n        }}},\n\n        {index: {index: 'blog', type: 'post', id: '2', data: {\n            title: 'Breaking news',\n            body : 'Today I ate a sandwich.'\n        }}},\n\n        {delete: {index: 'blog', type: 'post', id: '42'}}\n    ], function (err, res) {\n        // ...\n    });"
+            ],
+            "itemtype": "method",
+            "name": "bulk",
+            "params": [
+                {
+                    "name": "operations",
+                    "description": "Array of operations to perform. See\n    `Index.bulk()` for a description of the expected object format.",
+                    "type": "Object[]"
+                },
+                {
+                    "name": "options",
+                    "description": "Options. See `Index.bulk()` for details.",
+                    "type": "Object",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.bulk"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 150,
+            "description": "Get the number of matches for a query\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/count.html)",
+            "itemtype": "method",
+            "name": "count",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Index name.",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "Type name.",
+                    "type": "String"
+                },
+                {
+                    "name": "query",
+                    "description": "Query to get the number of match for.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Index.count"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 167,
+            "description": "Creates a new index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-create-index.html)",
+            "itemtype": "method",
+            "name": "createIndex",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Name of the new index.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Index options (see ElasticSearch docs for details).",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "index",
+                            "description": "Index instance for the newly created index.",
+                            "type": "Index"
+                        },
+                        {
+                            "name": "data",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.create"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 183,
+            "description": "Deletes a document from the specified index. See `Index.delete()` for the\ncomplete list of supported options.",
+            "itemtype": "method",
+            "name": "delete",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Index name.",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "Type name.",
+                    "type": "String"
+                },
+                {
+                    "name": "id",
+                    "description": "Document id to delete.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Delete options.",
+                    "type": "Object",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.delete"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 199,
+            "description": "Deletes the specified index or indices. If no indices are specified, **all**\nindices on the server will be deleted.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index.html)",
+            "itemtype": "method",
+            "name": "deleteIndex",
+            "params": [
+                {
+                    "name": "names",
+                    "description": "Name of the index to delete, or an array of\n    names to delete multiple indices. If omitted, **all** indices will be\n    deleted.",
+                    "type": "String|String[]",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "data",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.deleteIndex"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 216,
+            "description": "Gets a document from the specified index based on its id.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/get.html)",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Index name.",
+                    "type": "String"
+                },
+                {
+                    "name": "id",
+                    "description": "Document id.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "fields",
+                            "description": "Document field name or array of\n      field names to retrieve. By default, all fields are retrieved.",
+                            "type": "String|String[]",
+                            "optional": true
+                        },
+                        {
+                            "name": "ignoreMissing",
+                            "description": "If `true`, an error will\n      not be returned if the index, type, or document do not exist. Instead,\n      a `null` document will be returned.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "preference",
+                            "description": "Controls which shard replicas the\n      request should be executed on. By default, the operation will be\n      randomized between the shard replicas. See the ElasticSearch docs for\n      possible values.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "realtime",
+                            "description": "Whether or not to use realtime\n      GET. See the ElasticSearch docs for details.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "refresh",
+                            "description": "If `true`, the relevant shard\n      will be refreshed before the get operation to ensure that it's\n      searchable. This may cause heavy server load, so use with caution.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "routing",
+                            "description": "Value that determines what shard this\n      document will be routed to. If not specified, a hash of the document's\n      id will be used. Note that an incorrectly routed get operation will\n      fail, so it's best to leave this alone unless you know your business.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "type",
+                            "description": "If specified, the get operation will\n      be limited to documents of this type.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"_all\""
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "doc",
+                            "description": "Retrieved document or document fields,\n      or `null` if the document was not found and `options.ignoreMissing` is\n      `true`.",
+                            "type": "Object|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.get"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 255,
+            "description": "Gets an Index instance for interacting with the specified ElasticSearch\nindex.",
+            "example": [
+                "\n\n    var client = new require('elastical').Client(),\n        tweets = client.getIndex('tweets');"
+            ],
+            "itemtype": "method",
+            "name": "getIndex",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "Index name.",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "Index instance.",
+                "type": "Index"
+            },
+            "see": [
+                "Index"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 274,
+            "description": "Gets mapping definitions for the specified type within the specified index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping.html)",
+            "itemtype": "method",
+            "name": "getMapping",
+            "params": [
+                {
+                    "name": "names",
+                    "description": "Index name or array of names.",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "type",
+                    "description": "Document type. If omitted, mappings for all type are returned.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.getMapping"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 290,
+            "description": "Gets settings for the specified index/indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-get-settings.html)",
+            "itemtype": "method",
+            "name": "getSettings",
+            "params": [
+                {
+                    "name": "names",
+                    "description": "Index name or array of names.",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.getSettings"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 304,
+            "description": "Apply aliases actions.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases.html)",
+            "itemtype": "method",
+            "name": "applyAliasesActions",
+            "params": [
+                {
+                    "name": "actions",
+                    "description": "Aliases actions.",
+                    "type": "Object[]"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.applyAliasesActions"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 318,
+            "description": "Get aliases.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases.html)",
+            "itemtype": "method",
+            "name": "getAliases",
+            "params": [
+                {
+                    "name": "names",
+                    "description": "Index name or array of names.",
+                    "type": "String|String[]|null"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.getAliases"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 332,
+            "description": "Adds a document to the specified index.\n\nIf the specified index doesn't exist, it will be created.\n\nIf a document already exists in that index with the specified _type_ and\n_id_, it will be updated. Otherwise, a new document will be created.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/index_.html)",
+            "example": [
+                "\n\n    client.index('blog', 'post', {\n        title  : \"Welcome to my stupid blog\",\n        content: \"This is the first and last time I'll post anything.\",\n        tags   : ['welcome', 'first post', 'last post'],\n        created: Date.now()\n    }, function (err, res) {\n        if (err) { throw err; }\n        console.log('Indexed a blog post');\n    });"
+            ],
+            "itemtype": "method",
+            "name": "index",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Index name.",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "Document type.",
+                    "type": "String"
+                },
+                {
+                    "name": "doc",
+                    "description": "Document data to index.",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "Options.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "consistency",
+                            "description": "Write consistency to use\n      for this indexing operation. Permitted values are \"one\", \"quorum\" and\n      \"all\". See the ElasticSearch docs for details.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"quorum\""
+                        },
+                        {
+                            "name": "create",
+                            "description": "Only create the document if it\n      doesn't already exist.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "id",
+                            "description": "Document id. One will be automatically\n      generated if not specified.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "parent",
+                            "description": "Parent document id.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "percolate",
+                            "description": "Percolation query to check against\n      this document. See the ElasticSearch docs for details.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "refresh",
+                            "description": "If `true`, the document will be\n      made searchable immediately after it is indexed.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "replication",
+                            "description": "Replication mode for this\n      indexing operation. Maybe be set to \"sync\" or \"async\".",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"sync\""
+                        },
+                        {
+                            "name": "routing",
+                            "description": "Value that determines what shard this\n      document will be routed to. If not specified, a hash of the document's\n      id will be used.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "timeout",
+                            "description": "How long to wait for the primary\n      shard to become available to index this document before aborting. See\n      the ElasticSearch docs for details. This should be a value like \"5m\"\n      (5 minutes) or \"15s\" (15 seconds).",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"1m\""
+                        },
+                        {
+                            "name": "version",
+                            "description": "Document version to create/update. If\n      this is set and `options.version_type` is not set,\n      `options.version_type` will automatically be set to \"external\".",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "version_type",
+                            "description": "Version type (either\n      \"internal\" or \"external\"). See the ElasticSearch docs for details.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"internal\""
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.index"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 392,
+            "description": "Checks whether the specified index or indices exist.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-indices-exists.html)",
+            "itemtype": "method",
+            "name": "indexExists",
+            "params": [
+                {
+                    "name": "names",
+                    "description": "Index name or array of names to check.",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "exists",
+                            "description": "`true` if all specified indices exist,\n    `false` otherwise.",
+                            "type": "Boolean"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.exists"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 412,
+            "description": "Registers a mapping definition for the specified type within the specified\nindex or indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping.html)",
+            "itemtype": "method",
+            "name": "putMapping",
+            "params": [
+                {
+                    "name": "names",
+                    "description": "Index name or array of names to define the\n    mapping within. If not specified, it will be defined in all indices.",
+                    "type": "String|String[]",
+                    "optional": true
+                },
+                {
+                    "name": "type",
+                    "description": "Document type.",
+                    "type": "String"
+                },
+                {
+                    "name": "mapping",
+                    "description": "Mapping definition. See the [ElasticSearch\n    docs](http://www.elasticsearch.org/guide/reference/mapping/) for\n    an overview.",
+                    "type": "Object",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.putMapping"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 433,
+            "description": "Refreshes the specified index or indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh.html)",
+            "itemtype": "method",
+            "name": "refresh",
+            "params": [
+                {
+                    "name": "names",
+                    "description": "Index name or array of names to refresh. If\n    not specified, all indices will be refreshed.",
+                    "type": "String|String[]",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.refresh"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 448,
+            "description": "Analyze\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze.html)",
+            "itemtype": "method",
+            "name": "analyze",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "Text to analyze",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options. See ElasticSearch docs for details.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "index",
+                            "description": "Specify indexname to use a specific\n        index analyzer",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"indexname\""
+                        },
+                        {
+                            "name": "analyzer",
+                            "description": "Analyzer to use for analysis",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"standard\""
+                        },
+                        {
+                            "name": "tokenizer",
+                            "description": "Tokenizer to use for anaysis when\n        using a custom transient anayzer",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"keyword\""
+                        },
+                        {
+                            "name": "field",
+                            "description": "Use the analyzer configured in\n        the mapping for this field",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"obj1.field1\""
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Index.analyze"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 472,
+            "description": "Searches for documents matching the given query.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/search/)",
+            "example": [
+                "\n\n    var client = new require('elastical').Client();\n\n    client.search({query: 'pie'}, function (err, results) {\n        if (err) { throw err; }\n        console.log(results);\n    });"
+            ],
+            "itemtype": "method",
+            "name": "search",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Search options. Technically this argument is\n    optional, but you'll almost always want to provide at least a query.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Search query. This can be a simple\n      string (in which case a \"query_string\" search will be performed) or a\n      full query object. See the [ElasticSearch Query DSL docs](http://www.elasticsearch.org/guide/reference/query-dsl/)\n      for details.",
+                            "type": "Object|String",
+                            "optional": true
+                        },
+                        {
+                            "name": "explain",
+                            "description": "If `true`, results will include\n      an explanation of how the score was computed for each hit.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "facets",
+                            "description": "Facets to aggregate by. See the\n      [ElasticSearch facets docs](http://www.elasticsearch.org/guide/reference/api/search/facets/)\n      for details.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "fields",
+                            "description": "Document field name or array of\n      field names to retrieve. By default, all fields are retrieved.",
+                            "type": "String|String[]",
+                            "optional": true
+                        },
+                        {
+                            "name": "filter",
+                            "description": "Result filter. See the [ElasticSearch\n      filtering docs](http://www.elasticsearch.org/guide/reference/api/search/filter.html)\n      for details.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "from",
+                            "description": "Return results starting at this offset.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "highlight",
+                            "description": "Result highlighting options. See the\n      [ElasticSearch highlighting docs](http://www.elasticsearch.org/guide/reference/api/search/highlighting.html)\n      for details.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "index",
+                            "description": "Index name or array of index\n      names to search. By default all indices will be searched.",
+                            "type": "String|String[]",
+                            "optional": true
+                        },
+                        {
+                            "name": "indices_boost",
+                            "description": "Index boost options. See the\n      [ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/search/index-boost.html)\n      for details.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "min_score",
+                            "description": "If specified, documents with a score\n      lower than this will be filtered out.",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "preference",
+                            "description": "Controls which shard replicas the\n      request should be executed on. By default, the operation will be\n      randomized between the shard replicas. See the [ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/search/preference.html)\n      for possible values.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "routing",
+                            "description": "Value that determines what shard this\n      search will be routed to.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "script_fields",
+                            "description": "Script expressions to evaluate for\n      specific fields. See the [ElasticSearch script fields docs](http://www.elasticsearch.org/guide/reference/api/search/script-fields.html)\n      for details.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "scroll",
+                            "description": "Scroll timeout. If specified, nodes that\n      participate in this search will maintain resources for this query\n      until the timeout expires. See the [ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/search/scroll.html)\n      for details.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "scroll_id",
+                            "description": "Scroll id to use for this request.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "search_type",
+                            "description": "Search operation type to use. May be\n      one of \"query_and_fetch\", \"query_then_fetch\", \"dfs_query_and_fetch\",\n      \"dfs_query_then_fetch\", \"count\", or \"scan\". See the [ElasticSearch\n      docs](http://www.elasticsearch.org/guide/reference/api/search/search-type.html)\n      for details.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "size",
+                            "description": "Return this many results.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "10"
+                        },
+                        {
+                            "name": "sort",
+                            "description": "Sort options. See the [ElasticSearch sort\n      docs](http://www.elasticsearch.org/guide/reference/api/search/sort.html)\n      for details.",
+                            "type": "Object",
+                            "optional": true
+                        },
+                        {
+                            "name": "timeout",
+                            "description": "Timeout after which the search will be\n      aborted. Any hits that have been gathered before the timeout is\n      reached will be returned. Default is no timeout.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "track_scores",
+                            "description": "Whether or not to compute\n      scores when sorting by a field.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "type",
+                            "description": "Type name or array of type names\n      to search. By default all types will be searched.",
+                            "type": "String|String[]",
+                            "optional": true
+                        },
+                        {
+                            "name": "version",
+                            "description": "If `true`, a version number will\n      be returned for each hit.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "results",
+                            "description": "Search results.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 632,
+            "description": "Provide statistics on different operations happening on an index.\nBy default, docs, store, and indexing, get, and search stats are returned.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-stats.html)",
+            "example": [
+                "\n\n    var client = new require('elastical').Client();\n\n    client.stat({index: 'blog'}, function (err, results) {\n        if (err) { throw err; }\n        console.log(results);\n    });"
+            ],
+            "itemtype": "method",
+            "name": "stats",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Stats options. Technically this argument is\n    optional, but you'll almost always want to provide at least an index.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "index",
+                            "description": "Index name or array of index\n      names to display stats on. By default global stats will be displayed.",
+                            "type": "String|String[]",
+                            "optional": true
+                        },
+                        {
+                            "name": "docs",
+                            "description": "The number of docs / deleted docs.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "store",
+                            "description": "The size of the index.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "indexing",
+                            "description": "Indexing statistics.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "get",
+                            "description": "Get statistics, including missing stats.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "search",
+                            "description": "Search statistics.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "warmer",
+                            "description": "Warmer statistics.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "merge",
+                            "description": "merge stats.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "flush",
+                            "description": "flush stats.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "refresh",
+                            "description": "refresh stats.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "clear",
+                            "description": "Clears all the flags (first).",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        }
+                    ]
+                },
+                {
+                    "name": "",
+                    "description": "[options.types] Comma separated list of types to provide document type level stats.",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 715,
+            "description": "Registers a percolator for the given index or modifies the existing percolator\nif one with the name already exists\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/pecolator/)",
+            "example": [
+                "\n    var put =   {\n                    \"query\" : {\n                        \"text\" : {\n                            \"hashtags\" : {\n                                \"query\" : 'blah blah blah ',\n                                \"operator\" : \"or\"\n                            }\n                        }\n                    }\n                };\n    client.percolator('tweets', 'mypercolator', query, function (err, res) {\n        if (err) { throw err; }\n        console.log(results);\n    });"
+            ],
+            "itemtype": "method",
+            "name": "setPercolator",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Index name or array of index\n      names to register the percolator.",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "percolator",
+                    "description": "The identifier string of the percolator.\n        This identifier is returned when a document matches\n        the query in the percolator, either through percolate operation or\n        through index opertation.",
+                    "type": "String"
+                },
+                {
+                    "name": "query",
+                    "description": "Search query. Afull query object.\n    See the [ElasticSearch Query DSL docs](http://www.elasticsearch.org/guide/reference/query-dsl/)\n    for details.",
+                    "type": "Object|String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 752,
+            "description": "Retrieve the percolator doc",
+            "example": [
+                "\n\n client.getPercolator('tweets', 'mypercolator', function (err, results) {\n     if (err) { throw err; }\n     console.log(results);\n });"
+            ],
+            "params": [
+                {
+                    "name": "index",
+                    "description": "The index name to which the percolator is registered",
+                    "type": "String"
+                },
+                {
+                    "name": "percolator",
+                    "description": "The name of the percolator",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "doc",
+                            "description": "Percolator document.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 771,
+            "description": "Test if a given doc matches a percolator for\nthe given index and document type",
+            "example": [
+                "\n     client.perolate('tweets', 'tweet', {}, function(err, res){\n         if(err){ throw err; }\n         console.log(res);\n     });"
+            ],
+            "params": [
+                {
+                    "name": "index",
+                    "description": "The index name to which the document should be\n     checked for matching percolators",
+                    "type": "String"
+                },
+                {
+                    "name": "type",
+                    "description": "The type name of the document",
+                    "type": "String"
+                },
+                {
+                    "name": "doc",
+                    "description": "The document object which the registered percolators\n     are matched against",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 790,
+            "description": "Delete a registered percolator for the given index or indicies",
+            "example": [
+                "\n     client.deletePercolator('tweets', 'mypercolator', function(err, res){\n         if(err){ throw err;}\n         console.log(res);\n     });"
+            ],
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Index name or array of index names",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "percolator",
+                    "description": "Name of the percolator to delete",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 806,
+            "description": "Registers a river with the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
+            "itemtype": "method",
+            "name": "putRiver",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "A name for this river.",
+                    "type": "String"
+                },
+                {
+                    "name": "config",
+                    "description": "The river configuration.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 820,
+            "description": "Gets river config from the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
+            "itemtype": "method",
+            "name": "getRiver",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "name",
+                    "description": "A name for this river.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 834,
+            "description": "Deletes a river config from the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
+            "itemtype": "method",
+            "name": "deleteRiver",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "name",
+                    "description": "A name for this river.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 851,
+            "description": "Makes an HTTP request using the `request` module.",
+            "itemtype": "method",
+            "name": "_request",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "Request path.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Request options.",
+                    "type": "Object",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "body",
+                            "description": "Response body (parsed as JSON\n      if possible).",
+                            "type": "Object|Buffer|String"
+                        }
+                    ]
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 933,
+            "description": "Alias for index().",
+            "itemtype": "method",
+            "name": "set",
+            "see": [
+                "index"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 21,
+            "description": "Performs multiple document create/index/delete operations in a single request.\n\nThe _operations_ parameter should be an array of objects. Each object must\nadhere to one of the following formats.\n\n#### Operation Objects\n\n**Create a Document**\n\n    {\n        create: {\n            index: 'index-name',\n            type : 'type-name',\n            id   : 'document-id',\n            data  : { ... document data ... },\n\n            // Optional properties.\n            parent      : '...',\n            percolate   : '...',\n            routing     : '...',\n            version     : '...',\n            version_type: 'internal' | 'external'\n        }\n    }\n\n**Index a Document**\n\n    {\n        index: {\n            index: 'index-name',\n            type : 'type-name',\n            id   : 'document-id',\n            data  : { ... document data ... },\n\n            // Optional properties.\n            parent      : '...',\n            percolate   : '...',\n            routing     : '...',\n            version     : '...',\n            version_type: 'internal' | 'external'\n        }\n    }\n\n**Delete a Document**\n\n    {\n        delete: {\n            index: 'index-name',\n            type : 'type-name',\n            id   : 'document-id',\n\n            // Optional properties.\n            parent : '...',\n            routing: '...',\n            version: '...'\n        }\n    }\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/bulk.html)",
+            "example": [
+                "\n\n    index.bulk(client, [\n        {create: {index: 'blog', type: 'post', id: '1', data: {\n            title: 'Hello',\n            body : 'Welcome to my stupid blog.'\n        }}},\n\n        {index: {index: 'blog', type: 'post', id: '2', data: {\n            title: 'Breaking news',\n            body : 'Today I ate a sandwich.'\n        }}},\n\n        {index: {index: 'blog', type: 'post', id: '3', percolate: '*', data: {\n            title: 'Percolate this',\n            body : 'Run against all percolators.'\n        }}},\n\n        {delete: {index: 'blog', type: 'post', id: '42'}}\n    ], function (err, res) {\n        // ...\n    });"
+            ],
+            "itemtype": "method",
+            "name": "bulk",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "operations",
+                    "description": "Array of operations to perform. See above for a\n    description of the expected object format.",
+                    "type": "Object[]"
+                },
+                {
+                    "name": "options",
+                    "description": "Options.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "consistency",
+                            "description": "Write consistency to use\n        for these operations. Permitted values are \"one\", \"quorum\", and \"all\".\n        See the ElasticSearch docs for details.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"quorum\""
+                        },
+                        {
+                            "name": "refresh",
+                            "description": "If `true`, the relevant shard\n        will be refreshed after the delete operation. This may cause heavy\n        server load, so use with caution.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "index",
+                            "description": "If specified the url endpoint\n        for the bulk operations will include this index.  This is useful for\n        scenarios where the root -bulk endpoint is prevented on a shared\n        cluster.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"indexname\""
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.bulk"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 195,
+            "description": "Creates a new index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-create-index.html)",
+            "itemtype": "method",
+            "name": "create",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "name",
+                    "description": "Name of the new index.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Index options (see ElasticSearch docs for details).",
+                    "type": "Object",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "index",
+                            "description": "Index instance for the newly created index.",
+                            "type": "Index"
+                        },
+                        {
+                            "name": "data",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.createIndex"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 226,
+            "description": "Deletes the specified index or indices. If no indices are specified, **all**\nindices on the server will be deleted.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index.html)",
+            "itemtype": "method",
+            "name": "delete",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "names",
+                    "description": "Name of the index to delete, or an array of\n    names to delete multiple indices. If omitted, **all** indices will be\n    deleted.",
+                    "type": "String|String[]",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "data",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.deleteIndex"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 256,
+            "description": "Checks whether the specified index or indices exist.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-indices-exists.html)",
+            "itemtype": "method",
+            "name": "exists",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "names",
+                    "description": "Index name or array of names to check.",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "exists",
+                            "description": "`true` if all specified indices exist,\n      `false` otherwise.",
+                            "type": "Boolean"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.indexExists"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 281,
+            "description": "Retrieve the mappings for one or more indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-get-mapping.html)",
+            "itemtype": "method",
+            "name": "count",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "names",
+                    "description": "Index name or array of names.",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "type",
+                    "description": "Document type. If omitted, count for all types are returned.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "query",
+                    "description": "query. If omitted, count for a match_all is returned.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.count"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 333,
+            "description": "Retrieve the mappings for one or more indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-get-mapping.html)",
+            "itemtype": "method",
+            "name": "getMapping",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "names",
+                    "description": "Index name or array of names.",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "type",
+                    "description": "Document type. If omitted, mappings for all types are returned.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.getMapping"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 372,
+            "description": "Retrieve the settings for one or more indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-get-settings.html)",
+            "itemtype": "method",
+            "name": "getSettings",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "names",
+                    "description": "Index name or array of names.",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.getSettings"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 401,
+            "description": "Apply aliases actions.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases.html)",
+            "itemtype": "method",
+            "name": "addAlias",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "actions",
+                    "description": "Aliases actions.",
+                    "type": "Object[]"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.applyAliasesActions"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 422,
+            "description": "Get aliases.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases.html)",
+            "itemtype": "method",
+            "name": "getAliases",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "names",
+                    "description": "Index name or array of names.",
+                    "type": "String|String[]|null"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.getAliases"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 453,
+            "description": "Registers a mapping definition for the specified type within the specified\nindex or indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping.html)",
+            "itemtype": "method",
+            "name": "putMapping",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "names",
+                    "description": "Index name or array of names to define the\n    mapping within. If not specified, it will be defined in all indices.",
+                    "type": "String|String[]",
+                    "optional": true
+                },
+                {
+                    "name": "type",
+                    "description": "Document type.",
+                    "type": "String"
+                },
+                {
+                    "name": "mapping",
+                    "description": "Mapping definition. See the [ElasticSearch\n    docs](http://www.elasticsearch.org/guide/reference/mapping/) for\n    an overview.",
+                    "type": "Object",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.putMapping"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 493,
+            "description": "Refreshes the specified index or indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh.html)",
+            "itemtype": "method",
+            "name": "refresh",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "names",
+                    "description": "Index name or array of names to refresh. If not\n    specified, all indices will be refreshed.",
+                    "type": "String|String[]",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.refresh"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 524,
+            "description": "Analyze\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze.html)",
+            "itemtype": "method",
+            "name": "analyze",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "text",
+                    "description": "Text to analyze",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options. See ElasticSearch docs for details.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "index",
+                            "description": "Index name whose analyzer must be used. If not\n        specified, use built-in analyzers.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"indexname\""
+                        },
+                        {
+                            "name": "analyzer",
+                            "description": "Analyzer to use for analysis",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"standard\""
+                        },
+                        {
+                            "name": "tokenizer",
+                            "description": "Tokenizer to use for analysis when\n        using a custom transient analyzer",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"keyword\""
+                        },
+                        {
+                            "name": "field",
+                            "description": "Use the analyzer configured in\n        the mapping for this field",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"obj1.field1\""
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.analyze"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 573,
+            "description": "Registers a river with the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
+            "itemtype": "method",
+            "name": "putRiver",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "name",
+                    "description": "A name for this river.",
+                    "type": "String"
+                },
+                {
+                    "name": "config",
+                    "description": "The river configuration.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 594,
+            "description": "Gets river config from the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
+            "itemtype": "method",
+            "name": "getRiver",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "name",
+                    "description": "A name for this river.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 611,
+            "description": "Deletes a river config from the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
+            "itemtype": "method",
+            "name": "deleteRiver",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "name",
+                    "description": "A name for this river.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 634,
+            "description": "Deletes a document from this index.",
+            "itemtype": "method",
+            "name": "delete",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "Type name.",
+                    "type": "String"
+                },
+                {
+                    "name": "id",
+                    "description": "Document id to delete.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Delete options.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "consistency",
+                            "description": "Write consistency to use\n      for this indexing operation. Permitted values are \"one\", \"quorum\" and\n      \"all\". See the ElasticSearch docs for details.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"quorum\""
+                        },
+                        {
+                            "name": "ignoreMissing",
+                            "description": "If `true`, an error will\n      not be returned if the index, type, or document do not exist.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "parent",
+                            "description": "Parent document id.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "refresh",
+                            "description": "If `true`, the relevant shard\n      will be refreshed after the delete operation. This may cause heavy\n      server load, so use with caution.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "replication",
+                            "description": "Replication mode for this\n      indexing operation. Maybe be set to \"sync\" or \"async\".",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"sync\""
+                        },
+                        {
+                            "name": "routing",
+                            "description": "Value that determines what shard this\n      operation will be routed to. Note that an incorrectly routed operation\n      will fail, so it's best to leave this alone unless you know your\n      business.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "version",
+                            "description": "Document version to delete. If\n      the specified document's version differs from this, an error will be\n      returned and the document will not be deleted.",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "query",
+                            "description": "To perform removal using a query. Warning:\n      id and all other options except ignoreMissing will be ignored.",
+                            "type": "Object",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.delete"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 725,
+            "description": "Deletes this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index.html)",
+            "itemtype": "method",
+            "name": "deleteIndex",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "data",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 744,
+            "description": "Checks whether this index exists on the server.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-indices-exists.html)",
+            "itemtype": "method",
+            "name": "exists",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "exists",
+                            "description": "`true` if the index exists, `false`\n    otherwise.",
+                            "type": "Boolean"
+                        }
+                    ]
+                }
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 759,
+            "description": "Gets a document from this index based on its id.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/get.html)",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "Document id.",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "fields",
+                            "description": "Document field name or array of\n      field names to retrieve. By default, all fields are retrieved.",
+                            "type": "String|String[]",
+                            "optional": true
+                        },
+                        {
+                            "name": "ignoreMissing",
+                            "description": "If `true`, an error will\n      not be returned if the index, type, or document do not exist. Instead,\n      a `null` document will be returned.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "preference",
+                            "description": "Controls which shard replicas the\n      request should be executed on. By default, the operation will be\n      randomized between the shard replicas. See the ElasticSearch docs for\n      possible values.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "realtime",
+                            "description": "Whether or not to use realtime\n      GET. See the ElasticSearch docs for details.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "refresh",
+                            "description": "If `true`, the relevant shard\n      will be refreshed before the get operation to ensure that it's\n      searchable. This may cause heavy server load, so use with caution.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "routing",
+                            "description": "Value that determines what shard this\n      document will be routed to. If not specified, a hash of the document's\n      id will be used. Note that an incorrectly routed get operation will\n      fail, so it's best to leave this alone unless you know your business.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "type",
+                            "description": "If specified, the get operation will\n      be limited to documents of this type.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"_all\""
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "doc",
+                            "description": "Retrieved document or document fields,\n      or `null` if the document was not found and `options.ignoreMissing` is\n      `true`.",
+                            "type": "Object|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.get"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 850,
+            "description": "Gets the mapping definition for this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-get-mapping.html)",
+            "itemtype": "method",
+            "name": "getMapping",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "Document type. If omitted, mappings for all types are returned.",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.getMapping"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 867,
+            "description": "Adds a document to this index.\n\nIf a document already exists in this index with the specified _type_ and\n_id_, it will be updated. Otherwise, a new document will be created.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/index_.html)",
+            "example": [
+                "\n\n    var blog = client.getIndex('blog');\n\n    blog.index('post', {\n        title  : \"Welcome to my stupid blog\",\n        content: \"This is the first and last time I'll post anything.\",\n        tags   : ['welcome', 'first post', 'last post'],\n        created: Date.now()\n    }, function (err, res) {\n        if (err) { throw err; }\n        console.log('Indexed a blog post');\n    });"
+            ],
+            "itemtype": "method",
+            "name": "index",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "Document type.",
+                    "type": "String"
+                },
+                {
+                    "name": "doc",
+                    "description": "Document data to index.",
+                    "type": "Object"
+                },
+                {
+                    "name": "options",
+                    "description": "Options.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "consistency",
+                            "description": "Write consistency to use\n      for this indexing operation. Permitted values are \"one\", \"quorum\" and\n      \"all\". See the ElasticSearch docs for details.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"quorum\""
+                        },
+                        {
+                            "name": "create",
+                            "description": "Only create the document if it\n      doesn't already exist.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "id",
+                            "description": "Document id. One will be automatically\n      generated if not specified.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "parent",
+                            "description": "Parent document id.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "percolate",
+                            "description": "Percolation query to check against\n      this document. See the ElasticSearch docs for details.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "refresh",
+                            "description": "If `true`, the document will be\n      made searchable immediately after it is indexed.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "replication",
+                            "description": "Replication mode for this\n      indexing operation. Maybe be set to \"sync\" or \"async\".",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"sync\""
+                        },
+                        {
+                            "name": "routing",
+                            "description": "Value that determines what shard this\n      document will be routed to. If not specified, a hash of the document's\n      id will be used.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "timeout",
+                            "description": "How long to wait for the primary\n      shard to become available to index this document before aborting. See\n      the ElasticSearch docs for details. This should be a value like \"5m\"\n      (5 minutes) or \"15s\" (15 seconds).",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"1m\""
+                        },
+                        {
+                            "name": "version",
+                            "description": "Document version to create/update. If\n      this is set and `options.version_type` is not set,\n      `options.version_type` will automatically be set to \"external\".",
+                            "type": "Number",
+                            "optional": true
+                        },
+                        {
+                            "name": "version_type",
+                            "description": "Version type (either\n      \"internal\" or \"external\"). See the ElasticSearch docs for details.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"internal\""
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.index"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 983,
+            "description": "Registers a mapping definition for the specified type within this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping.html)",
+            "itemtype": "method",
+            "name": "putMapping",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "Document type.",
+                    "type": "String"
+                },
+                {
+                    "name": "mapping",
+                    "description": "Mapping definition. See the [ElasticSearch\n    docs](http://www.elasticsearch.org/guide/reference/mapping/) for\n    an overview.",
+                    "type": "Object",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.putMapping"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1002,
+            "description": "Analyze using analyzer from this index\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze.html)",
+            "itemtype": "method",
+            "name": "analyze",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "Text to analyze",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options. See ElasticSearch docs for details.",
+                    "type": "Object",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "analyzer",
+                            "description": "Analyzer to use for analysis",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"standard\""
+                        },
+                        {
+                            "name": "tokenizer",
+                            "description": "Tokenizer to use for analysis when\n    using a custom transient analyzer",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"keyword\""
+                        },
+                        {
+                            "name": "field",
+                            "description": "Use the analyzer configured in\n    the mapping for this field",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"obj1.field1\""
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.analyze"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1029,
+            "description": "Registers a river with the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
+            "itemtype": "method",
+            "name": "putRiver",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "A name for this river.",
+                    "type": "String"
+                },
+                {
+                    "name": "config",
+                    "description": "The river configuration.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1045,
+            "description": "Gets river config from the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
+            "itemtype": "method",
+            "name": "getRiver",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "name",
+                    "description": "A name for this river.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1061,
+            "description": "Deletes a river config from the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
+            "itemtype": "method",
+            "name": "deleteRiver",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "name",
+                    "description": "A name for this river.",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1078,
+            "description": "Refreshes this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh.html)",
+            "itemtype": "method",
+            "name": "refresh",
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.refresh"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1093,
+            "description": "Searches for documents in this index matching the given query. See\n`Client.search()` for the complete list of supported options.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/search/)",
+            "itemtype": "method",
+            "name": "search",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Search options. Technically this argument is\n    optional, but you'll almost always want to provide at least a query.",
+                    "type": "Object",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "results",
+                            "description": "Search results.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.search"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1117,
+            "description": "Provide statistics on different operations happening on an index.\nSee `Client.stats()` for the complete list of supported options.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-stats.html)",
+            "itemtype": "method",
+            "name": "stats",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "Stats options. This argument is optional.",
+                    "type": "Object",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "optional": true,
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.stats"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1140,
+            "description": "Registers a percolator for the given index or modifies the existing percolator\nif one with the name already exists\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/pecolator/)",
+            "example": [
+                "\n    var put =   {\n                    \"query\" : {\n                        \"text\" : {\n                            \"hashtags\" : {\n                                \"query\" : 'blah blah blah ',\n                                \"operator\" : \"or\"\n                            }\n                        }\n                    }\n                };\n    client.percolator('tweets', 'mypercolator', query, function (err, res) {\n        if (err) { throw err; }\n        console.log(results);\n    });"
+            ],
+            "itemtype": "method",
+            "name": "setPercolator",
+            "params": [
+                {
+                    "name": "percolator",
+                    "description": "The identifier string of the percolator.\n        This identifier is returned when a document matches\n        the query in the percolator, either through percolate operation or\n        through index opertation.",
+                    "type": "String"
+                },
+                {
+                    "name": "query",
+                    "description": "Search query. Afull query object.\n    See the [ElasticSearch Query DSL docs](http://www.elasticsearch.org/guide/reference/query-dsl/)\n    for details.",
+                    "type": "Object|String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1182,
+            "description": "Retrieve the percolator doc",
+            "example": [
+                "\n\n client.getPercolator('tweets', 'mypercolator', function (err, results) {\n     if (err) { throw err; }\n     console.log(results);\n });"
+            ],
+            "params": [
+                {
+                    "name": "percolator",
+                    "description": "The name of the percolator",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "doc",
+                            "description": "Percolator document.",
+                            "type": "Object"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1208,
+            "description": "Test if a given doc matches a percolator for\nthe given index and document type",
+            "example": [
+                "\n     client.perolate('tweets', 'tweet', {\n         doc: {\n\n             title  : \"Welcome to my stupid blog\",\n             content: \"This is the first and last time I'll post anything.\",\n             tags   : ['welcome', 'first post', 'last post'],\n             created: Date.now()\n         }\n     }, function(err, res){\n         if(err){ throw err; }\n         console.log(res);\n     });\n _NOTE_: You must wrap your document in 'doc' param"
+            ],
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The type name of the document",
+                    "type": "String"
+                },
+                {
+                    "name": "doc",
+                    "description": "The document object which the registered percolators\n     are matched against",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1246,
+            "description": "Delete a registered percolator for the given index or indicies",
+            "example": [
+                "\n     client.deletePercolator('tweets', 'mypercolator', function(err, res){\n         if(err){ throw err;}\n         console.log(res);\n     });"
+            ],
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Index name or array of index names",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "percolator",
+                    "description": "Name of the percolator to delete",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "Full ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 1267,
+            "description": "Alias for index().",
+            "itemtype": "method",
+            "name": "set",
+            "see": [
+                "index"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/util.js",
+            "line": 8,
+            "description": "Iterates over all items in _obj_ if _obj_ is an array, or over all enumerable\nproperties if _obj_ is an object, calling the _callback_ for each one.",
+            "itemtype": "method",
+            "name": "each",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "Array or object to iterate over.",
+                    "type": "Array|Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "",
+                    "type": "Callback"
+                },
+                {
+                    "name": "value",
+                    "description": "Value of the current array item or property.",
+                    "type": "Mixed"
+                },
+                {
+                    "name": "key",
+                    "description": "Index (if _obj_ is an array) or key (if _obj_ is an\n      object).",
+                    "type": "Number|String"
+                }
+            ],
+            "static": 1,
+            "class": "",
+            "module": "elastical",
+            "submodule": "util"
+        },
+        {
+            "file": "lib/util.js",
+            "line": 31,
+            "description": "Returns a new object containing a deep merge of the enumerable properties of all\npassed objects. Properties in later arguments take precedence over properties\nwith the same name in earlier arguments. Object values are deep-cloned. Array\nvalues are _not_ deep-cloned.",
+            "itemtype": "method",
+            "name": "merge",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "One or more objects to merge.",
+                    "type": "Object",
+                    "multiple": true
+                }
+            ],
+            "return": {
+                "description": "New object with merged values from all other objects.",
+                "type": "Object"
+            },
+            "static": 1,
+            "class": "",
+            "module": "elastical",
+            "submodule": "util"
+        },
+        {
+            "file": "lib/util.js",
+            "line": 53,
+            "description": "Like `merge()`, but augments the first passed object with a deep merge of the\nenumerable properties of all other passed objects, rather than returning a\nbrand new object.",
+            "itemtype": "method",
+            "name": "mix",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "Object to receive mixed-in properties.",
+                    "type": "Object"
+                },
+                {
+                    "name": "obj",
+                    "description": "One or more objects to mix into _target_.",
+                    "type": "Object",
+                    "multiple": true
+                }
+            ],
+            "return": {
+                "description": "Reference to the same _target_ object that was passed in.",
+                "type": "Object"
+            },
+            "static": 1,
+            "class": "",
+            "module": "elastical",
+            "submodule": "util"
+        },
+        {
+            "file": "lib/util.js",
+            "line": 92,
+            "description": "Returns an array containing the values of all enumerable properties of _obj_. If\n_obj_ is already an array, a copy of it will be returned.",
+            "itemtype": "method",
+            "name": "values",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "",
+                    "type": "Array|Object"
+                }
+            ],
+            "return": {
+                "description": "values",
+                "type": "Array"
+            },
+            "static": 1,
+            "class": "",
+            "module": "elastical",
+            "submodule": "util"
+        }
+    ]
+}

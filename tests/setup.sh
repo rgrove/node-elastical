@@ -48,6 +48,20 @@ echo -e ""
 curl -s -XPUT "$BASE/elastical-test-mapping"
 echo -e ""
 
+curl -s -XPUT "$BASE/elastical-test-analyze" -d '{
+    "settings" : {
+        "analysis" : {
+        "analyzer" : {
+            "stop_my" : {
+                "type" : "standard",
+                "stopwords" : [ "my" ]
+            }
+        }
+        }
+    }
+}'
+echo -e ""
+
 curl -s -XPUT "$BASE/elastical-test-bulk/post/deleteme" -d '{
   "title": "Delete me"
 }'
@@ -128,7 +142,7 @@ curl -s -XPUT "$BASE/_percolator/elastical-test-percolator-index/elastical-test-
 }'
 echo -e ""
 
-curl -s -XPUT "$BASE/_percolator/elastical-test-percolator-index/elastical-test-percolator-delete" -d '{                    
+curl -s -XPUT "$BASE/_percolator/elastical-test-percolator-index/elastical-test-percolator-delete" -d '{
   "query" : {
     "text" : {
       "tags" : {
@@ -142,12 +156,12 @@ echo -e ""
 # percolator tests end
 
 echo -e "river tests begin"
-curl -s -XPUT "$BASE/_river/elastical-test-river-get/_meta" -d '{                    
-  "type" : "dummy"                         
+curl -s -XPUT "$BASE/_river/elastical-test-river-get/_meta" -d '{
+  "type" : "dummy"
 }'
 echo -e ""
-curl -s -XPUT "$BASE/_river/elastical-test-river-delete/_meta" -d '{                    
-  "type" : "dummy"                         
+curl -s -XPUT "$BASE/_river/elastical-test-river-delete/_meta" -d '{
+  "type" : "dummy"
 }'
 echo -e ""
 # river tests end

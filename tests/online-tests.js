@@ -492,6 +492,67 @@ vows.describe('Elastical')
             }
         },
 
+        '`analyze()`': {
+            'with no index': {
+                topic: function (client) {
+                    client.analyze('my message', { analyzer: 'standard' }, this.callback);
+                },
+
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isArray(res.tokens);
+                    assert.equal(res.tokens.length, 2);
+                    assert.isObject(res.tokens[0]);
+                    assert.equal(res.tokens[0].token, 'my');
+                    assert.equal(res.tokens[0].position, 1);
+                    assert.isObject(res.tokens[1]);
+                    assert.equal(res.tokens[1].token, 'message');
+                    assert.equal(res.tokens[1].position, 2);
+                }
+            },
+
+            'with unknown analyzer': {
+                topic: function (client) {
+                    client.analyze('my message', { analyzer: 'unknown' }, this.callback);
+                },
+
+                'should respond with an error': function (err, res) {
+                    assert.instanceOf(err, Error);
+                    assert.isObject(res);
+                }
+            },
+
+            'with one index': {
+                'which exists' : {
+                    topic: function (client) {
+                        client.analyze('My Message', { index: 'elastical-test-analyze', analyzer: 'stop_my' }, this.callback);
+                    },
+
+                    'should succeed': function (err, res) {
+                        assert.isNull(err);
+                        assert.isObject(res);
+                        assert.isArray(res.tokens);
+                        assert.equal(res.tokens.length, 1);
+                        assert.isObject(res.tokens[0]);
+                        assert.equal(res.tokens[0].token, 'message');
+                        assert.equal(res.tokens[0].position, 2);
+                    }
+                },
+
+                'which does not exist': {
+                    topic: function (client) {
+                        client.analyze('My Message', { index: 'elastical-test-bogus', analyzer: 'stop_my' }, this.callback);
+                    },
+
+                    'should respond with an error': function (err, res) {
+                        assert.instanceOf(err, Error);
+                        assert.isObject(res);
+                    }
+                }
+            }
+        },
+
         '`getMapping()`': {
             'of a specific type within a specific index': {
                 topic: function (client) {
@@ -698,7 +759,7 @@ vows.describe('Elastical')
             },
 
             'simple scrolling query':{
-							topic: function (client) {
+                topic: function (client) {
                     client.search({
                         index: 'elastical-test-get',
                         query: {match_all: {}},

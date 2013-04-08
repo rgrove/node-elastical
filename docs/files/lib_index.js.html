@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib&#x2F;index.js</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.7.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.7.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/Client.html">Client</a></li>
+            
+                <li><a href="..&#x2F;classes/Index.html">Index</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="..&#x2F;modules/client.html">client</a></li>
+            
+                <li><a href="..&#x2F;modules/elastical.html">elastical</a></li>
+            
+                <li><a href="..&#x2F;modules/index.html">index</a></li>
+            
+                <li><a href="..&#x2F;modules/util.html">util</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: lib&#x2F;index.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x2F;**
+Provides methods for creating, deleting, and interacting with ElasticSearch
+indices.
+
+@module elastical
+@submodule index
+@class Index
+@param {Client} client Client instance.
+@param {String} name Index name.
+@constructor
+**&#x2F;
+
+var util   = require(&#x27;.&#x2F;util&#x27;),
+    encode = encodeURIComponent;
+
+function Index(client, name) {
+    this.client = client;
+    this.name   = name;
+}
+
+&#x2F;**
+Performs multiple document create&#x2F;index&#x2F;delete operations in a single request.
+
+The _operations_ parameter should be an array of objects. Each object must
+adhere to one of the following formats.
+
+#### Operation Objects
+
+**Create a Document**
+
+    {
+        create: {
+            index: &#x27;index-name&#x27;,
+            type : &#x27;type-name&#x27;,
+            id   : &#x27;document-id&#x27;,
+            data  : { ... document data ... },
+
+            &#x2F;&#x2F; Optional properties.
+            parent      : &#x27;...&#x27;,
+            percolate   : &#x27;...&#x27;,
+            routing     : &#x27;...&#x27;,
+            version     : &#x27;...&#x27;,
+            version_type: &#x27;internal&#x27; | &#x27;external&#x27;
+        }
+    }
+
+**Index a Document**
+
+    {
+        index: {
+            index: &#x27;index-name&#x27;,
+            type : &#x27;type-name&#x27;,
+            id   : &#x27;document-id&#x27;,
+            data  : { ... document data ... },
+
+            &#x2F;&#x2F; Optional properties.
+            parent      : &#x27;...&#x27;,
+            percolate   : &#x27;...&#x27;,
+            routing     : &#x27;...&#x27;,
+            version     : &#x27;...&#x27;,
+            version_type: &#x27;internal&#x27; | &#x27;external&#x27;
+        }
+    }
+
+**Delete a Document**
+
+    {
+        delete: {
+            index: &#x27;index-name&#x27;,
+            type : &#x27;type-name&#x27;,
+            id   : &#x27;document-id&#x27;,
+
+            &#x2F;&#x2F; Optional properties.
+            parent : &#x27;...&#x27;,
+            routing: &#x27;...&#x27;,
+            version: &#x27;...&#x27;
+        }
+    }
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;bulk.html)
+
+@example
+
+    index.bulk(client, [
+        {create: {index: &#x27;blog&#x27;, type: &#x27;post&#x27;, id: &#x27;1&#x27;, data: {
+            title: &#x27;Hello&#x27;,
+            body : &#x27;Welcome to my stupid blog.&#x27;
+        }}},
+
+        {index: {index: &#x27;blog&#x27;, type: &#x27;post&#x27;, id: &#x27;2&#x27;, data: {
+            title: &#x27;Breaking news&#x27;,
+            body : &#x27;Today I ate a sandwich.&#x27;
+        }}},
+
+        {index: {index: &#x27;blog&#x27;, type: &#x27;post&#x27;, id: &#x27;3&#x27;, percolate: &#x27;*&#x27;, data: {
+            title: &#x27;Percolate this&#x27;,
+            body : &#x27;Run against all percolators.&#x27;
+        }}},
+
+        {delete: {index: &#x27;blog&#x27;, type: &#x27;post&#x27;, id: &#x27;42&#x27;}}
+    ], function (err, res) {
+        &#x2F;&#x2F; ...
+    });
+
+@method bulk
+@param {Client} client Client instance.
+@param {Object[]} operations Array of operations to perform. See above for a
+    description of the expected object format.
+@param {Object} [options] Options.
+    @param {String} [options.consistency=&quot;quorum&quot;] Write consistency to use
+        for these operations. Permitted values are &quot;one&quot;, &quot;quorum&quot;, and &quot;all&quot;.
+        See the ElasticSearch docs for details.
+    @param {Boolean} [options.refresh=false] If &#x60;true&#x60;, the relevant shard
+        will be refreshed after the delete operation. This may cause heavy
+        server load, so use with caution.
+    @param {String} [options.index=&quot;indexname&quot;] If specified the url endpoint
+        for the bulk operations will include this index.  This is useful for
+        scenarios where the root -bulk endpoint is prevented on a shared
+        cluster.
+@param {Function} [callback] Callback function.
+    @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+    @param {Object} callback.res ElasticSearch response data.
+@static
+@see Client.bulk
+**&#x2F;
+Index.bulk = function (client, operations, options, callback) {
+    if (typeof options === &#x27;function&#x27;) {
+        callback = options;
+        options  = {};
+    }
+
+    callback || (callback = noop);
+    options || (options = {});
+
+    var body  = [],
+        query = [],
+        url   = &#x27;&#x2F;_bulk&#x27;;
+
+    if (options.index) {
+        url = &#x27;&#x2F;&#x27; + encode(options.index) + &#x27;&#x2F;_bulk&#x27;;
+        delete options.index;
+    }
+
+    operations.forEach(function (op) {
+        var action = Object.keys(op)[0],
+            input  = op[action],
+            line   = {},
+            name;
+
+        line[action] = {};
+
+        for (name in input) {
+            if (name !== &#x27;data&#x27; &amp;&amp; input.hasOwnProperty(name)) {
+                &#x2F;&#x2F; Allow &#x27;_index&#x27;, &#x27;_type&#x27;, etc. in addition to &#x27;index&#x27;, &#x27;type&#x27;,
+                &#x2F;&#x2F; etc.
+                if (name.charAt(0) === &#x27;_&#x27;) {
+                    line[action][name] = input[name];
+                } else {
+                    &#x2F;&#x2F; ElasticSearch currently only supports &#x27;percolate&#x27;, not
+                    &#x2F;&#x2F; &#x27;_percolate&#x27;.
+                    if (name === &#x27;percolate&#x27;) {
+                        line[action][name] = input[name];
+                    } else {
+                        line[action][&#x27;_&#x27; + name] = input[name];
+                    }
+                }
+            }
+        }
+
+        body.push(JSON.stringify(line));
+
+        if (action === &#x27;create&#x27; || action === &#x27;index&#x27;) {
+            body.push(JSON.stringify(input.data || {}));
+        }
+    });
+
+    util.each(options, function (value, name) {
+        if (value === true || value === false) {
+            value = value ? &#x27;1&#x27; : &#x27;0&#x27;;
+        }
+
+        query.push(encode(name) + &#x27;=&#x27; + encode(value));
+    });
+
+    if (query.length) {
+        url += &#x27;?&#x27; + query.join(&#x27;&amp;&#x27;);
+    }
+
+    client._request(url, {
+        method: &#x27;PUT&#x27;,
+        body  : body.join(&#x27;\n&#x27;) + &#x27;\n&#x27;
+    }, callback);
+};
+
+&#x2F;**
+Creates a new index.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-create-index.html)
+
+@method create
+@param {Client} client Client instance.
+@param {String} name Name of the new index.
+@param {Object} [options] Index options (see ElasticSearch docs for details).
+@param {Function} [callback] Callback function.
+    @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+    @param {Index} callback.index Index instance for the newly created index.
+    @param {Object} callback.data ElasticSearch response data.
+@static
+@see Client.createIndex
+**&#x2F;
+Index.create = function (client, name, options, callback) {
+    if (typeof options === &#x27;function&#x27;) {
+        callback = options;
+        options  = {};
+    }
+
+    client._request(&#x27;&#x2F;&#x27; + encode(name), {
+        method: &#x27;PUT&#x27;,
+        json  : options
+    }, callback &amp;&amp; function (err, data) {
+        if (err) { return callback(err, data), undefined; }
+        callback(null, client.getIndex(name), data);
+    });
+};
+
+&#x2F;**
+Deletes the specified index or indices. If no indices are specified, **all**
+indices on the server will be deleted.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-delete-index.html)
+
+@method delete
+@param {Client} client Client instance.
+@param {String|String[]} [names] Name of the index to delete, or an array of
+    names to delete multiple indices. If omitted, **all** indices will be
+    deleted.
+@param {Function} [callback] Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.data ElasticSearch response data.
+@static
+@see Client.deleteIndex
+**&#x2F;
+Index.delete = function (client, names, callback) {
+    if (typeof names === &#x27;function&#x27;) {
+        callback = names;
+        names    = undefined;
+    }
+
+    if (Array.isArray(names)) {
+        names = names.join(&#x27;,&#x27;);
+    }
+
+    client._request(&#x27;&#x2F;&#x27; + encode(names || &#x27;&#x27;), {method: &#x27;DELETE&#x27;}, callback);
+};
+
+&#x2F;**
+Checks whether the specified index or indices exist.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-indices-exists.html)
+
+@method exists
+@param {Client} client Client instance.
+@param {String|String[]} names Index name or array of names to check.
+@param {Function} callback Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Boolean} callback.exists &#x60;true&#x60; if all specified indices exist,
+      &#x60;false&#x60; otherwise.
+@static
+@see Client.indexExists
+**&#x2F;
+Index.exists = function (client, names, callback) {
+    if (Array.isArray(names)) {
+        names = names.join(&#x27;,&#x27;);
+    }
+
+    client._request(&#x27;&#x2F;&#x27; + encode(names), {method: &#x27;HEAD&#x27;}, function (err) {
+        callback(null, !err);
+    });
+};
+
+&#x2F;**
+Retrieve the mappings for one or more indices.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-get-mapping.html)
+
+@method count
+@param {Client} client Client instance.
+@param {String|String[]} names Index name or array of names.
+@param {String} [type] Document type. If omitted, count for all types are returned.
+@param {String} query query. If omitted, count for a match_all is returned.
+@param {Function} callback Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@static
+@see Client.count
+**&#x2F;
+Index.count = function (client, names, type, query, callback) {
+    var url;
+    if (typeof query === &#x27;function&#x27;) {
+        callback = query;
+        query     = null;
+    }
+    if (typeof type === &#x27;function&#x27;) {
+        callback = type;
+        query     = null;
+        type     = null;
+    }
+
+    if (Array.isArray(names)) {
+        names = names.join(&#x27;,&#x27;);
+    }
+
+    names = names.trim();
+    url   = &#x27;&#x2F;&#x27; + encode(names);
+
+    if (type) {
+        url += &#x27;&#x2F;&#x27; + encode(type);
+    }
+
+    url += &#x27;&#x2F;_count&#x27;;
+    if (query) {
+        url += &#x27;?q=&#x27; + encode(query);
+    } else {
+      &#x2F;&#x2F; count in elastic Search require a query and returns an error if it does not find it:
+      &#x2F;&#x2F; {&quot;error&quot;:&quot;No query to execute, not in body, and not bounded to &#x27;q&#x27; parameter&quot;}%
+      &#x2F;&#x2F; perhaps there is better than that to do?
+      url += &#x27;?q=*&#x27;;
+    }
+
+    client._request(url, callback);
+}
+
+&#x2F;**
+Retrieve the mappings for one or more indices.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-get-mapping.html)
+
+@method getMapping
+@param {Client} client Client instance.
+@param {String|String[]} names Index name or array of names.
+@param {String} [type] Document type. If omitted, mappings for all types are returned.
+@param {Function} callback Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@static
+@see Client.getMapping
+**&#x2F;
+Index.getMapping = function (client, names, type, callback) {
+    var url;
+
+    if (typeof type === &#x27;function&#x27;) {
+        callback = type;
+        type     = null;
+    }
+
+    if (Array.isArray(names)) {
+        names = names.join(&#x27;,&#x27;);
+    }
+
+    names = names.trim();
+    url   = &#x27;&#x2F;&#x27; + encode(names);
+
+    if (type) {
+        url += &#x27;&#x2F;&#x27; + encode(type);
+    }
+
+    url += &#x27;&#x2F;_mapping&#x27;;
+
+    client._request(url, callback);
+}
+
+&#x2F;**
+Retrieve the settings for one or more indices.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-get-settings.html)
+
+@method getSettings
+@param {Client} client Client instance.
+@param {String|String[]} names Index name or array of names.
+@param {Function} callback Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@static
+@see Client.getSettings
+**&#x2F;
+Index.getSettings = function (client, names, callback) {
+    var url;
+
+    if (Array.isArray(names)) {
+        names = names.join(&#x27;,&#x27;);
+    }
+
+    names = names.trim();
+    url   = &#x27;&#x2F;&#x27; + encode(names);
+
+    url += &#x27;&#x2F;_settings&#x27;;
+
+    client._request(url, callback);
+}
+
+&#x2F;**
+ Apply aliases actions.
+
+ [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-aliases.html)
+
+ @method addAlias
+ @param {Client} client Client instance.
+ @param {Object[]} actions Aliases actions.
+ @param {Function} callback Callback function.
+ @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+ @param {Object} callback.res ElasticSearch response data.
+ @static
+ @see Client.applyAliasesActions
+ **&#x2F;
+Index.applyAliasesActions = function (client, actions, callback) {
+    client._request(&#x27;&#x2F;_aliases&#x27;, {
+        method: &#x27;POST&#x27;,
+        json: {actions:actions}
+    }, callback);
+}
+
+&#x2F;**
+ Get aliases.
+
+ [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-aliases.html)
+
+ @method getAliases
+ @param {Client} client Client instance.
+ @param {String|String[]|null} names Index name or array of names.
+ @param {Function} callback Callback function.
+ @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+ @param {Object} callback.res ElasticSearch response data.
+ @static
+ @see Client.getAliases
+ **&#x2F;
+Index.getAliases = function (client, names, callback) {
+    var url = &#x27;&#x27;;
+
+    if(names){
+        if (Array.isArray(names)) {
+            names = names.join(&#x27;,&#x27;);
+        }
+
+        names = names.trim();
+        url = &#x27;&#x2F;&#x27; + encode(names);
+    }
+
+    url += &#x27;&#x2F;_aliases&#x27;;
+
+    client._request(url, callback);
+}
+
+&#x2F;**
+Registers a mapping definition for the specified type within the specified
+index or indices.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-put-mapping.html)
+
+@method putMapping
+@param {Client} client Client instance.
+@param {String|String[]} [names] Index name or array of names to define the
+    mapping within. If not specified, it will be defined in all indices.
+@param {String} type Document type.
+@param {Object} [mapping] Mapping definition. See the [ElasticSearch
+    docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;mapping&#x2F;) for
+    an overview.
+@param {Function} [callback] Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@static
+@see Client.putMapping
+**&#x2F;
+Index.putMapping = function (client, names, type, mapping, callback) {
+    if (typeof type === &#x27;object&#x27;) {
+        callback = mapping;
+        mapping  = type;
+        type     = names;
+        names    = undefined;
+    }
+
+    if (Array.isArray(names)) {
+        names = names.join(&#x27;,&#x27;);
+    }
+
+    names || (names = &#x27;_all&#x27;);
+
+    client._request(&#x27;&#x2F;&#x27; + encode(names) + &#x27;&#x2F;&#x27; + encode(type) + &#x27;&#x2F;_mapping&#x27;, {
+        method: &#x27;PUT&#x27;,
+        json: mapping
+    }, callback);
+}
+
+&#x2F;**
+Refreshes the specified index or indices.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-refresh.html)
+
+@method refresh
+@param {Client} client Client instance.
+@param {String|String[]} [names] Index name or array of names to refresh. If not
+    specified, all indices will be refreshed.
+@param {Function} [callback] Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@static
+@see Client.refresh
+**&#x2F;
+Index.refresh = function (client, names, callback) {
+    if (typeof names === &#x27;function&#x27;) {
+        callback = names;
+        names    = undefined;
+    }
+
+    if (Array.isArray(names)) {
+        names = names.join(&#x27;,&#x27;);
+    }
+
+    names || (names = &#x27;_all&#x27;);
+
+    client._request(&#x27;&#x2F;&#x27; + encode(names) + &#x27;&#x2F;_refresh&#x27;, {method: &#x27;POST&#x27;},
+        callback);
+};
+
+&#x2F;**
+ Analyze
+
+ [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-analyze.html)
+
+ @method analyze
+ @param {Client} client Client instance.
+ @param {String} text Text to analyze
+ @param {Object} [options] Options. See ElasticSearch docs for details.
+     @param {String} [options.index=&quot;indexname&quot;] Index name whose analyzer must be used. If not
+         specified, use built-in analyzers.
+     @param {String} [options.analyzer=&quot;standard&quot;] Analyzer to use for analysis
+     @param {String} [options.tokenizer=&quot;keyword&quot;] Tokenizer to use for analysis when
+         using a custom transient analyzer
+     @param {String} [options.field=&quot;obj1.field1&quot;] Use the analyzer configured in
+         the mapping for this field
+ @param {Function} [callback] Callback function.
+    @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+    @param {Object} callback.res ElasticSearch response data.
+ @static
+ @see Client.analyze
+**&#x2F;
+Index.analyze = function (client, text, options, callback) {
+    var params, url = &#x27;&#x2F;_analyze&#x27;;
+    if (typeof options === &#x27;function&#x27;) {
+        callback = options;
+        options  = {};
+    }
+
+    callback || (callback = noop);
+    params = util.merge(options);
+
+    if (params.index) {
+        url = &#x27;&#x2F;&#x27; + encode(params.index) + &#x27;&#x2F;_analyze&#x27;;
+        delete params.index;
+    }
+
+    var query = [ &#x27;text=&#x27; + encode(text) ];
+    util.each(params, function (value, name) {
+        query.push(encode(name) + &#x27;=&#x27; + encode(value));
+    });
+
+    if (query.length) {
+        url += &#x27;?&#x27; + query.join(&#x27;&amp;&#x27;);
+    }
+
+    client._request(url, { method: &#x27;GET&#x27; }, callback);
+};
+
+&#x2F;**
+Registers a river with the cluster.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;river&#x2F;)
+
+@method putRiver
+@param {Client} client Client instance.
+@param {String} name A name for this river.
+@param {Object} config The river configuration.
+@param {Function} [callback] Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@static
+**&#x2F;
+Index.putRiver = function( client, name, config, callback ){
+    client._request(&#x27;&#x2F;_river&#x2F;&#x27; + name + &#x27;&#x2F;_meta&#x27;, {
+        method: &#x27;PUT&#x27;,
+        json: config
+    }, callback);
+};
+
+&#x2F;**
+Gets river config from the cluster.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;river&#x2F;)
+
+@method getRiver
+@param {Client} client Client instance.
+@param {String} name A name for this river.
+@param {Function} [callback] Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@static
+**&#x2F;
+Index.getRiver = function( client, name, callback ){
+    client._request(&#x27;&#x2F;_river&#x2F;&#x27; + name + &#x27;&#x2F;_meta&#x27;, { method: &#x27;GET&#x27; }, callback);
+};
+
+&#x2F;**
+Deletes a river config from the cluster.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;river&#x2F;)
+
+@method deleteRiver
+@param {Client} client Client instance.
+@param {String} name A name for this river.
+@param {Function} [callback] Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@static
+**&#x2F;
+Index.deleteRiver = function( client, name, callback ){
+    client._request(&#x27;&#x2F;_river&#x2F;&#x27; + name, { method: &#x27;DELETE&#x27; }, callback);
+};
+
+Index.prototype = {
+    &#x2F;&#x2F; http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;count.html
+    count: function (query, callback) {
+
+    },
+
+    &#x2F;**
+    Deletes a document from this index.
+
+    @method delete
+    @param {String} type Type name.
+    @param {String} id Document id to delete.
+    @param {Object} [options] Delete options.
+      @param {String} [options.consistency=&quot;quorum&quot;] Write consistency to use
+          for this indexing operation. Permitted values are &quot;one&quot;, &quot;quorum&quot; and
+          &quot;all&quot;. See the ElasticSearch docs for details.
+      @param {Boolean} [options.ignoreMissing=false] If &#x60;true&#x60;, an error will
+          not be returned if the index, type, or document do not exist.
+      @param {String} [options.parent] Parent document id.
+      @param {Boolean} [options.refresh=false] If &#x60;true&#x60;, the relevant shard
+          will be refreshed after the delete operation. This may cause heavy
+          server load, so use with caution.
+      @param {String} [options.replication=&quot;sync&quot;] Replication mode for this
+          indexing operation. Maybe be set to &quot;sync&quot; or &quot;async&quot;.
+      @param {String} [options.routing] Value that determines what shard this
+          operation will be routed to. Note that an incorrectly routed operation
+          will fail, so it&#x27;s best to leave this alone unless you know your
+          business.
+      @param {Number} [options.version] Document version to delete. If
+          the specified document&#x27;s version differs from this, an error will be
+          returned and the document will not be deleted.
+      @param {object} [options.query] To perform removal using a query. Warning:
+          id and all other options except ignoreMissing will be ignored.
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response.
+    @see Client.delete
+    **&#x2F;
+    delete: function (type, id, options, callback) {
+        var query = [],
+            ignoreMissing, params, url;
+
+        if (typeof options === &#x27;function&#x27;) {
+            callback = options;
+            options  = {};
+        }
+
+        callback || (callback = noop);
+        params = util.merge(options);
+
+        if (typeof params.ignoreMissing !== &#x27;undefined&#x27;) {
+            ignoreMissing = params.ignoreMissing;
+            delete params.ignoreMissing;
+        }
+
+        if(params.query) {
+          url = &#x27;&#x2F;&#x27; + encode(this.name) + &#x27;&#x2F;&#x27; + encode(type) + &#x27;&#x2F;_query&#x27;;
+
+          this.client._request(url, {method: &#x27;DELETE&#x27;, json: params.query}, function (err, res) {
+              if (err) {
+                  if (ignoreMissing &amp;&amp; res &amp;&amp; res.found === false) {
+                      return callback(null, res), undefined;
+                  } else {
+                      return callback(err, res), undefined;
+                  }
+              }
+              callback(null, res);
+          });
+        } else {
+          util.each(params, function (value, name) {
+              if (value === true || value === false) {
+                  value = value ? &#x27;1&#x27; : &#x27;0&#x27;;
+              }
+
+              query.push(encode(name) + &#x27;=&#x27; + encode(value));
+          });
+
+          url = &#x27;&#x2F;&#x27; + encode(this.name) + &#x27;&#x2F;&#x27; + encode(type) + &#x27;&#x2F;&#x27; + encode(id);
+
+          if (query.length) {
+              url += &#x27;?&#x27; + query.join(&#x27;&amp;&#x27;);
+          }
+
+          this.client._request(url, {method: &#x27;DELETE&#x27;}, function (err, res) {
+              if (err) {
+                  if (ignoreMissing &amp;&amp; res &amp;&amp; res.found === false) {
+                      return callback(null, res), undefined;
+                  } else {
+                      return callback(err, res), undefined;
+                  }
+              }
+
+              callback(null, res);
+          });
+        }
+    },
+
+    &#x2F;**
+    Deletes this index.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-delete-index.html)
+
+    @method deleteIndex
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.data ElasticSearch response data.
+    **&#x2F;
+    deleteIndex: function (callback) {
+        Index.delete(this.client, this.name, callback);
+    },
+
+    &#x2F;&#x2F; http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-delete-mapping.html
+    deleteMapping: function (type) {
+
+    },
+
+    &#x2F;**
+    Checks whether this index exists on the server.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-indices-exists.html)
+
+    @method exists
+    @param {Function} callback Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Boolean} callback.exists &#x60;true&#x60; if the index exists, &#x60;false&#x60;
+        otherwise.
+    **&#x2F;
+    exists: function (callback) {
+        Index.exists(this.client, this.name, callback);
+    },
+
+    &#x2F;**
+    Gets a document from this index based on its id.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;get.html)
+
+    @method get
+    @param {String} id Document id.
+    @param {Object} [options] Options.
+      @param {String|String[]} [options.fields] Document field name or array of
+          field names to retrieve. By default, all fields are retrieved.
+      @param {Boolean} [options.ignoreMissing=false] If &#x60;true&#x60;, an error will
+          not be returned if the index, type, or document do not exist. Instead,
+          a &#x60;null&#x60; document will be returned.
+      @param {String} [options.preference] Controls which shard replicas the
+          request should be executed on. By default, the operation will be
+          randomized between the shard replicas. See the ElasticSearch docs for
+          possible values.
+      @param {Boolean} [options.realtime=true] Whether or not to use realtime
+          GET. See the ElasticSearch docs for details.
+      @param {Boolean} [options.refresh=false] If &#x60;true&#x60;, the relevant shard
+          will be refreshed before the get operation to ensure that it&#x27;s
+          searchable. This may cause heavy server load, so use with caution.
+      @param {String} [options.routing] Value that determines what shard this
+          document will be routed to. If not specified, a hash of the document&#x27;s
+          id will be used. Note that an incorrectly routed get operation will
+          fail, so it&#x27;s best to leave this alone unless you know your business.
+      @param {String} [options.type=&quot;_all&quot;] If specified, the get operation will
+          be limited to documents of this type.
+    @param {Function} callback Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object|null} callback.doc Retrieved document or document fields,
+          or &#x60;null&#x60; if the document was not found and &#x60;options.ignoreMissing&#x60; is
+          &#x60;true&#x60;.
+      @param {Object} callback.res Full ElasticSearch response data.
+    @see Client.get
+    **&#x2F;
+    get: function (id, options, callback) {
+        var query = [],
+            type  = &#x27;_all&#x27;,
+            ignoreMissing, params, url;
+
+        if (typeof options === &#x27;function&#x27;) {
+            callback = options;
+            options  = {};
+        }
+
+        params = util.merge(options);
+
+        if (params.fields) {
+            params.fields = Array.isArray(params.fields) ?
+                params.fields.join(&#x27;,&#x27;) : params.fields;
+        }
+
+        if (typeof params.ignoreMissing !== &#x27;undefined&#x27;) {
+            ignoreMissing = params.ignoreMissing;
+            delete params.ignoreMissing;
+        }
+
+        if (params.type) {
+            type = params.type;
+            delete params.type;
+        }
+
+        util.each(params, function (value, name) {
+            if (value === true || value === false) {
+                value = value ? &#x27;1&#x27; : &#x27;0&#x27;;
+            }
+
+            query.push(encode(name) + &#x27;=&#x27; + encode(value));
+        });
+
+        url = &#x27;&#x2F;&#x27; + encode(this.name) + &#x27;&#x2F;&#x27; + encode(type) + &#x27;&#x2F;&#x27; + encode(id);
+
+        if (query.length) {
+            url += &#x27;?&#x27; + query.join(&#x27;&amp;&#x27;);
+        }
+
+        this.client._request(url, {method: &#x27;GET&#x27;}, function (err, res) {
+            if (err) {
+                if (ignoreMissing &amp;&amp; res &amp;&amp; (res.exists === false
+                        || res.error.indexOf(&#x27;IndexMissing&#x27;) !== -1)) {
+                    return callback(null, null, res), undefined;
+                } else {
+                    return callback(err, null, res), undefined;
+                }
+            }
+
+            callback(null, res.fields || res._source, res);
+        });
+    },
+
+    &#x2F;**
+    Gets the mapping definition for this index.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-get-mapping.html)
+
+    @method getMapping
+    @param {String} [type] Document type. If omitted, mappings for all types are returned.
+    @param {Function} callback Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @see Client.getMapping
+    **&#x2F;
+    getMapping: function (type, callback) {
+        Index.getMapping.apply(null, [this.client, this.name].concat(
+            Array.prototype.slice.call(arguments)));
+    },
+
+    &#x2F;**
+    Adds a document to this index.
+
+    If a document already exists in this index with the specified _type_ and
+    _id_, it will be updated. Otherwise, a new document will be created.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;index_.html)
+
+    @example
+
+        var blog = client.getIndex(&#x27;blog&#x27;);
+
+        blog.index(&#x27;post&#x27;, {
+            title  : &quot;Welcome to my stupid blog&quot;,
+            content: &quot;This is the first and last time I&#x27;ll post anything.&quot;,
+            tags   : [&#x27;welcome&#x27;, &#x27;first post&#x27;, &#x27;last post&#x27;],
+            created: Date.now()
+        }, function (err, res) {
+            if (err) { throw err; }
+            console.log(&#x27;Indexed a blog post&#x27;);
+        });
+
+    @method index
+    @param {String} type Document type.
+    @param {Object} doc Document data to index.
+    @param {Object} [options] Options.
+      @param {String} [options.consistency=&quot;quorum&quot;] Write consistency to use
+          for this indexing operation. Permitted values are &quot;one&quot;, &quot;quorum&quot; and
+          &quot;all&quot;. See the ElasticSearch docs for details.
+      @param {Boolean} [options.create=false] Only create the document if it
+          doesn&#x27;t already exist.
+      @param {String} [options.id] Document id. One will be automatically
+          generated if not specified.
+      @param {String} [options.parent] Parent document id.
+      @param {String} [options.percolate] Percolation query to check against
+          this document. See the ElasticSearch docs for details.
+      @param {Boolean} [options.refresh=false] If &#x60;true&#x60;, the document will be
+          made searchable immediately after it is indexed.
+      @param {String} [options.replication=&quot;sync&quot;] Replication mode for this
+          indexing operation. Maybe be set to &quot;sync&quot; or &quot;async&quot;.
+      @param {String} [options.routing] Value that determines what shard this
+          document will be routed to. If not specified, a hash of the document&#x27;s
+          id will be used.
+      @param {String} [options.timeout=&quot;1m&quot;] How long to wait for the primary
+          shard to become available to index this document before aborting. See
+          the ElasticSearch docs for details. This should be a value like &quot;5m&quot;
+          (5 minutes) or &quot;15s&quot; (15 seconds).
+      @param {Number} [options.version] Document version to create&#x2F;update. If
+          this is set and &#x60;options.version_type&#x60; is not set,
+          &#x60;options.version_type&#x60; will automatically be set to &quot;external&quot;.
+      @param {String} [options.version_type=&quot;internal&quot;] Version type (either
+          &quot;internal&quot; or &quot;external&quot;). See the ElasticSearch docs for details.
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @see Client.index
+    **&#x2F;
+    index: function (type, doc, options, callback) {
+        var query = [],
+            id, params, url;
+
+        if (typeof options === &#x27;function&#x27;) {
+            callback = options;
+            options  = {};
+        }
+
+        params = util.merge(options || {});
+
+        if (params.create) {
+            params.op_type = &#x27;create&#x27;;
+            delete params.create;
+        }
+
+        if (params.id) {
+            id = params.id;
+            delete params.id;
+        }
+
+        if (params.version &amp;&amp; !params.version_type) {
+            params.version_type = &#x27;external&#x27;;
+        }
+
+        util.each(params, function (value, name) {
+            if (value === true || value === false) {
+                value = value ? &#x27;1&#x27; : &#x27;0&#x27;;
+            }
+
+            query.push(encode(name) + &#x27;=&#x27; + encode(value));
+        });
+
+        url = &#x27;&#x2F;&#x27; + encode(this.name) + &#x27;&#x2F;&#x27; + encode(type);
+
+        if (id) {
+            url += &#x27;&#x2F;&#x27; + encode(id);
+        }
+
+        if (query.length) {
+            url += &#x27;?&#x27; + query.join(&#x27;&amp;&#x27;);
+        }
+
+        this.client._request(url, {
+            method: id ? &#x27;PUT&#x27; : &#x27;POST&#x27;,
+            json  : doc
+        }, callback);
+    },
+
+    &#x2F;&#x2F; http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;multi-get.html
+    multiGet: function () {
+
+    },
+
+    &#x2F;&#x2F; http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-optimize.html
+    optimize: function (options) {
+
+    },
+
+    &#x2F;**
+    Registers a mapping definition for the specified type within this index.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-put-mapping.html)
+
+    @method putMapping
+    @param {String} type Document type.
+    @param {Object} [mapping] Mapping definition. See the [ElasticSearch
+        docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;mapping&#x2F;) for
+        an overview.
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @see Client.putMapping
+    **&#x2F;
+    putMapping: function (type, mapping, callback) {
+        Index.putMapping(this.client, this.name, type, mapping, callback);
+    },
+
+    &#x2F;**
+    Analyze using analyzer from this index
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-analyze.html)
+
+    @method analyze
+    @param {String} text Text to analyze
+    @param {Object} [options] Options. See ElasticSearch docs for details.
+      @param {String} [options.analyzer=&quot;standard&quot;] Analyzer to use for analysis
+      @param {String} [options.tokenizer=&quot;keyword&quot;] Tokenizer to use for analysis when
+        using a custom transient analyzer
+      @param {String} [options.field=&quot;obj1.field1&quot;] Use the analyzer configured in
+        the mapping for this field
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @see Client.analyze
+    **&#x2F;
+    analyze: function (text, options, callback) {
+        if (typeof options === &#x27;function&#x27;) {
+            callback = options;
+            options  = {};
+        }
+        options.index = this.name;
+        Index.analyze(this.client, options, callback);
+    },
+
+    &#x2F;**
+    Registers a river with the cluster.
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;river&#x2F;)
+
+    @method putRiver
+    @param {String} name A name for this river.
+    @param {Object} config The river configuration.
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @static
+    **&#x2F;
+    putRiver: function( name, config, callback ){
+        Index.putRiver( this.client, name, config, callback );
+    },
+
+    &#x2F;**
+    Gets river config from the cluster.
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;river&#x2F;)
+
+    @method getRiver
+    @param {Client} client Client instance.
+    @param {String} name A name for this river.
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @static
+    **&#x2F;
+    getRiver: function( name, callback ){
+        Index.getRiver( this.client, name, callback );
+    },
+
+    &#x2F;**
+    Deletes a river config from the cluster.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;river&#x2F;)
+
+    @method deleteRiver
+    @param {Client} client Client instance.
+    @param {String} name A name for this river.
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @static
+    **&#x2F;
+    deleteRiver: function( name, callback ){
+        Index.deleteRiver( this.client, name, callback );
+    },
+
+    &#x2F;**
+    Refreshes this index.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-refresh.html)
+
+    @method refresh
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @see Client.refresh
+    **&#x2F;
+    refresh: function (callback) {
+        Index.refresh(this.client, this.name, callback);
+    },
+
+    &#x2F;**
+    Searches for documents in this index matching the given query. See
+    &#x60;Client.search()&#x60; for the complete list of supported options.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;search&#x2F;)
+
+    @method search
+    @param {Object} [options] Search options. Technically this argument is
+        optional, but you&#x27;ll almost always want to provide at least a query.
+    @param {Function} callback Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.results Search results.
+      @param {Object} callback.res Full ElasticSearch response data.
+    @see Client.search
+    **&#x2F;
+    search: function (options, callback) {
+        if (typeof options === &#x27;function&#x27;) {
+            callback = options;
+            options  = {};
+        }
+
+        this.client.search(util.merge(options, {index: this.name}), callback);
+    },
+
+    &#x2F;**
+    Provide statistics on different operations happening on an index.
+    See &#x60;Client.stats()&#x60; for the complete list of supported options.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-stats.html)
+
+    @method stats
+    @param {Object} [options] Stats options. This argument is optional.
+    @param {Function} [callback] Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @see Client.stats
+    **&#x2F;
+    stats: function (options, callback) {
+      if (typeof options === &#x27;function&#x27;) {
+        callback = options;
+        options = {};
+      }
+      this.client.stats(util.merge(options, {index: this.name}), callback);
+    },
+
+    &#x2F;&#x2F; TODO: close, open, get settings, get mapping, flush, snapshot,
+    &#x2F;&#x2F; update settings, templates, status, segments, clear cache
+    &#x2F;**
+    Registers a percolator for the given index or modifies the existing percolator
+    if one with the name already exists
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;pecolator&#x2F;)
+
+    @example
+        var put =   {
+                        &quot;query&quot; : {
+                            &quot;text&quot; : {
+                                &quot;hashtags&quot; : {
+                                    &quot;query&quot; : &#x27;blah blah blah &#x27;,
+                                    &quot;operator&quot; : &quot;or&quot;
+                                }
+                            }
+                        }
+                    };
+        client.percolator(&#x27;tweets&#x27;, &#x27;mypercolator&#x27;, query, function (err, res) {
+            if (err) { throw err; }
+            console.log(results);
+        });
+    @method setPercolator
+    @param {String} percolator The identifier string of the percolator.
+            This identifier is returned when a document matches
+            the query in the percolator, either through percolate operation or
+            through index opertation.
+    @param {Object|String} query Search query. Afull query object.
+        See the [ElasticSearch Query DSL docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;query-dsl&#x2F;)
+        for details.
+    @param {Function} callback Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res Full ElasticSearch response data.
+    *&#x2F;
+    setPercolator: function(percolator, query, callback){
+        var url = &#x27;&#x2F;_percolator&#x2F;&#x27;;
+        url += this.name;
+        url += &#x27;&#x2F;&#x27;+encode(percolator);
+        this.client._request(url, {
+            method: &#x27;POST&#x27;,
+            json  : query
+        }, callback);
+    },
+    &#x2F;**
+     * Retrieve the percolator doc
+     *
+     * @example
+     *
+     *  client.getPercolator(&#x27;tweets&#x27;, &#x27;mypercolator&#x27;, function (err, results) {
+     *      if (err) { throw err; }
+     *      console.log(results);
+     *  });
+     *
+     *  @param {String} percolator The name of the percolator
+     *  @param {Function} callback Callback function.
+     *      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+     *      @param {Object} callback.doc  Percolator document.
+     *      @param {Object} callback.res Full ElasticSearch response data.
+     *&#x2F;
+    getPercolator: function(percolator, callback){
+        var url = &#x27;&#x2F;_percolator&#x2F;&#x27;+this.name+&#x27;&#x2F;&#x27;+encode(percolator);
+        this.client._request(url, {
+            method: &#x27;GET&#x27;
+        }, function (err, res) {
+            if (err) { return callback(err, null, res), undefined; }
+            return callback(null, res._source, res);
+        });
+    },
+
+    &#x2F;**
+     * Test if a given doc matches a percolator for
+     * the given index and document type
+     * @example
+     *      client.perolate(&#x27;tweets&#x27;, &#x27;tweet&#x27;, {
+     *          doc: {
+     *
+     *              title  : &quot;Welcome to my stupid blog&quot;,
+     *              content: &quot;This is the first and last time I&#x27;ll post anything.&quot;,
+     *              tags   : [&#x27;welcome&#x27;, &#x27;first post&#x27;, &#x27;last post&#x27;],
+     *              created: Date.now()
+     *          }
+     *      }, function(err, res){
+     *          if(err){ throw err; }
+     *          console.log(res);
+     *      });
+     *  _NOTE_: You must wrap your document in &#x27;doc&#x27; param
+     *  @param {String} type The type name of the document
+     *  @param {Object} doc The document object which the registered percolators
+     *      are matched against
+     *  @param {Function} callback Callback function.
+     *      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+     *      @param {Object} callback.res Full ElasticSearch response data.
+     *&#x2F;
+    percolate: function(type, doc, callback){
+        &#x2F;&#x2F; this check is required because elasticsearch does not return an error
+        &#x2F;&#x2F; but times out if the&#x27;doc&#x27; element is not present in the body of the
+        &#x2F;&#x2F; request
+        if(doc[&#x27;doc&#x27;] === undefined){
+            doc = {&#x27;doc&#x27;: doc};
+        }
+        var url = &#x27;&#x2F;&#x27;+ this.name+&#x27;&#x2F;&#x27;+type+&#x27;&#x2F;_percolate&#x27;;
+        this.client._request(url, {
+            method: &#x27;GET&#x27;,
+            json  : doc
+        }, callback);
+    },
+
+    &#x2F;**
+     * Delete a registered percolator for the given index or indicies
+     * @example
+     *      client.deletePercolator(&#x27;tweets&#x27;, &#x27;mypercolator&#x27;, function(err, res){
+     *          if(err){ throw err;}
+     *          console.log(res);
+     *      });
+     * @param {String|String[]} index Index name or array of index names
+     * @param {String} percolator Name of the percolator to delete
+     * @param {Function} callback Callback function.
+     *      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+     *      @param {Object} callback.res Full ElasticSearch response data.
+     *&#x2F;
+    deletePercolator: function(percolator, callback){
+        var url = &#x27;&#x2F;_percolator&#x2F;&#x27;+ this.name +&#x27;&#x2F;&#x27;+encode(percolator);
+        this.client._request(url, {
+            method: &#x27;DELETE&#x27;
+        }, callback);
+    }
+};
+
+&#x2F;**
+Alias for index().
+
+@method set
+@see index
+**&#x2F;
+Index.prototype.set = Index.prototype.index;
+
+module.exports = Index;
+
+&#x2F;&#x2F; -- Private Functions --------------------------------------------------------
+function noop() {}
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>
