@@ -272,6 +272,41 @@ vows.describe('Elastical')
             }
         },
 
+        '`multiget()`': {
+            'when called with no specific index': {
+                topic: function (client) {
+                    client.multiget(null, null, {
+                        docs:[
+                            {
+                                _index:'elastical-test-get',
+                                _type:'post',
+                                _id:'1'
+                            },
+                            {
+                                _index:'elastical-test-get',
+                                _type:'post',
+                                _id:'2'
+                            }
+                        ]
+                    }, this.callback);
+                },
+
+                'should get': function (err, doc) {
+                    assert.isNull(err);
+                    assert.isObject(doc);
+                    console.log(doc);
+//
+//                    assert.isTrue(res.exists);
+//
+//                    assert.include(doc, 'title');
+//                    assert.include(doc, 'body');
+//                    assert.include(doc, 'tags');
+//
+//                    assert.isArray(doc.tags);
+                }
+            },
+        },
+
         '`index()`': {
             'when called with no options': {
                 topic: function (client) {
