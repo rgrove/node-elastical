@@ -443,6 +443,65 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`updateSettings()`': {
+            'with no index': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.updateSettings({ index: { refresh_interval: '5s' }});
+                },
+
+                'method should be PUT': function (err, options) {
+                    assert.equal(options.method, 'PUT');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/_settings');
+                },
+
+                'settings should be passed in the request body': function (err, options) {
+                    assert.deepEqual({ index: { refresh_interval: '5s' }}, options.json);
+                }
+            },
+
+            'with one index': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.updateSettings('foo', { index: { refresh_interval: '5s' }});
+                },
+
+                'method should be PUT': function (err, options) {
+                    assert.equal(options.method, 'PUT');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/foo/_settings');
+                },
+
+                'settings should be passed in the request body': function (err, options) {
+                    assert.deepEqual({ index: { refresh_interval: '5s' }}, options.json);
+                }
+            },
+
+            'with multiple indices': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.updateSettings(['foo', 'bar'], { index: { refresh_interval: '5s' }});
+                },
+
+                'method should be PUT': function (err, options) {
+                    assert.equal(options.method, 'PUT');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/foo%2Cbar/_settings');
+                },
+
+                'settings should be passed in the request body': function (err, options) {
+                    assert.deepEqual({ index: { refresh_interval: '5s' }}, options.json);
+                }
+            }
+        },
+
         '`putMapping()`': {
             'with no index': {
                 topic: function (client) {

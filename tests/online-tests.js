@@ -438,6 +438,89 @@ vows.describe('Elastical')
             }
         },
 
+        '`updateSettings()`': {
+            'with no index': {
+                topic: function (client) {
+                    var cb = this.callback;
+                    client.updateSettings({ index: { refresh_interval: '2s' }}, function(err){
+                        if(err)
+                            cb(err);
+                        else
+                            client.getSettings('elastical-test-updatesettings', cb);
+                    });
+                },
+
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isObject(res['elastical-test-updatesettings']);
+                    assert.isObject(res['elastical-test-updatesettings'].settings);
+                    assert.isString(res['elastical-test-updatesettings'].settings['index.refresh_interval']);
+                    assert.equal(res['elastical-test-updatesettings'].settings['index.refresh_interval'], '2s');
+                }
+            },
+
+            'with one index': {
+                'which exists': {
+                    topic: function (client) {
+                        var cb = this.callback;
+                        client.updateSettings('elastical-test-updatesettings2', { index: { refresh_interval: '5s' }}, function(err){
+                            if(err)
+                                cb(err);
+                            else
+                                client.getSettings('elastical-test-updatesettings2', cb);
+                     });
+                    },
+    
+                    'should succeed': function (err, res) {
+                        assert.isNull(err);
+                        assert.isObject(res);
+                        assert.isObject(res['elastical-test-updatesettings2']);
+                        assert.isObject(res['elastical-test-updatesettings2'].settings);
+                        assert.isString(res['elastical-test-updatesettings2'].settings['index.refresh_interval']);
+                        assert.equal(res['elastical-test-updatesettings2'].settings['index.refresh_interval'], '5s');
+                    }
+                },
+
+                'which does not exist': {
+                    topic: function (client) {
+                        client.updateSettings('elastical-test-bogus', 
+                            { index: { refresh_interval: '2s' }}, this.callback);
+                    },
+
+                    'should respond with an error': function (err, res) {
+                        assert.instanceOf(err, Error);
+                        assert.isObject(res);
+                    }
+                }
+            },
+
+            'with multiple indices': {
+                topic: function (client) {
+                    var cb = this.callback;
+                    client.updateSettings(['elastical-test-updatesettings2', 'elastical-test-updatesettings3'], { index: { refresh_interval: '3s' }}, function(err){
+                        if(err)
+                            cb(err);
+                        else
+                            client.getSettings(['elastical-test-updatesettings2', 'elastical-test-updatesettings3'], cb);
+                 });
+                },
+
+                'should succeed': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    assert.isObject(res['elastical-test-updatesettings2']);
+                    assert.isObject(res['elastical-test-updatesettings2'].settings);
+                    assert.isString(res['elastical-test-updatesettings2'].settings['index.refresh_interval']);
+                    assert.equal(res['elastical-test-updatesettings2'].settings['index.refresh_interval'], '3s');
+                    assert.isObject(res['elastical-test-updatesettings3']);
+                    assert.isObject(res['elastical-test-updatesettings3'].settings);
+                    assert.isString(res['elastical-test-updatesettings3'].settings['index.refresh_interval']);
+                    assert.equal(res['elastical-test-updatesettings3'].settings['index.refresh_interval'], '3s');
+                }
+            }
+        },
+
         '`putMapping()`': {
             'with no index': {
                 topic: function (client) {
