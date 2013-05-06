@@ -39,6 +39,15 @@ echo -e ""
 curl -s -XPUT "$BASE/elastical-test-refresh2"
 echo -e ""
 
+curl -s -XPUT "$BASE/elastical-test-updatesettings"
+echo -e ""
+
+curl -s -XPUT "$BASE/elastical-test-updatesettings2"
+echo -e ""
+
+curl -s -XPUT "$BASE/elastical-test-updatesettings3"
+echo -e ""
+
 curl -s -XPUT "$BASE/elastical-test-putmapping"
 echo -e ""
 
