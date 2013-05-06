@@ -272,6 +272,116 @@ vows.describe('Elastical')
             }
         },
 
+        '`multiGet()`': {
+            'when called with no specific index': {
+                topic: function (client) {
+                    client.multiGet(null, null, {
+                        docs:[
+                            {
+                                _index:'elastical-test-get',
+                                _type:'post',
+                                _id:'1'
+                            },
+                            {
+                                _index:'elastical-test-get',
+                                _type:'post',
+                                _id:'2'
+                            }
+                        ]
+                    }, this.callback);
+                },
+
+                'should get': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    var docs = res.docs;
+                    assert.isArray(docs);
+                    assert.equal(docs.length, 2);
+                    var doc;
+                    if(docs[0]._id=='1'){
+                        assert.isTrue(docs[0].exists);
+                        assert.isFalse(docs[1].exists);
+                        doc = docs[0]._source;
+                    }   else{
+                        assert.isTrue(docs[1].exists);
+                        assert.isFalse(docs[0].exists);
+                        doc = docs[1]._source;
+                    }
+
+                    assert.include(doc, 'title');
+                    assert.include(doc, 'body');
+                    assert.include(doc, 'tags');
+
+                    assert.isArray(doc.tags);
+                }
+            },
+            'when called with specific index and type': {
+                topic: function (client) {
+                    client.multiGet('elastical-test-get', 'post', {
+                        docs:[
+                            { _id:'1' },
+                            { _id:'2' }
+                        ]
+                    }, this.callback);
+                },
+
+                'should get': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    var docs = res.docs;
+                    assert.isArray(docs);
+                    assert.equal(docs.length, 2);
+                    var doc;
+                    if(docs[0]._id=='1'){
+                        assert.isTrue(docs[0].exists);
+                        assert.isFalse(docs[1].exists);
+                        doc = docs[0]._source;
+                    }   else{
+                        assert.isTrue(docs[1].exists);
+                        assert.isFalse(docs[0].exists);
+                        doc = docs[1]._source;
+                    }
+
+                    assert.include(doc, 'title');
+                    assert.include(doc, 'body');
+                    assert.include(doc, 'tags');
+
+                    assert.isArray(doc.tags);
+                }
+            },
+            'when called with specific ids': {
+                topic: function (client) {
+                    client.multiGet('elastical-test-get', 'post', {
+                        ids:['1','2']
+                    }, this.callback);
+                },
+
+                'should get': function (err, res) {
+                    assert.isNull(err);
+                    assert.isObject(res);
+                    var docs = res.docs;
+                    assert.isArray(docs);
+                    assert.equal(docs.length, 2);
+                    var doc;
+                    if(docs[0]._id=='1'){
+                        assert.isTrue(docs[0].exists);
+                        assert.isFalse(docs[1].exists);
+                        doc = docs[0]._source;
+                    }   else{
+                        assert.isTrue(docs[1].exists);
+                        assert.isFalse(docs[0].exists);
+                        doc = docs[1]._source;
+                    }
+
+                    assert.include(doc, 'title');
+                    assert.include(doc, 'body');
+                    assert.include(doc, 'tags');
+
+                    assert.isArray(doc.tags);
+                }
+            },
+        },
+
         '`index()`': {
             'when called with no options': {
                 topic: function (client) {
