@@ -28,7 +28,7 @@
     },
 
     "devDependencies": {
-        "vows": "~0.6.4"
+        "vows": "*"
     },
 
     "main": "index",
