@@ -758,27 +758,28 @@ vows.describe('Elastical').addBatch({
                 topic: function (client) {
                     client._testHook = this.callback;
                     client.search({
-                        query        : {query_string: {query: 'foo'}},
-                        explain      : true,
-                        facets       : {},
-                        fields       : ['one', 'two'],
-                        filter       : {},
-                        from         : 3,
-                        highlight    : {},
-                        index        : 'blog',
-                        indices_boost: {},
-                        min_score    : 0.5,
-                        preference   : '_primary',
-                        routing      : 'hashyhash',
-                        script_fields: {},
-                        scroll       : '1m',
-                        search_type  : 'query_and_fetch',
-                        size         : 42,
-                        sort         : {},
-                        timeout      : '15s',
-                        track_scores : true,
-                        type         : 'post',
-                        version      : true
+                        query         : {query_string: {query: 'foo'}},
+                        explain       : true,
+                        facets        : {},
+                        fields        : ['one', 'two'],
+                        filter        : {},
+                        from          : 3,
+                        highlight     : {},
+                        ignore_indices: 'missing',
+                        index         : 'blog',
+                        indices_boost : {},
+                        min_score     : 0.5,
+                        preference    : '_primary',
+                        routing       : 'hashyhash',
+                        script_fields : {},
+                        scroll        : '1m',
+                        search_type   : 'query_and_fetch',
+                        size          : 42,
+                        sort          : {},
+                        timeout       : '15s',
+                        track_scores  : true,
+                        type          : 'post',
+                        version       : true
                     }, function () {});
                 },
 
@@ -794,11 +795,12 @@ vows.describe('Elastical').addBatch({
                     var query = parseUrl(options.uri, true).query;
 
                     assert.deepEqual({
-                        preference : '_primary',
-                        routing    : 'hashyhash',
-                        scroll     : '1m',
-                        search_type: 'query_and_fetch',
-                        timeout    : '15s'
+                        ignore_indices: 'missing',
+                        preference    : '_primary',
+                        routing       : 'hashyhash',
+                        scroll        : '1m',
+                        search_type   : 'query_and_fetch',
+                        timeout       : '15s'
                     }, query);
                 },
 
