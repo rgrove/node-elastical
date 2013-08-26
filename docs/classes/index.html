@@ -201,14 +201,14 @@ indices.</p>
                                 <a href="#method_delete">delete</a>
 
                                 
-                                    <span class="flag static">static</span>
-                                
                                 
                             </li>
                         
                             <li class="index-item method">
                                 <a href="#method_delete">delete</a>
 
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -242,14 +242,14 @@ indices.</p>
                                 <a href="#method_exists">exists</a>
 
                                 
-                                    <span class="flag static">static</span>
-                                
                                 
                             </li>
                         
                             <li class="index-item method">
                                 <a href="#method_exists">exists</a>
 
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -315,6 +315,13 @@ indices.</p>
                         
                             <li class="index-item method">
                                 <a href="#method_index">index</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_multiGet">multiGet</a>
 
                                 
                                 
@@ -398,6 +405,15 @@ indices.</p>
                                 
                             </li>
                         
+                            <li class="index-item method">
+                                <a href="#method_updateSettings">updateSettings</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
                     </ul>
                 </div>
             
@@ -470,7 +486,7 @@ indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l401"><code>lib&#x2F;index.js:401</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l445"><code>lib&#x2F;index.js:445</code></a>
         
         </p>
 
@@ -631,7 +647,7 @@ indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1002"><code>lib&#x2F;index.js:1002</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1071"><code>lib&#x2F;index.js:1071</code></a>
         
         </p>
 
@@ -850,7 +866,7 @@ indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l524"><code>lib&#x2F;index.js:524</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l568"><code>lib&#x2F;index.js:568</code></a>
         
         </p>
 
@@ -1778,174 +1794,6 @@ adhere to one of the following formats.</p>
             
                 <li class="arg">
                     
-                        <code>client</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[names]</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[callback]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l226"><code>lib&#x2F;index.js:226</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Deletes the specified index or indices. If no indices are specified, <strong>all</strong>
-indices on the server will be deleted.</p>
-
-<p><a href="http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index.html">ElasticSearch docs</a></p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">client</code>
-                        <span class="type"><a href="../classes/Client.html" class="crosslink">Client</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Client instance.</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[names]</code>
-                        <span class="type">String | String</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Name of the index to delete, or an array of
-    names to delete multiple indices. If omitted, <strong>all</strong> indices will be
-    deleted.</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[callback]</code>
-                        <span class="type">Function</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Callback function.</p>
-                    </div>
-
-                    
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">err</code>
-                                    <span class="type">Error | Null</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Error, or <code>null</code> on success.</p>
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">data</code>
-                                    <span class="type">Object</span>
-                                
-
-                                <div class="param-description">
-                                    <p>ElasticSearch response data.</p>
-                                </div>
-
-                                
-                            </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_delete" class="method item">
-    <h3 class="name"><code>delete</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
                         <code>type</code>
                     
                 </li>
@@ -1997,7 +1845,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l634"><code>lib&#x2F;index.js:634</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l708"><code>lib&#x2F;index.js:708</code></a>
         
         </p>
 
@@ -2247,6 +2095,174 @@ indices on the server will be deleted.</p>
 </div>
 
                 
+                    <div id="method_delete" class="method item">
+    <h3 class="name"><code>delete</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>client</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[names]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[callback]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l226"><code>lib&#x2F;index.js:226</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Deletes the specified index or indices. If no indices are specified, <strong>all</strong>
+indices on the server will be deleted.</p>
+
+<p><a href="http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index.html">ElasticSearch docs</a></p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">client</code>
+                        <span class="type"><a href="../classes/Client.html" class="crosslink">Client</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Client instance.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[names]</code>
+                        <span class="type">String | String</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Name of the index to delete, or an array of
+    names to delete multiple indices. If omitted, <strong>all</strong> indices will be
+    deleted.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type">Function</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback function.</p>
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">err</code>
+                                    <span class="type">Error | Null</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Error, or <code>null</code> on success.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">data</code>
+                                    <span class="type">Object</span>
+                                
+
+                                <div class="param-description">
+                                    <p>ElasticSearch response data.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_deleteIndex" class="method item">
     <h3 class="name"><code>deleteIndex</code></h3>
 
@@ -2289,7 +2305,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l725"><code>lib&#x2F;index.js:725</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l799"><code>lib&#x2F;index.js:799</code></a>
         
         </p>
 
@@ -2423,7 +2439,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1061"><code>lib&#x2F;index.js:1061</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l655"><code>lib&#x2F;index.js:655</code></a>
         
         </p>
 
@@ -2587,7 +2603,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l611"><code>lib&#x2F;index.js:611</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1130"><code>lib&#x2F;index.js:1130</code></a>
         
         </p>
 
@@ -2676,6 +2692,126 @@ indices on the server will be deleted.</p>
 
                                 <div class="param-description">
                                     <p>ElasticSearch response data.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_exists" class="method item">
+    <h3 class="name"><code>exists</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l818"><code>lib&#x2F;index.js:818</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks whether this index exists on the server.</p>
+
+<p><a href="http://www.elasticsearch.org/guide/reference/api/admin-indices-indices-exists.html">ElasticSearch docs</a></p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback function.</p>
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">err</code>
+                                    <span class="type">Error | Null</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Error, or <code>null</code> on success.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">exists</code>
+                                    <span class="type">Boolean</span>
+                                
+
+                                <div class="param-description">
+                                    <p><code>true</code> if the index exists, <code>false</code>
+    otherwise.</p>
                                 </div>
 
                                 
@@ -2859,126 +2995,6 @@ indices on the server will be deleted.</p>
 </div>
 
                 
-                    <div id="method_exists" class="method item">
-    <h3 class="name"><code>exists</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>callback</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l744"><code>lib&#x2F;index.js:744</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Checks whether this index exists on the server.</p>
-
-<p><a href="http://www.elasticsearch.org/guide/reference/api/admin-indices-indices-exists.html">ElasticSearch docs</a></p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">callback</code>
-                        <span class="type">Function</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Callback function.</p>
-                    </div>
-
-                    
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">err</code>
-                                    <span class="type">Error | Null</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Error, or <code>null</code> on success.</p>
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">exists</code>
-                                    <span class="type">Boolean</span>
-                                
-
-                                <div class="param-description">
-                                    <p><code>true</code> if the index exists, <code>false</code>
-    otherwise.</p>
-                                </div>
-
-                                
-                            </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
                     <div id="method_get" class="method item">
     <h3 class="name"><code>get</code></h3>
 
@@ -3033,7 +3049,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l759"><code>lib&#x2F;index.js:759</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l833"><code>lib&#x2F;index.js:833</code></a>
         
         </p>
 
@@ -3327,7 +3343,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l422"><code>lib&#x2F;index.js:422</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l466"><code>lib&#x2F;index.js:466</code></a>
         
         </p>
 
@@ -3667,7 +3683,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l850"><code>lib&#x2F;index.js:850</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l924"><code>lib&#x2F;index.js:924</code></a>
         
         </p>
 
@@ -3816,7 +3832,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1045"><code>lib&#x2F;index.js:1045</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l638"><code>lib&#x2F;index.js:638</code></a>
         
         </p>
 
@@ -3827,8 +3843,9 @@ indices on the server will be deleted.</p>
     </div>
 
     <div class="description">
-        <p>Gets river config from the cluster.
-<a href="http://www.elasticsearch.org/guide/reference/river/">ElasticSearch docs</a></p>
+        <p>Gets river config from the cluster.</p>
+
+<p><a href="http://www.elasticsearch.org/guide/reference/river/">ElasticSearch docs</a></p>
     </div>
 
     
@@ -3979,7 +3996,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l594"><code>lib&#x2F;index.js:594</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1114"><code>lib&#x2F;index.js:1114</code></a>
         
         </p>
 
@@ -3990,9 +4007,8 @@ indices on the server will be deleted.</p>
     </div>
 
     <div class="description">
-        <p>Gets river config from the cluster.</p>
-
-<p><a href="http://www.elasticsearch.org/guide/reference/river/">ElasticSearch docs</a></p>
+        <p>Gets river config from the cluster.
+<a href="http://www.elasticsearch.org/guide/reference/river/">ElasticSearch docs</a></p>
     </div>
 
     
@@ -4310,7 +4326,7 @@ indices on the server will be deleted.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l867"><code>lib&#x2F;index.js:867</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l941"><code>lib&#x2F;index.js:941</code></a>
         
         </p>
 
@@ -4629,6 +4645,241 @@ blog.index('post', {
 </div>
 
                 
+                    <div id="method_multiGet" class="method item">
+    <h3 class="name"><code>multiGet</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>client</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>index</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>type</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>data</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l672"><code>lib&#x2F;index.js:672</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Multi GET API allows to get multiple documents</p>
+
+<p><a href="http://www.elasticsearch.org/guide/reference/api/multi-get.html">ElasticSearch docs</a></p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">client</code>
+                        <span class="type"><a href="../classes/Client.html" class="crosslink">Client</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Client instance.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">index</code>
+                        <span class="type">String | Null</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>optional Index name.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">type</code>
+                        <span class="type">String | Null</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>optional document type.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">data</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>either docs or ids</p>
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[docs]</code>
+                                    <span class="type">Object</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>docs to query (can include _index, _type, _id, fields)</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[ids]</code>
+                                    <span class="type">String</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>ids to query</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Function</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback function.</p>
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">err</code>
+                                    <span class="type">Error | Null</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Error, or <code>null</code> on success.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">res</code>
+                                    <span class="type">Object</span>
+                                
+
+                                <div class="param-description">
+                                    <p>ElasticSearch response data.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method_putMapping" class="method item">
     <h3 class="name"><code>putMapping</code></h3>
 
@@ -4697,7 +4948,7 @@ blog.index('post', {
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l453"><code>lib&#x2F;index.js:453</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l497"><code>lib&#x2F;index.js:497</code></a>
         
         </p>
 
@@ -4895,7 +5146,7 @@ index or indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l983"><code>lib&#x2F;index.js:983</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1052"><code>lib&#x2F;index.js:1052</code></a>
         
         </p>
 
@@ -4945,169 +5196,6 @@ index or indices.</p>
                         <p>Mapping definition. See the <a href="http://www.elasticsearch.org/guide/reference/mapping/">ElasticSearch
     docs</a> for
     an overview.</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name optional">[callback]</code>
-                        <span class="type">Function</span>
-                        <span class="flag optional" title="This parameter is optional.">optional</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Callback function.</p>
-                    </div>
-
-                    
-                        <ul class="params-list">
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">err</code>
-                                    <span class="type">Error | Null</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Error, or <code>null</code> on success.</p>
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
-                                    <code class="param-name">res</code>
-                                    <span class="type">Object</span>
-                                
-
-                                <div class="param-description">
-                                    <p>ElasticSearch response data.</p>
-                                </div>
-
-                                
-                            </li>
-                            
-                        </ul>
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-
-    
-</div>
-
-                
-                    <div id="method_putRiver" class="method item">
-    <h3 class="name"><code>putRiver</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>name</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>config</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code class="optional">[callback]</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <span class="flag static">static</span>
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1029"><code>lib&#x2F;index.js:1029</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Registers a river with the cluster.
-<a href="http://www.elasticsearch.org/guide/reference/river/">ElasticSearch docs</a></p>
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">name</code>
-                        <span class="type">String</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>A name for this river.</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">config</code>
-                        <span class="type">Object</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>The river configuration.</p>
                     </div>
 
                     
@@ -5231,7 +5319,7 @@ index or indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l573"><code>lib&#x2F;index.js:573</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l617"><code>lib&#x2F;index.js:617</code></a>
         
         </p>
 
@@ -5267,6 +5355,169 @@ index or indices.</p>
 
                     
                 </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">name</code>
+                        <span class="type">String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>A name for this river.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">config</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The river configuration.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type">Function</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback function.</p>
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">err</code>
+                                    <span class="type">Error | Null</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Error, or <code>null</code> on success.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">res</code>
+                                    <span class="type">Object</span>
+                                
+
+                                <div class="param-description">
+                                    <p>ElasticSearch response data.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_putRiver" class="method item">
+    <h3 class="name"><code>putRiver</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>name</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>config</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[callback]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1098"><code>lib&#x2F;index.js:1098</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Registers a river with the cluster.
+<a href="http://www.elasticsearch.org/guide/reference/river/">ElasticSearch docs</a></p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
             
                 <li class="param">
                     
@@ -5410,7 +5661,7 @@ index or indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l493"><code>lib&#x2F;index.js:493</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l537"><code>lib&#x2F;index.js:537</code></a>
         
         </p>
 
@@ -5562,7 +5813,7 @@ index or indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1078"><code>lib&#x2F;index.js:1078</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1147"><code>lib&#x2F;index.js:1147</code></a>
         
         </p>
 
@@ -5688,7 +5939,7 @@ index or indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1093"><code>lib&#x2F;index.js:1093</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1162"><code>lib&#x2F;index.js:1162</code></a>
         
         </p>
 
@@ -5828,7 +6079,7 @@ index or indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1267"><code>lib&#x2F;index.js:1267</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1336"><code>lib&#x2F;index.js:1336</code></a>
         
         </p>
 
@@ -5904,7 +6155,7 @@ index or indices.</p>
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1140"><code>lib&#x2F;index.js:1140</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1209"><code>lib&#x2F;index.js:1209</code></a>
         
         </p>
 
@@ -6087,7 +6338,7 @@ client.percolator('tweets', 'mypercolator', query, function (err, res) {
             
         
         
-        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1117"><code>lib&#x2F;index.js:1117</code></a>
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l1186"><code>lib&#x2F;index.js:1186</code></a>
         
         </p>
 
@@ -6131,6 +6382,191 @@ See <code>Client.stats()</code> for the complete list of supported options.</p>
                         <code class="param-name optional">[callback]</code>
                         <span class="type">Function</span>
                         <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Callback function.</p>
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">err</code>
+                                    <span class="type">Error | Null</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Error, or <code>null</code> on success.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">res</code>
+                                    <span class="type">Object</span>
+                                
+
+                                <div class="param-description">
+                                    <p>ElasticSearch response data.</p>
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method_updateSettings" class="method item">
+    <h3 class="name"><code>updateSettings</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>client</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>index</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>settings</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>callback</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="..&#x2F;files&#x2F;lib_index.js.html#l401"><code>lib&#x2F;index.js:401</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Update the settings for one or more indices.</p>
+
+<p><a href="http://www.elasticsearch.org/guide/reference/api/admin-indices-update-settings/">ElasticSearch docs</a></p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">client</code>
+                        <span class="type"><a href="../classes/Client.html" class="crosslink">Client</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Client instance.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">index</code>
+                        <span class="type">String | String</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index name or array of names. If not specified,
+    it will be applied to all indices</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">settings</code>
+                        <span class="type">Object</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Settings. See ElasticSearch docs for details.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">callback</code>
+                        <span class="type">Function</span>
                     
 
                     

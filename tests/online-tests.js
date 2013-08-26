@@ -3,7 +3,7 @@ These tests require an ElasticSearch server on 127.0.0.1:9200.
 */
 
 var elastical = require('../index'),
-
+    util =   require('util');
     assert = require('assert'),
     vows   = require('vows');
 
@@ -622,7 +622,8 @@ vows.describe('Elastical')
                     assert.isObject(res['elastical-test-updatesettings2']);
                     assert.isObject(res['elastical-test-updatesettings2'].settings);
                     assert.isString(res['elastical-test-updatesettings2'].settings['index.refresh_interval']);
-                    assert.equal(res['elastical-test-updatesettings2'].settings['index.refresh_interval'], '3s');
+                    //console.log(JSON.stringify(res['elastical-test-updatesettings2']));
+                    assert.equal(res['elastical-test-updatesettings2'].settings['index.refresh_interval'], '5s');
                     assert.isObject(res['elastical-test-updatesettings3']);
                     assert.isObject(res['elastical-test-updatesettings3'].settings);
                     assert.isString(res['elastical-test-updatesettings3'].settings['index.refresh_interval']);
@@ -819,42 +820,42 @@ vows.describe('Elastical')
         '`count()`': {
             'with a query': {
                 topic: function (client) {
-                  client.count('elastical-test-mapping2', 'type', 'tags:ho', this.callback);
+                  client.count({ 'index': 'elastical-test-mapping', 'type': 'type', 'query': 'tags:blog'},  this.callback);
                 },
-                'should succeed': function (err, res) {
+                'should succeed': function (err, count, res) {
                     assert.isNull(err);
                     assert.isObject(res);
-                    assert.equal(res.count, 1);
+                    assert.equal(count, 1);
                 }
             },
             'with no query': {
                 topic: function (client) {
-                    client.count('elastical-test-mapping', 'type', this.callback);
+                    client.count({'index': 'elastical-test-mapping', 'type':'type'}, this.callback);
                 },
-                'should succeed': function (err, res) {
+                'should succeed': function (err, count,  res) {
                     assert.isNull(err);
                     assert.isObject(res);
-                    assert.equal(res.count, 1);
+                    assert.equal(count, 1);
                 }
             },
             'with two indices and no query': {
                 topic: function (client) {
-                  client.count(['elastical-test-mapping', 'elastical-test-mapping2'], 'type', this.callback);
+                  client.count({index: ['elastical-test-mapping', 'elastical-test-mapping2'], type: 'type'}, this.callback);
                 },
-                'should succeed': function (err, res) {
+                'should succeed': function (err, count, res) {
                     assert.isNull(err);
                     assert.isObject(res);
-                    assert.equal(res.count, 3);
+                    assert.equal(count, 3);
                 }
             },
             'with no type and no query': {
                 topic: function (client) {
-                    client.count('elastical-test-mapping', this.callback);
+                    client.count({index: 'elastical-test-mapping'}, this.callback);
                 },
-                'should succeed': function (err, res) {
+                'should succeed': function (err, count, res) {
                     assert.isNull(err);
                     assert.isObject(res);
-                    assert.equal(res.count, 2);
+                    assert.equal(count, 2);
                 }
             }
         },

@@ -497,6 +497,50 @@ Index.getSettings = function (client, names, callback) {
 }
 
 &#x2F;**
+Update the settings for one or more indices.
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-update-settings&#x2F;)
+
+@method updateSettings
+@param {Client} client Client instance.
+@param {String|String[]} index Index name or array of names. If not specified,
+    it will be applied to all indices
+@param {Object} settings Settings. See ElasticSearch docs for details.
+@param {Function} callback Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@static
+@see Client.updateSettings
+**&#x2F;
+Index.updateSettings = function (client, index, settings, callback) {
+    var params, url = &#x27;&#x27;;
+
+    if (typeof index === &#x27;object&#x27; &amp;&amp; !Array.isArray(index)) {
+        callback = settings;
+        settings = index;
+        index = null;
+    }
+
+    callback || (callback = noop);
+
+    if (index) {
+        if (Array.isArray(index)) {
+            index = index.join(&#x27;,&#x27;);
+        }
+
+        index = index.trim();
+        url   = &#x27;&#x2F;&#x27; + encode(index);
+    }
+
+    url += &#x27;&#x2F;_settings&#x27;;
+
+    client._request(url, {
+        method: &#x27;PUT&#x27;,
+        json: settings
+    }, callback);
+}
+
+&#x2F;**
  Apply aliases actions.
 
  [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-aliases.html)
@@ -721,6 +765,36 @@ Deletes a river config from the cluster.
 **&#x2F;
 Index.deleteRiver = function( client, name, callback ){
     client._request(&#x27;&#x2F;_river&#x2F;&#x27; + name, { method: &#x27;DELETE&#x27; }, callback);
+};
+
+&#x2F;**
+Multi GET API allows to get multiple documents
+
+[ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;multi-get.html)
+
+@method multiGet
+@param {Client} client Client instance.
+@param {String|null} index optional Index name.
+@param {String|null} type optional document type.
+@param {Object} data either docs or ids
+  @param {Object[]} [data.docs] docs to query (can include _index, _type, _id, fields)
+  @param {String[]} [data.ids] ids to query
+@param {Function} callback Callback function.
+  @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+  @param {Object} callback.res ElasticSearch response data.
+@see Client.multiGet
+ **&#x2F;
+Index.multiGet= function (client, index, type, data, callback) {
+    var url = &#x27;&#x27;;
+    if(index)
+        url +=&#x27;&#x2F;&#x27;+encode(index)   ;
+    if(type)
+        url +=  &#x27;&#x2F;&#x27;+encode(type) ;
+    url += &#x27;&#x2F;_mget&#x27;;
+    client._request(url, {
+        method: &#x27;POST&#x27;,
+        json  : data
+    }, callback);
 };
 
 Index.prototype = {
@@ -1066,11 +1140,6 @@ Index.prototype = {
             method: id ? &#x27;PUT&#x27; : &#x27;POST&#x27;,
             json  : doc
         }, callback);
-    },
-
-    &#x2F;&#x2F; http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;multi-get.html
-    multiGet: function () {
-
     },
 
     &#x2F;&#x2F; http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-optimize.html

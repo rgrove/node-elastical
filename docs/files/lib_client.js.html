@@ -105,9 +105,7 @@ ElasticSearch client implementation.
 
 var request = require(&#x27;request&#x27;).defaults({encoding: &#x27;utf8&#x27;}),
     util    = require(&#x27;.&#x2F;util&#x27;),
-
     Index = require(&#x27;.&#x2F;index&#x27;),
-
     encode = encodeURIComponent;
 
 &#x2F;**
@@ -134,6 +132,9 @@ established as needed and are not persistent.
     @param {Number} [options.port=9200] Port to connect to.
     @param {String} [options.protocol=&#x27;http&#x27;] Protocol to use. May be &quot;http&quot; or
         &quot;https&quot;.
+    @param {String} [options.basePath=&#x27;&#x27;] Optional base path to prepend to all 
+        query paths. This can be useful if acessing a cluster on a host that 
+        uses paths to namespace customer indexes.
     @param {Number} [options.timeout=60000] Number of milliseconds to wait
         before aborting a request. Be sure to increase this if you do large bulk
         operations.
@@ -157,6 +158,7 @@ function Client(host, options) {
     }
     this.options.protocol || (this.options.protocol = &#x27;http&#x27;);
     this.options.timeout || (this.options.timeout = 60000);
+    this.options.basePath || (this.options.basePath = null);
 
     this._indexCache = {};
 }
@@ -174,7 +176,7 @@ Client.prototype = {
     @final
     **&#x2F;
     _SEARCH_PARAMS: [
-        &#x27;preference&#x27;, &#x27;routing&#x27;, &#x27;scroll&#x27;, &#x27;scroll_id&#x27;, &#x27;search_type&#x27;, &#x27;timeout&#x27;
+        &#x27;preference&#x27;, &#x27;routing&#x27;, &#x27;scroll&#x27;, &#x27;scroll_id&#x27;, &#x27;search_type&#x27;, &#x27;timeout&#x27;, &#x27;ignore_indices&#x27;
     ],
 
     &#x2F;&#x2F; -- Public Properties ----------------------------------------------------
@@ -192,6 +194,10 @@ Client.prototype = {
 
         if(this.options.port !== null) {
           baseUrl = baseUrl + &#x27;:&#x27; + this.options.port;
+        }
+
+        if(this.options.basePath !== null) {
+          baseUrl = baseUrl + this.options.basePath;
         }
         
         return baseUrl;
@@ -251,16 +257,74 @@ Client.prototype = {
     [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;count.html)
 
     @method count
-    @param {String} index Index name.
-    @param {String} type Type name.
-    @param {String} query Query to get the number of match for.
+    @param {Object} options the options object
+      @param {String} [options.index] Index name.
+      @param {String} [options.type] type Type name.
+      @param {String} [otions.query] Query to get the number of match for.
     @param {Function} [callback] Callback function.
       @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
       @param {Object} callback.res ElasticSearch response data.
     @static
     @see Index.count
     **&#x2F;
-    count: wrapStaticIndexMethod(&#x27;count&#x27;),
+    count: function (options, callback) {
+        var url   = &#x27;&#x27;,
+            hasOptions;
+        if (typeof options === &#x27;function&#x27;) {
+            callback = options;
+            options  = {};
+        }
+        if(typeof callback !== &#x27;function&#x27;){
+          var err =  new Error(&quot;callback is not a function&quot;);
+          var stack = err.stack;
+          throw err;
+        }
+
+        &#x2F;&#x2F; Create a copy of options so we can modify it.
+        options = util.merge(options || {});
+
+
+        if (options.index) {
+            url = &#x27;&#x2F;&#x27; + encode(Array.isArray(options.index) ?
+                options.index.join(&#x27;,&#x27;) : options.index);
+
+            delete options.index;
+        }
+
+        &#x2F;&#x2F; If a query is provided and it&#x27;s a string, automatically turn it into
+        &#x2F;&#x2F; a query_string query.
+        if (typeof options.query === &#x27;string&#x27;) {
+            options = {query_string: {query: options.query}};
+        }
+
+        if (options.type) {
+            if (!url) {
+                url = &#x27;&#x2F;_all&#x27;;
+            }
+
+            url += &#x27;&#x2F;&#x27; + encode(Array.isArray(options.type) ?
+                options.type.join(&#x27;,&#x27;) : options.type);
+
+            delete options.type;
+        }
+
+        hasOptions = !!Object.keys(options).length;
+        url += &#x27;&#x2F;_count&#x27;;
+        options.curlDebug = true;
+        var myOptions = { method: hasOptions ? &#x27;POST&#x27; : &#x27;GET&#x27;};
+        if(hasOptions){
+          myOptions.json = options;
+        }
+        this._request(url, myOptions, function (err, res) {
+            if (err) { 
+              return callback(err, null, res), undefined; 
+            }
+            if(res._shards.failed &gt; 0){
+              return callback(new Error(res._shards.failures.reason), null, res), undefined;
+            }
+            return callback(null, res.count, res);
+        });
+    },
 
     &#x2F;**
     Creates a new index.
@@ -400,6 +464,22 @@ Client.prototype = {
     getSettings: wrapStaticIndexMethod(&#x27;getSettings&#x27;),
 
     &#x2F;**
+    Update settings for the specified index&#x2F;indices.
+
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-update-settings&#x2F;)
+
+    @method updateSettings
+    @param {String|String[]} index Index name or array of names. If not specified,
+        it will be applied to all indices
+    @param {Object} settings Settings. See ElasticSearch docs for details.
+    @param {Function} callback Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @see Index.updateSettings
+    **&#x2F;
+    updateSettings: wrapStaticIndexMethod(&#x27;updateSettings&#x27;),
+
+    &#x2F;**
      Apply aliases actions.
 
      [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;admin-indices-aliases.html)
@@ -502,10 +582,23 @@ Client.prototype = {
     **&#x2F;
     indexExists: wrapStaticIndexMethod(&#x27;exists&#x27;),
 
-    &#x2F;&#x2F; http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;multi-get.html
-    multiGet: function () {
+    &#x2F;**
+    Multi GET API allows to get multiple documents
 
-    },
+    [ElasticSearch docs](http:&#x2F;&#x2F;www.elasticsearch.org&#x2F;guide&#x2F;reference&#x2F;api&#x2F;multi-get.html)
+
+    @method multiGet
+    @param {String|null} index optional Index name.
+    @param {String|null} type optional document type.
+    @param {Object} data either docs or ids
+      @param {Object[]} [data.docs] docs to query (can include _index, _type, _id, fields)
+      @param {String[]} [data.ids] ids to query
+    @param {Function} callback Callback function.
+      @param {Error|null} callback.err Error, or &#x60;null&#x60; on success.
+      @param {Object} callback.res ElasticSearch response data.
+    @see Index.multiGet
+    **&#x2F;
+    multiGet: wrapStaticIndexMethod(&#x27;multiGet&#x27;),
 
     &#x2F;**
     Registers a mapping definition for the specified type within the specified
@@ -766,18 +859,18 @@ Client.prototype = {
       var query = [],
           url = &#x27;&#x27;,
           hasOptions;
-          
+
       if (typeof options === &#x27;function&#x27;) {
         callback = options;
         options = {};
       }
       &#x2F;&#x2F;Create a copy of options so we can modify it.
       options = util.merge(options || {});
-      
+
       if (options.index) {
         url = &#x27;&#x2F;&#x27; + encode(Array.isArray(options.index) ?
           options.index.join(&#x27;,&#x27;) : options.index);
-        
+
         delete options.index;
         &#x2F;&#x2F;Look for types only if there is an index
         if (options.types) {
@@ -786,9 +879,9 @@ Client.prototype = {
         }
         delete options.types;
       }
-      
+
       url += &#x27;&#x2F;_stats&#x27;;  
-      
+
       util.each(options, function (value, name) {
           if (value === true || value === false) {
               value = value ? &#x27;1&#x27; : &#x27;0&#x27;;
@@ -997,7 +1090,6 @@ Client.prototype = {
         if (this._testHook) {
             return this._testHook(null, options), undefined;
         }
-
         request(url, options, function (err, res, body) {
             if (err) { return callback(err), undefined; }
 
@@ -1052,7 +1144,7 @@ function curlDebug(options) {
         command += &quot; -d &#x27;&quot; + JSON.stringify(options.json, null, 2) + &quot;&#x27;&quot;;
     }
 
-    process.stderr.write(command + &#x27;\n&#x27;);
+    process.stdout.write(command + &#x27;\n&#x27;);
 }
 
 function wrapIndexMethod(methodName) {

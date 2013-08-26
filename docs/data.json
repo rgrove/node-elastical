@@ -72,7 +72,7 @@
             "module": "elastical",
             "namespace": "",
             "file": "lib/client.js",
-            "line": 15,
+            "line": 13,
             "description": "ElasticSearch client implementation."
         },
         "index": {
@@ -130,7 +130,7 @@
             "submodule": "client",
             "namespace": "",
             "file": "lib/client.js",
-            "line": 15,
+            "line": 13,
             "description": "Creates a new Elastical client associated with the specified _host_. The client\nuses ElasticSearch's REST API to interact with the host, so connections are\nestablished as needed and are not persistent.",
             "example": [
                 "\n\n    // Create a client that connects to http://127.0.0.1:9200\n    var elastical = require('elastical'),\n        client    = new elastical.client();"
@@ -177,6 +177,13 @@
                             "optdefault": "'http'"
                         },
                         {
+                            "name": "basePath",
+                            "description": "Optional base path to prepend to all \n        query paths. This can be useful if acessing a cluster on a host that \n        uses paths to namespace customer indexes.",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "''"
+                        },
+                        {
                             "name": "timeout",
                             "description": "Number of milliseconds to wait\n        before aborting a request. Be sure to increase this if you do large bulk\n        operations.",
                             "type": "Number",
@@ -207,7 +214,7 @@
     "classitems": [
         {
             "file": "lib/client.js",
-            "line": 69,
+            "line": 71,
             "description": "Search options that must be passed as query parameters instead of in the\nrequest body.",
             "itemtype": "property",
             "name": "_SEARCH_PARAMS",
@@ -221,7 +228,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 84,
+            "line": 86,
             "description": "Base URL for this client, of the form \"http://host:port\".",
             "itemtype": "property",
             "name": "baseUrl",
@@ -232,7 +239,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 102,
+            "line": 108,
             "description": "Port number for this client.",
             "itemtype": "property",
             "name": "port",
@@ -243,7 +250,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 114,
+            "line": 120,
             "description": "Performs multiple document create/index/delete operations in a single request.\n\nSee `Index.bulk()` for detailed usage instructions.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/bulk.html)",
             "example": [
                 "\n\n    client.bulk([\n        {create: {index: 'blog', type: 'post', id: '1', data: {\n            title: 'Hello',\n            body : 'Welcome to my stupid blog.'\n        }}},\n\n        {index: {index: 'blog', type: 'post', id: '2', data: {\n            title: 'Breaking news',\n            body : 'Today I ate a sandwich.'\n        }}},\n\n        {delete: {index: 'blog', type: 'post', id: '42'}}\n    ], function (err, res) {\n        // ...\n    });"
@@ -290,25 +297,35 @@
         },
         {
             "file": "lib/client.js",
-            "line": 150,
+            "line": 156,
             "description": "Get the number of matches for a query\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/count.html)",
             "itemtype": "method",
             "name": "count",
             "params": [
                 {
-                    "name": "index",
-                    "description": "Index name.",
-                    "type": "String"
+                    "name": "options",
+                    "description": "the options object",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "index",
+                            "description": "Index name.",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "type",
+                            "description": "type Type name.",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
                 },
                 {
-                    "name": "type",
-                    "description": "Type name.",
-                    "type": "String"
-                },
-                {
-                    "name": "query",
+                    "name": "otions.query",
                     "description": "Query to get the number of match for.",
-                    "type": "String"
+                    "type": "String",
+                    "optional": true
                 },
                 {
                     "name": "callback",
@@ -339,7 +356,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 167,
+            "line": 231,
             "description": "Creates a new index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-create-index.html)",
             "itemtype": "method",
             "name": "createIndex",
@@ -387,7 +404,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 183,
+            "line": 247,
             "description": "Deletes a document from the specified index. See `Index.delete()` for the\ncomplete list of supported options.",
             "itemtype": "method",
             "name": "delete",
@@ -441,7 +458,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 199,
+            "line": 263,
             "description": "Deletes the specified index or indices. If no indices are specified, **all**\nindices on the server will be deleted.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index.html)",
             "itemtype": "method",
             "name": "deleteIndex",
@@ -480,7 +497,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 216,
+            "line": 280,
             "description": "Gets a document from the specified index based on its id.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/get.html)",
             "itemtype": "method",
             "name": "get",
@@ -581,7 +598,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 255,
+            "line": 319,
             "description": "Gets an Index instance for interacting with the specified ElasticSearch\nindex.",
             "example": [
                 "\n\n    var client = new require('elastical').Client(),\n        tweets = client.getIndex('tweets');"
@@ -608,7 +625,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 274,
+            "line": 338,
             "description": "Gets mapping definitions for the specified type within the specified index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping.html)",
             "itemtype": "method",
             "name": "getMapping",
@@ -651,7 +668,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 290,
+            "line": 354,
             "description": "Gets settings for the specified index/indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-get-settings.html)",
             "itemtype": "method",
             "name": "getSettings",
@@ -688,7 +705,49 @@
         },
         {
             "file": "lib/client.js",
-            "line": 304,
+            "line": 368,
+            "description": "Update settings for the specified index/indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-update-settings/)",
+            "itemtype": "method",
+            "name": "updateSettings",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Index name or array of names. If not specified,\n    it will be applied to all indices",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "settings",
+                    "description": "Settings. See ElasticSearch docs for details.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.updateSettings"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 384,
             "description": "Apply aliases actions.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases.html)",
             "itemtype": "method",
             "name": "applyAliasesActions",
@@ -725,7 +784,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 318,
+            "line": 398,
             "description": "Get aliases.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases.html)",
             "itemtype": "method",
             "name": "getAliases",
@@ -762,7 +821,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 332,
+            "line": 412,
             "description": "Adds a document to the specified index.\n\nIf the specified index doesn't exist, it will be created.\n\nIf a document already exists in that index with the specified _type_ and\n_id_, it will be updated. Otherwise, a new document will be created.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/index_.html)",
             "example": [
                 "\n\n    client.index('blog', 'post', {\n        title  : \"Welcome to my stupid blog\",\n        content: \"This is the first and last time I'll post anything.\",\n        tags   : ['welcome', 'first post', 'last post'],\n        created: Date.now()\n    }, function (err, res) {\n        if (err) { throw err; }\n        console.log('Indexed a blog post');\n    });"
@@ -893,7 +952,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 392,
+            "line": 472,
             "description": "Checks whether the specified index or indices exist.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-indices-exists.html)",
             "itemtype": "method",
             "name": "indexExists",
@@ -930,7 +989,68 @@
         },
         {
             "file": "lib/client.js",
-            "line": 412,
+            "line": 487,
+            "description": "Multi GET API allows to get multiple documents\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/multi-get.html)",
+            "itemtype": "method",
+            "name": "multiGet",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "optional Index name.",
+                    "type": "String|null"
+                },
+                {
+                    "name": "type",
+                    "description": "optional document type.",
+                    "type": "String|null"
+                },
+                {
+                    "name": "data",
+                    "description": "either docs or ids",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "docs",
+                            "description": "docs to query (can include _index, _type, _id, fields)",
+                            "type": "Object[]",
+                            "optional": true
+                        },
+                        {
+                            "name": "ids",
+                            "description": "ids to query",
+                            "type": "String[]",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Index.multiGet"
+            ],
+            "class": "Client",
+            "module": "elastical",
+            "submodule": "client"
+        },
+        {
+            "file": "lib/client.js",
+            "line": 505,
             "description": "Registers a mapping definition for the specified type within the specified\nindex or indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping.html)",
             "itemtype": "method",
             "name": "putMapping",
@@ -981,7 +1101,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 433,
+            "line": 526,
             "description": "Refreshes the specified index or indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh.html)",
             "itemtype": "method",
             "name": "refresh",
@@ -1020,7 +1140,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 448,
+            "line": 541,
             "description": "Analyze\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze.html)",
             "itemtype": "method",
             "name": "analyze",
@@ -1095,7 +1215,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 472,
+            "line": 565,
             "description": "Searches for documents matching the given query.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/search/)",
             "example": [
                 "\n\n    var client = new require('elastical').Client();\n\n    client.search({query: 'pie'}, function (err, results) {\n        if (err) { throw err; }\n        console.log(results);\n    });"
@@ -1277,7 +1397,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 632,
+            "line": 725,
             "description": "Provide statistics on different operations happening on an index.\nBy default, docs, store, and indexing, get, and search stats are returned.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-stats.html)",
             "example": [
                 "\n\n    var client = new require('elastical').Client();\n\n    client.stat({index: 'blog'}, function (err, results) {\n        if (err) { throw err; }\n        console.log(results);\n    });"
@@ -1399,7 +1519,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 715,
+            "line": 808,
             "description": "Registers a percolator for the given index or modifies the existing percolator\nif one with the name already exists\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/pecolator/)",
             "example": [
                 "\n    var put =   {\n                    \"query\" : {\n                        \"text\" : {\n                            \"hashtags\" : {\n                                \"query\" : 'blah blah blah ',\n                                \"operator\" : \"or\"\n                            }\n                        }\n                    }\n                };\n    client.percolator('tweets', 'mypercolator', query, function (err, res) {\n        if (err) { throw err; }\n        console.log(results);\n    });"
@@ -1446,7 +1566,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 752,
+            "line": 845,
             "description": "Retrieve the percolator doc",
             "example": [
                 "\n\n client.getPercolator('tweets', 'mypercolator', function (err, results) {\n     if (err) { throw err; }\n     console.log(results);\n });"
@@ -1491,7 +1611,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 771,
+            "line": 864,
             "description": "Test if a given doc matches a percolator for\nthe given index and document type",
             "example": [
                 "\n     client.perolate('tweets', 'tweet', {}, function(err, res){\n         if(err){ throw err; }\n         console.log(res);\n     });"
@@ -1536,7 +1656,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 790,
+            "line": 883,
             "description": "Delete a registered percolator for the given index or indicies",
             "example": [
                 "\n     client.deletePercolator('tweets', 'mypercolator', function(err, res){\n         if(err){ throw err;}\n         console.log(res);\n     });"
@@ -1576,7 +1696,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 806,
+            "line": 899,
             "description": "Registers a river with the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "putRiver",
@@ -1617,7 +1737,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 820,
+            "line": 913,
             "description": "Gets river config from the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "getRiver",
@@ -1658,7 +1778,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 834,
+            "line": 927,
             "description": "Deletes a river config from the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "deleteRiver",
@@ -1699,7 +1819,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 851,
+            "line": 944,
             "description": "Makes an HTTP request using the `request` module.",
             "itemtype": "method",
             "name": "_request",
@@ -1742,7 +1862,7 @@
         },
         {
             "file": "lib/client.js",
-            "line": 933,
+            "line": 1025,
             "description": "Alias for index().",
             "itemtype": "method",
             "name": "set",
@@ -2121,6 +2241,54 @@
         {
             "file": "lib/index.js",
             "line": 401,
+            "description": "Update the settings for one or more indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-update-settings/)",
+            "itemtype": "method",
+            "name": "updateSettings",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "index",
+                    "description": "Index name or array of names. If not specified,\n    it will be applied to all indices",
+                    "type": "String|String[]"
+                },
+                {
+                    "name": "settings",
+                    "description": "Settings. See ElasticSearch docs for details.",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "static": 1,
+            "see": [
+                "Client.updateSettings"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 445,
             "description": "Apply aliases actions.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases.html)",
             "itemtype": "method",
             "name": "addAlias",
@@ -2163,7 +2331,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 422,
+            "line": 466,
             "description": "Get aliases.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-aliases.html)",
             "itemtype": "method",
             "name": "getAliases",
@@ -2206,7 +2374,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 453,
+            "line": 497,
             "description": "Registers a mapping definition for the specified type within the specified\nindex or indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping.html)",
             "itemtype": "method",
             "name": "putMapping",
@@ -2262,7 +2430,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 493,
+            "line": 537,
             "description": "Refreshes the specified index or indices.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh.html)",
             "itemtype": "method",
             "name": "refresh",
@@ -2307,7 +2475,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 524,
+            "line": 568,
             "description": "Analyze\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze.html)",
             "itemtype": "method",
             "name": "analyze",
@@ -2387,7 +2555,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 573,
+            "line": 617,
             "description": "Registers a river with the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "putRiver",
@@ -2433,7 +2601,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 594,
+            "line": 638,
             "description": "Gets river config from the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "getRiver",
@@ -2474,7 +2642,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 611,
+            "line": 655,
             "description": "Deletes a river config from the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "deleteRiver",
@@ -2515,7 +2683,73 @@
         },
         {
             "file": "lib/index.js",
-            "line": 634,
+            "line": 672,
+            "description": "Multi GET API allows to get multiple documents\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/multi-get.html)",
+            "itemtype": "method",
+            "name": "multiGet",
+            "params": [
+                {
+                    "name": "client",
+                    "description": "Client instance.",
+                    "type": "Client"
+                },
+                {
+                    "name": "index",
+                    "description": "optional Index name.",
+                    "type": "String|null"
+                },
+                {
+                    "name": "type",
+                    "description": "optional document type.",
+                    "type": "String|null"
+                },
+                {
+                    "name": "data",
+                    "description": "either docs or ids",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "docs",
+                            "description": "docs to query (can include _index, _type, _id, fields)",
+                            "type": "Object[]",
+                            "optional": true
+                        },
+                        {
+                            "name": "ids",
+                            "description": "ids to query",
+                            "type": "String[]",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "Callback function.",
+                    "type": "Function",
+                    "props": [
+                        {
+                            "name": "err",
+                            "description": "Error, or `null` on success.",
+                            "type": "Error|null"
+                        },
+                        {
+                            "name": "res",
+                            "description": "ElasticSearch response data.",
+                            "type": "Object"
+                        }
+                    ]
+                }
+            ],
+            "see": [
+                "Client.multiGet"
+            ],
+            "class": "Index",
+            "module": "elastical",
+            "submodule": "index"
+        },
+        {
+            "file": "lib/index.js",
+            "line": 708,
             "description": "Deletes a document from this index.",
             "itemtype": "method",
             "name": "delete",
@@ -2618,7 +2852,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 725,
+            "line": 799,
             "description": "Deletes this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index.html)",
             "itemtype": "method",
             "name": "deleteIndex",
@@ -2648,7 +2882,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 744,
+            "line": 818,
             "description": "Checks whether this index exists on the server.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-indices-exists.html)",
             "itemtype": "method",
             "name": "exists",
@@ -2677,7 +2911,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 759,
+            "line": 833,
             "description": "Gets a document from this index based on its id.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/get.html)",
             "itemtype": "method",
             "name": "get",
@@ -2773,7 +3007,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 850,
+            "line": 924,
             "description": "Gets the mapping definition for this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-get-mapping.html)",
             "itemtype": "method",
             "name": "getMapping",
@@ -2811,7 +3045,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 867,
+            "line": 941,
             "description": "Adds a document to this index.\n\nIf a document already exists in this index with the specified _type_ and\n_id_, it will be updated. Otherwise, a new document will be created.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/index_.html)",
             "example": [
                 "\n\n    var blog = client.getIndex('blog');\n\n    blog.index('post', {\n        title  : \"Welcome to my stupid blog\",\n        content: \"This is the first and last time I'll post anything.\",\n        tags   : ['welcome', 'first post', 'last post'],\n        created: Date.now()\n    }, function (err, res) {\n        if (err) { throw err; }\n        console.log('Indexed a blog post');\n    });"
@@ -2937,7 +3171,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 983,
+            "line": 1052,
             "description": "Registers a mapping definition for the specified type within this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping.html)",
             "itemtype": "method",
             "name": "putMapping",
@@ -2981,7 +3215,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1002,
+            "line": 1071,
             "description": "Analyze using analyzer from this index\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze.html)",
             "itemtype": "method",
             "name": "analyze",
@@ -3048,7 +3282,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1029,
+            "line": 1098,
             "description": "Registers a river with the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "putRiver",
@@ -3089,7 +3323,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1045,
+            "line": 1114,
             "description": "Gets river config from the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "getRiver",
@@ -3130,7 +3364,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1061,
+            "line": 1130,
             "description": "Deletes a river config from the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "deleteRiver",
@@ -3171,7 +3405,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1078,
+            "line": 1147,
             "description": "Refreshes this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh.html)",
             "itemtype": "method",
             "name": "refresh",
@@ -3204,7 +3438,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1093,
+            "line": 1162,
             "description": "Searches for documents in this index matching the given query. See\n`Client.search()` for the complete list of supported options.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/search/)",
             "itemtype": "method",
             "name": "search",
@@ -3247,7 +3481,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1117,
+            "line": 1186,
             "description": "Provide statistics on different operations happening on an index.\nSee `Client.stats()` for the complete list of supported options.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-stats.html)",
             "itemtype": "method",
             "name": "stats",
@@ -3286,7 +3520,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1140,
+            "line": 1209,
             "description": "Registers a percolator for the given index or modifies the existing percolator\nif one with the name already exists\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/pecolator/)",
             "example": [
                 "\n    var put =   {\n                    \"query\" : {\n                        \"text\" : {\n                            \"hashtags\" : {\n                                \"query\" : 'blah blah blah ',\n                                \"operator\" : \"or\"\n                            }\n                        }\n                    }\n                };\n    client.percolator('tweets', 'mypercolator', query, function (err, res) {\n        if (err) { throw err; }\n        console.log(results);\n    });"
@@ -3328,7 +3562,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1182,
+            "line": 1251,
             "description": "Retrieve the percolator doc",
             "example": [
                 "\n\n client.getPercolator('tweets', 'mypercolator', function (err, results) {\n     if (err) { throw err; }\n     console.log(results);\n });"
@@ -3368,7 +3602,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1208,
+            "line": 1277,
             "description": "Test if a given doc matches a percolator for\nthe given index and document type",
             "example": [
                 "\n     client.perolate('tweets', 'tweet', {\n         doc: {\n\n             title  : \"Welcome to my stupid blog\",\n             content: \"This is the first and last time I'll post anything.\",\n             tags   : ['welcome', 'first post', 'last post'],\n             created: Date.now()\n         }\n     }, function(err, res){\n         if(err){ throw err; }\n         console.log(res);\n     });\n _NOTE_: You must wrap your document in 'doc' param"
@@ -3408,7 +3642,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1246,
+            "line": 1315,
             "description": "Delete a registered percolator for the given index or indicies",
             "example": [
                 "\n     client.deletePercolator('tweets', 'mypercolator', function(err, res){\n         if(err){ throw err;}\n         console.log(res);\n     });"
@@ -3448,7 +3682,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1267,
+            "line": 1336,
             "description": "Alias for index().",
             "itemtype": "method",
             "name": "set",
@@ -3495,7 +3729,7 @@
         {
             "file": "lib/util.js",
             "line": 31,
-            "description": "Returns a new object containing a deep merge of the enumerable properties of all\npassed objects. Properties in later arguments take precedence over properties\nwith the same name in earlier arguments. Object values are deep-cloned. Array\nvalues are _not_ deep-cloned.",
+            "description": "Returns a new object containing a deep merge of the enumerable properties of all\npassed objects. Properties in later arguments take precedence over properties\nwith the same name in earlier arguments. Object values are deep-cloned. Array and Date\nvalues are _not_ deep-cloned.",
             "itemtype": "method",
             "name": "merge",
             "params": [

@@ -129,7 +129,7 @@ exports.each = each;
 &#x2F;**
 Returns a new object containing a deep merge of the enumerable properties of all
 passed objects. Properties in later arguments take precedence over properties
-with the same name in earlier arguments. Object values are deep-cloned. Array
+with the same name in earlier arguments. Object values are deep-cloned. Array and Date
 values are _not_ deep-cloned.
 
 @method merge
@@ -174,7 +174,7 @@ function mix() {
             if(value == null){
                 &#x2F;&#x2F; if value is null or undefined keep the value intact.
                 target[key] = value;
-            }else if (typeof value === &#x27;object&#x27; &amp;&amp; !Array.isArray(value)) {
+            }else if (typeof value === &#x27;object&#x27; &amp;&amp; !Array.isArray(value) &amp;&amp; !(value instanceof Date)) {
                 typeof target[key] === &#x27;object&#x27; || (target[key] = {});
                 mix(target[key], value);
             } else {

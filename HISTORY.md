@@ -1,5 +1,9 @@
 Elastical History
 =================
+0.0.12 (2013-08-24)
+------------------
+* Bug fixes
+
 0.0.11  (2013-01-28)
 ------------------
 * Add query option in function delete. [Victor Voisin]
