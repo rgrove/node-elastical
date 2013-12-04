@@ -65,7 +65,7 @@ vows.describe('Elastical').addBatch({
                     },
 
                     'URL should not have a query string': function (err, options) {
-                        assert.isUndefined(parseUrl(options.uri).search);
+                        assert.isNull(parseUrl(options.uri).search);
                     },
 
                     'body should be formatted correctly': function (err, options) {
@@ -197,7 +197,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should not have a query string': function (err, options) {
-                    assert.isUndefined(parseUrl(options.uri).search);
+                    assert.isNull(parseUrl(options.uri).search);
                 }
             },
 
