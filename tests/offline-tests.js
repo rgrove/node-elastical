@@ -635,7 +635,7 @@ vows.describe('Elastical').addBatch({
             'no filters': {
                 topic: function (client) {
                     client._testHook = this.callback;
-                    client.putRiver('_river','my_river_name', { type : 'couchdb', couchdb : { host : 'localhost' }, index : {} } );
+                    client.putRiver('my_river_name', { type : 'couchdb', couchdb : { host : 'localhost' }, index : {} } );
                 },
 
                 'method should be PUT': function (err, options) {
@@ -656,7 +656,7 @@ vows.describe('Elastical').addBatch({
             'basic': {
                 topic: function (client) {
                     client._testHook = this.callback;
-                    client.getRiver('_river','my_river_name' );
+                    client.getRiver('my_river_name' );
                 },
 
                 'method should be GET': function (err, options) {
@@ -673,7 +673,7 @@ vows.describe('Elastical').addBatch({
             'basic': {
                 topic: function (client) {
                     client._testHook = this.callback;
-                    client.deleteRiver('_river','my_river_name' );
+                    client.deleteRiver('my_river_name' );
                 },
 
                 'method should be DELETE': function (err, options) {
