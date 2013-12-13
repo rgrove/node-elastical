@@ -1029,7 +1029,7 @@ vows.describe('Elastical')
 
         '`putRiver()`': {
             topic: function (client) {
-                client.putRiver( 'elastical-test-river', 'elastical-test-river-put', { type:'dummy' }, this.callback );
+                client.putRiver( 'elastical-test-river-put', { type:'dummy' }, this.callback );
             },
 
             'should return ok': function (err, results, res) {
@@ -1041,7 +1041,7 @@ vows.describe('Elastical')
 
         '`getRiver()`': {
             topic: function (client) {
-                client.getRiver( 'elastical-test-river', 'elastical-test-river-get', this.callback );
+                client.getRiver( 'elastical-test-river-get', this.callback );
             },
 
             'should return ok': function (err, results, res) {
@@ -1053,7 +1053,7 @@ vows.describe('Elastical')
 
         '`deleteRiver()`': {
             topic: function (client) {
-                client.deleteRiver( 'elastical-test-river', 'elastical-test-river-delete', this.callback );
+                client.deleteRiver( 'elastical-test-river-delete', this.callback );
             },
 
             'should return ok': function (err, results, res) {
