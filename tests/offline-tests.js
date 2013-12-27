@@ -65,7 +65,7 @@ vows.describe('Elastical').addBatch({
                     },
 
                     'URL should not have a query string': function (err, options) {
-                        assert.isNull(parseUrl(options.uri).search);
+                        assert.isNull(parseUrl(options.uri).search || null);
                     },
 
                     'body should be formatted correctly': function (err, options) {
@@ -197,7 +197,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should not have a query string': function (err, options) {
-                    assert.isNull(parseUrl(options.uri).search);
+                    assert.isNull(parseUrl(options.uri).search || null);
                 }
             },
 
@@ -240,6 +240,34 @@ vows.describe('Elastical').addBatch({
                 'URL query string should contain the options': function (err, options) {
                     var query = parseUrl(options.uri, true).query;
                     assert.deepEqual('http://example.com:42/posts/post/_query', options.uri);
+                }
+            },
+
+            'with query option and without type': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.delete('posts', '', '', {
+                        query: {"term" : { "user" : "kimchy" }}
+                    });
+                },
+
+                'URL query string should contain the options': function (err, options) {
+                    var query = parseUrl(options.uri, true).query;
+                    assert.deepEqual('http://example.com:42/posts/_query', options.uri);
+                }
+            },
+
+            'with query option and multiple types': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.delete('posts', ['post','tweet'], '', {
+                        query: {"term" : { "user" : "kimchy" }}
+                    });
+                },
+
+                'URL query string should contain the options': function (err, options) {
+                    var query = parseUrl(options.uri, true).query;
+                    assert.deepEqual('http://example.com:42/posts/post%2Ctweet/_query', options.uri);
                 }
             }
         },
