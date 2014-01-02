@@ -853,44 +853,48 @@ Index.prototype = {
         }
 
         if(params.query) {
-          url = &#x27;&#x2F;&#x27; + encode(this.name) + &#x27;&#x2F;&#x27; + encode(type) + &#x27;&#x2F;_query&#x27;;
-
-          this.client._request(url, {method: &#x27;DELETE&#x27;, json: params.query}, function (err, res) {
-              if (err) {
-                  if (ignoreMissing &amp;&amp; res &amp;&amp; res.found === false) {
-                      return callback(null, res), undefined;
-                  } else {
-                      return callback(err, res), undefined;
-                  }
-              }
-              callback(null, res);
-          });
+            url = &#x27;&#x2F;&#x27; + encode(this.name);
+            if (type) {
+                url += &#x27;&#x2F;&#x27; + encode(Array.isArray(type) ? type.join(&#x27;,&#x27;) : type);
+            }
+            url += &#x27;&#x2F;_query&#x27;;
+            
+            this.client._request(url, {method: &#x27;DELETE&#x27;, json: params.query}, function (err, res) {
+                if (err) {
+                    if (ignoreMissing &amp;&amp; res &amp;&amp; res.found === false) {
+                        return callback(null, res), undefined;
+                    } else {
+                        return callback(err, res), undefined;
+                    }
+                }
+                callback(null, res);
+            });
         } else {
-          util.each(params, function (value, name) {
-              if (value === true || value === false) {
-                  value = value ? &#x27;1&#x27; : &#x27;0&#x27;;
-              }
-
-              query.push(encode(name) + &#x27;=&#x27; + encode(value));
-          });
-
-          url = &#x27;&#x2F;&#x27; + encode(this.name) + &#x27;&#x2F;&#x27; + encode(type) + &#x27;&#x2F;&#x27; + encode(id);
-
-          if (query.length) {
-              url += &#x27;?&#x27; + query.join(&#x27;&amp;&#x27;);
-          }
-
-          this.client._request(url, {method: &#x27;DELETE&#x27;}, function (err, res) {
-              if (err) {
-                  if (ignoreMissing &amp;&amp; res &amp;&amp; res.found === false) {
-                      return callback(null, res), undefined;
-                  } else {
-                      return callback(err, res), undefined;
-                  }
-              }
-
-              callback(null, res);
-          });
+            util.each(params, function (value, name) {
+                if (value === true || value === false) {
+                    value = value ? &#x27;1&#x27; : &#x27;0&#x27;;
+                }
+  
+                query.push(encode(name) + &#x27;=&#x27; + encode(value));
+            });
+  
+            url = &#x27;&#x2F;&#x27; + encode(this.name) + &#x27;&#x2F;&#x27; + encode(type) + &#x27;&#x2F;&#x27; + encode(id);
+  
+            if (query.length) {
+                url += &#x27;?&#x27; + query.join(&#x27;&amp;&#x27;);
+            }
+  
+            this.client._request(url, {method: &#x27;DELETE&#x27;}, function (err, res) {
+                if (err) {
+                    if (ignoreMissing &amp;&amp; res &amp;&amp; res.found === false) {
+                        return callback(null, res), undefined;
+                    } else {
+                        return callback(err, res), undefined;
+                    }
+                }
+  
+                callback(null, res);
+            });
         }
     },
 

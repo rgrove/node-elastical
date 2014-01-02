@@ -1,5 +1,9 @@
 Elastical History
 =================
+0.0.13 (2014-01-02)
+* Delete by Query API [David Marco]
+* Bug fixes to River related methods [Francesco Valente]
+
 0.0.12 (2013-08-24)
 ------------------
 * Bug fixes

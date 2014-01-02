@@ -1006,7 +1006,7 @@ Client.prototype = {
       @param {Object} callback.res ElasticSearch response data.
     @static
     **&#x2F;
-    putRiver: wrapIndexMethod(&#x27;putRiver&#x27;),
+    putRiver: wrapStaticIndexMethod(&#x27;putRiver&#x27;),
 
     &#x2F;**
     Gets river config from the cluster.
@@ -1020,7 +1020,7 @@ Client.prototype = {
       @param {Object} callback.res ElasticSearch response data.
     @static
     **&#x2F;
-    getRiver: wrapIndexMethod(&#x27;getRiver&#x27;),
+    getRiver: wrapStaticIndexMethod(&#x27;getRiver&#x27;),
 
     &#x2F;**
     Deletes a river config from the cluster.
@@ -1035,7 +1035,7 @@ Client.prototype = {
       @param {Object} callback.res ElasticSearch response data.
     @static
     **&#x2F;
-    deleteRiver: wrapIndexMethod(&#x27;deleteRiver&#x27;),
+    deleteRiver: wrapStaticIndexMethod(&#x27;deleteRiver&#x27;),
 
     &#x2F;&#x2F; -- Protected Methods ----------------------------------------------------
 

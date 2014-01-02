@@ -2852,7 +2852,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 799,
+            "line": 803,
             "description": "Deletes this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-delete-index.html)",
             "itemtype": "method",
             "name": "deleteIndex",
@@ -2882,7 +2882,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 818,
+            "line": 822,
             "description": "Checks whether this index exists on the server.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-indices-exists.html)",
             "itemtype": "method",
             "name": "exists",
@@ -2911,7 +2911,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 833,
+            "line": 837,
             "description": "Gets a document from this index based on its id.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/get.html)",
             "itemtype": "method",
             "name": "get",
@@ -3007,7 +3007,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 924,
+            "line": 928,
             "description": "Gets the mapping definition for this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-get-mapping.html)",
             "itemtype": "method",
             "name": "getMapping",
@@ -3045,7 +3045,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 941,
+            "line": 945,
             "description": "Adds a document to this index.\n\nIf a document already exists in this index with the specified _type_ and\n_id_, it will be updated. Otherwise, a new document will be created.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/index_.html)",
             "example": [
                 "\n\n    var blog = client.getIndex('blog');\n\n    blog.index('post', {\n        title  : \"Welcome to my stupid blog\",\n        content: \"This is the first and last time I'll post anything.\",\n        tags   : ['welcome', 'first post', 'last post'],\n        created: Date.now()\n    }, function (err, res) {\n        if (err) { throw err; }\n        console.log('Indexed a blog post');\n    });"
@@ -3171,7 +3171,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1052,
+            "line": 1056,
             "description": "Registers a mapping definition for the specified type within this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-put-mapping.html)",
             "itemtype": "method",
             "name": "putMapping",
@@ -3215,7 +3215,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1071,
+            "line": 1075,
             "description": "Analyze using analyzer from this index\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-analyze.html)",
             "itemtype": "method",
             "name": "analyze",
@@ -3282,7 +3282,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1098,
+            "line": 1102,
             "description": "Registers a river with the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "putRiver",
@@ -3323,7 +3323,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1114,
+            "line": 1118,
             "description": "Gets river config from the cluster.\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "getRiver",
@@ -3364,7 +3364,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1130,
+            "line": 1134,
             "description": "Deletes a river config from the cluster.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/river/)",
             "itemtype": "method",
             "name": "deleteRiver",
@@ -3405,7 +3405,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1147,
+            "line": 1151,
             "description": "Refreshes this index.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-refresh.html)",
             "itemtype": "method",
             "name": "refresh",
@@ -3438,7 +3438,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1162,
+            "line": 1166,
             "description": "Searches for documents in this index matching the given query. See\n`Client.search()` for the complete list of supported options.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/search/)",
             "itemtype": "method",
             "name": "search",
@@ -3481,7 +3481,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1186,
+            "line": 1190,
             "description": "Provide statistics on different operations happening on an index.\nSee `Client.stats()` for the complete list of supported options.\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/admin-indices-stats.html)",
             "itemtype": "method",
             "name": "stats",
@@ -3520,7 +3520,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1209,
+            "line": 1213,
             "description": "Registers a percolator for the given index or modifies the existing percolator\nif one with the name already exists\n\n[ElasticSearch docs](http://www.elasticsearch.org/guide/reference/api/pecolator/)",
             "example": [
                 "\n    var put =   {\n                    \"query\" : {\n                        \"text\" : {\n                            \"hashtags\" : {\n                                \"query\" : 'blah blah blah ',\n                                \"operator\" : \"or\"\n                            }\n                        }\n                    }\n                };\n    client.percolator('tweets', 'mypercolator', query, function (err, res) {\n        if (err) { throw err; }\n        console.log(results);\n    });"
@@ -3562,7 +3562,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1251,
+            "line": 1255,
             "description": "Retrieve the percolator doc",
             "example": [
                 "\n\n client.getPercolator('tweets', 'mypercolator', function (err, results) {\n     if (err) { throw err; }\n     console.log(results);\n });"
@@ -3602,7 +3602,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1277,
+            "line": 1281,
             "description": "Test if a given doc matches a percolator for\nthe given index and document type",
             "example": [
                 "\n     client.perolate('tweets', 'tweet', {\n         doc: {\n\n             title  : \"Welcome to my stupid blog\",\n             content: \"This is the first and last time I'll post anything.\",\n             tags   : ['welcome', 'first post', 'last post'],\n             created: Date.now()\n         }\n     }, function(err, res){\n         if(err){ throw err; }\n         console.log(res);\n     });\n _NOTE_: You must wrap your document in 'doc' param"
@@ -3642,7 +3642,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1315,
+            "line": 1319,
             "description": "Delete a registered percolator for the given index or indicies",
             "example": [
                 "\n     client.deletePercolator('tweets', 'mypercolator', function(err, res){\n         if(err){ throw err;}\n         console.log(res);\n     });"
@@ -3682,7 +3682,7 @@
         },
         {
             "file": "lib/index.js",
-            "line": 1336,
+            "line": 1340,
             "description": "Alias for index().",
             "itemtype": "method",
             "name": "set",
