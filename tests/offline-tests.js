@@ -65,7 +65,7 @@ vows.describe('Elastical').addBatch({
                     },
 
                     'URL should not have a query string': function (err, options) {
-                        assert.isUndefined(parseUrl(options.uri).search);
+                        assert.isNull(parseUrl(options.uri).search || null);
                     },
 
                     'body should be formatted correctly': function (err, options) {
@@ -197,7 +197,7 @@ vows.describe('Elastical').addBatch({
                 },
 
                 'URL should not have a query string': function (err, options) {
-                    assert.isUndefined(parseUrl(options.uri).search);
+                    assert.isNull(parseUrl(options.uri).search || null);
                 }
             },
 
@@ -240,6 +240,34 @@ vows.describe('Elastical').addBatch({
                 'URL query string should contain the options': function (err, options) {
                     var query = parseUrl(options.uri, true).query;
                     assert.deepEqual('http://example.com:42/posts/post/_query', options.uri);
+                }
+            },
+
+            'with query option and without type': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.delete('posts', '', '', {
+                        query: {"term" : { "user" : "kimchy" }}
+                    });
+                },
+
+                'URL query string should contain the options': function (err, options) {
+                    var query = parseUrl(options.uri, true).query;
+                    assert.deepEqual('http://example.com:42/posts/_query', options.uri);
+                }
+            },
+
+            'with query option and multiple types': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.delete('posts', ['post','tweet'], '', {
+                        query: {"term" : { "user" : "kimchy" }}
+                    });
+                },
+
+                'URL query string should contain the options': function (err, options) {
+                    var query = parseUrl(options.uri, true).query;
+                    assert.deepEqual('http://example.com:42/posts/post%2Ctweet/_query', options.uri);
                 }
             }
         },
@@ -635,7 +663,7 @@ vows.describe('Elastical').addBatch({
             'no filters': {
                 topic: function (client) {
                     client._testHook = this.callback;
-                    client.putRiver('_river','my_river_name', { type : 'couchdb', couchdb : { host : 'localhost' }, index : {} } );
+                    client.putRiver('my_river_name', { type : 'couchdb', couchdb : { host : 'localhost' }, index : {} } );
                 },
 
                 'method should be PUT': function (err, options) {
@@ -656,7 +684,7 @@ vows.describe('Elastical').addBatch({
             'basic': {
                 topic: function (client) {
                     client._testHook = this.callback;
-                    client.getRiver('_river','my_river_name' );
+                    client.getRiver('my_river_name' );
                 },
 
                 'method should be GET': function (err, options) {
@@ -673,7 +701,7 @@ vows.describe('Elastical').addBatch({
             'basic': {
                 topic: function (client) {
                     client._testHook = this.callback;
-                    client.deleteRiver('_river','my_river_name' );
+                    client.deleteRiver('my_river_name' );
                 },
 
                 'method should be DELETE': function (err, options) {
