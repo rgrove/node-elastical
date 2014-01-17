@@ -107,6 +107,9 @@ the offline tests (which don't require a server), run:
 
     make offline-tests
 
+Documentation
+-------------
+Docs are available (here)[http://ramv.github.io/node-elastical/docs/]
 
 Pull Requests
 -------------
