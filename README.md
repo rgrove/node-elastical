@@ -19,6 +19,9 @@ Latest dev code:
 
     npm install https://github.com/rgrove/node-elastical/tarball/master
 
+Documentation
+-------------
+Docs are available [here](http://ramv.github.io/node-elastical/docs/)
 
 Basic Usage
 -----------
@@ -106,10 +109,6 @@ ElasticSearch server running at http://127.0.0.1:9200/. If you only want to run
 the offline tests (which don't require a server), run:
 
     make offline-tests
-
-Documentation
--------------
-Docs are available (here)[http://ramv.github.io/node-elastical/docs/]
 
 Pull Requests
 -------------
