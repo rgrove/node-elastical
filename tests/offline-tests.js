@@ -351,6 +351,46 @@ vows.describe('Elastical').addBatch({
             }
         },
 
+        '`mlt()`': {
+            'without options': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.mlt('twitter', 'tweet', 1);
+                },
+
+                'method should be GET': function (err, options) {
+                    assert.equal(options.method, 'GET');
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/twitter/tweet/1/_mlt');
+                }
+            },
+
+            'with options': {
+                topic: function (client) {
+                    client._testHook = this.callback;
+                    client.mlt('twitter', 'tweet', 1, {
+                      min_doc_freq: 1,
+                      min_term_freq: 1
+                    });
+                },
+
+                'URL should have the correct path': function (err, options) {
+                    assert.equal(parseUrl(options.uri).pathname, '/twitter/tweet/1/_mlt');
+                },
+
+                'URL query string should contain the options': function (err, options) {
+                    var query = parseUrl(options.uri, true).query;
+
+                    assert.deepEqual({
+                      min_doc_freq: '1',
+                      min_term_freq: '1'
+                    }, query);
+                }
+            }
+        },
+
         '`getIndex()` should get an Index instance': function (client) {
             var index = client.getIndex('foo');
 
