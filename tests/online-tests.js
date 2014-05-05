@@ -272,6 +272,63 @@ vows.describe('Elastical')
             }
         },
 
+        '`mlt()`': {
+            'when called with no options': {
+                topic: function (client) {
+                    client.mlt('elastical-test-mlt', 'post', '1', this.callback);
+                },
+
+                'should match no documents': function (err, hits, res) {
+                    assert.isNull(err);
+                    assert.isObject(hits);
+                    assert.isObject(res);
+
+                    assert.equal(hits.total, 0);
+                }
+            },
+            'when called with freq options': {
+                topic: function (client) {
+                    var options = {
+                      min_doc_freq: 1,
+                      min_term_freq: 1
+                    };
+
+                    client.mlt('elastical-test-mlt', 'post', '1', options,
+                        this.callback);
+                },
+
+                'should match 2 documents': function (err, hits, res) {
+                    assert.isNull(err);
+                    assert.isObject(hits);
+                    assert.isObject(res);
+
+                    assert.equal(hits.total, 2);
+                }
+            },
+            'when called with freq options and fields': {
+                topic: function (client) {
+                    var options = {
+                      min_doc_freq: 1,
+                      min_term_freq: 1,
+                      mlt_fields: [
+                        'a'
+                      ]
+                    };
+
+                    client.mlt('elastical-test-mlt', 'post', '1', options,
+                        this.callback);
+                },
+
+                'should match 1 document': function (err, hits, res) {
+                    assert.isNull(err);
+                    assert.isObject(hits);
+                    assert.isObject(res);
+
+                    assert.equal(hits.total, 1);
+                }
+            }
+        },
+
         '`multiGet()`': {
             'when called with no specific index': {
                 topic: function (client) {

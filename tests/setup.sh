@@ -92,6 +92,24 @@ curl -s -XPUT "$BASE/elastical-test-get/post/1" -d '{
 }'
 echo -e ""
 
+curl -s -XPUT "$BASE/elastical-test-mlt/post/1" -d '{
+  "a": "aaa bbb",
+  "b": "xxx"
+}'
+echo -e ""
+
+curl -s -XPUT "$BASE/elastical-test-mlt/post/2" -d '{
+  "a": "bbb ccc",
+  "b": "xxx"
+}'
+echo -e ""
+
+curl -s -XPUT "$BASE/elastical-test-mlt/post/3" -d '{
+  "a": "ccc ddd",
+  "b": "xxx"
+}'
+echo -e ""
+
 curl -s -XPUT "$BASE/elastical-test-delete/post/1" -d '{
   "title": "Delete me"
 }'
